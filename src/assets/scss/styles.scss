@@ -1,2 +1,25 @@
+
+// Colorsitos
+$imss-verde: #005A4E;
+$imss-beige:#E0CAA7;
+$imss-gris: #D9D9D9;
+$rojo: #5A0000;
+$azul: #003A5A;
+
+// IMSS map
+$paleta-imss: (
+    "imss-verde":$imss-verde,
+    "imss-beige": $imss-beige,
+    "imss-gris": $imss-gris,
+    "rojo": $rojo,
+    "azul": $azul
+);
+
 @import '../../../node_modules/bootstrap/scss/bootstrap-grid';
 
+
+$theme-colors: map-merge($theme-colors, $paleta-imss);
+
+@mixin shadow{
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
