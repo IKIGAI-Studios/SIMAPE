@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const routes = require('./routes/routes');
 
 const dotenv = require('dotenv').config();
@@ -13,3 +14,7 @@ PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.info(`Servidor activo en el puerto ${PORT}`);
 });
+
+
+// cosas del front
+app.use("/scss", express.static(path.join(__dirname, 'src/assets/scss')));
