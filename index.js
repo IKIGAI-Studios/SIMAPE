@@ -21,3 +21,4 @@ app.use("/scss", express.static(path.join(__dirname, 'src/assets/scss')));
 app.use("/imgs", express.static(path.join(__dirname, 'src/imgs')));
 app.use("/icons", express.static(path.join(__dirname, 'src/icons')));
 app.use("/fonts", express.static(path.join(__dirname, 'src/fonts')));
+app.use("/js", express.static(path.join(__dirname, 'src/js')));
