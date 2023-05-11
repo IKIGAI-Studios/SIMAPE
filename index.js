@@ -1,14 +1,28 @@
+const cookieParser = require('cookie-parser');
+//const cors = require('cors');
 const express = require('express');
+const session = require('express-session');
 const path = require('path');
+const dotenv = require('dotenv');
 const routes = require('./routes/routes');
 
-const dotenv = require('dotenv').config();
+
 const app = express();
+dotenv.config()
 
-
+//app.use(cors());
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({extended:true}));
+app.use(cookieParser());
+app.use(session({
+    secret: process.env.SECRET_KEY_SESSION,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 3600000 }, 
+  }));
+
 app.use('/', routes);
+
 
 PORT = process.env.PORT;
 app.listen(PORT, () => {

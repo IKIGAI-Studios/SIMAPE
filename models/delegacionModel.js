@@ -9,6 +9,9 @@ const Delegacion = sequelize.define(
         nom_delegacion: DataTypes.STRING(50),
         n_subdelegacion: DataTypes.INTEGER,
         nom_subdelegacion: DataTypes.STRING(50),
+    },
+    {
+        tableName: "delegacion"
     }
 );
 
