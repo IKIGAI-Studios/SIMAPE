@@ -7,6 +7,9 @@ routes.get('/', (req, res) => {
     res.render('login');
 });
 
+routes.get('/simape', (req, res) => {
+    res.render('simape');
+
 routes.get('/test', async (req, res) => {
     try {
         const response = await Usuario.findAll();
