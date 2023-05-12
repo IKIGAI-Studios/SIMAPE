@@ -38,15 +38,6 @@ $paleta-imss: (
 
 @import '../../../node_modules/bootstrap/scss/bootstrap-grid';
 
-// Importa los estilos básicos de Bootstrap
-@import "../../../node_modules/bootstrap/scss/functions";
-@import "../../../node_modules/bootstrap/scss/variables";
-@import "../../../node_modules/bootstrap/scss/mixins";
-
-// Importa los estilos del navbar y sus dependencias
-@import "../../../node_modules/bootstrap/scss/navbar";
-@import "../../../node_modules/bootstrap/scss/nav";
-@import "../../../node_modules/bootstrap/scss/dropdown";
 
 
 $theme-colors: map-merge($theme-colors, $paleta-imss);
@@ -162,7 +153,12 @@ footer{
     @include shadow();
 }
 
-td .text-input{
+td .datos{   
+    font-family: 'Montserrat-Medium';
+    font-size: 12px;
+    color: $imss-verde;
+    justify-content: end;
+    align-items: end;
     text-align: end;
 }
 
