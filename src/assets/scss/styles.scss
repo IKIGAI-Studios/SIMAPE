@@ -295,12 +295,18 @@ td .datos{
 }
   
 .logout{
+    text-decoration: none;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-content: center;
     font-family: 'Montserrat-Medium';
     font-size: 12px;
     text-decoration: none;
     color: $imss-verde;
     border-radius: 20px;
     padding: 10px;
+    margin: 10px;
 }
 
 .logout:hover{
