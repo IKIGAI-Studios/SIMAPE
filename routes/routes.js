@@ -1,7 +1,9 @@
-const routes = require('express').Router();
-const bcrypt = require('bcrypt');
-const Delegacion = require('../models/delegacionModel');
-const Usuario = require('../models/usuarioModel');
+import express from 'express';
+import bcrypt from 'bcrypt';
+import Delegacion from '../models/delegacionModel.js';
+import Usuario from '../models/usuarioModel.js';
+
+const routes = express.Router();
 
 routes.get('/', (req, res) => {
     res.render('login');
@@ -38,10 +40,10 @@ routes.post('/login', async (req, res) => {
         }
 
         // Encriptar contraseña para comparar
-        //const passComparacion = await bcrypt.compare(pass, usuarioEnBD.pass);
+        const passComparacion = await bcrypt.compare(pass, usuarioEnBD.pass);
 
 
-        if (pass != usuarioEnBD.pass) {
+        if (!passComparacion) {
             console.log("Contraseña incorrecta");
             req.session.loginError = 'Contraseña incorrecta';
             res.redirect('/login');
@@ -114,7 +116,7 @@ routes.post('/registrarUsuario', async (req, res) => {
             adscripcion,
             tipo_usuario,
             usuario,
-            pass,
+            pass : hashedPass,
             estatus: true
         });
 
@@ -140,4 +142,4 @@ routes.get('/test', async (req, res) => {
     }
 });
 
-module.exports = routes;
+export default routes;

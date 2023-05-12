@@ -2,10 +2,16 @@
   "name": "simape",
   "version": "1.0.0",
   "description": "Sistema de Manejo de Pensiones",
+  "type": "module",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IKIGAI-Studios/SIMAPE.git"
+  },
   "scripts": {
     "server": "nodemon index"
   },
+  "homepage": "https://github.com/IKIGAI-Studios/SIMAPE#readme",
   "keywords": [],
   "author": "",
   "license": "ISC",

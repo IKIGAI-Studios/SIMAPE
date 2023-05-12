@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../utils/DBconnection');
+import { DataTypes } from 'sequelize';
+import sequelize from '../utils/DBconnection.js';
 
 const Usuario = sequelize.define(
     'usuario',
@@ -13,7 +13,7 @@ const Usuario = sequelize.define(
         adscripcion: DataTypes.STRING(50),
         tipo_usuario: DataTypes.STRING(20),
         usuario: DataTypes.STRING(20),
-        pass: DataTypes.STRING(50),
+        pass: DataTypes.STRING(80),
         estatus: DataTypes.BOOLEAN
     },
     {
@@ -22,4 +22,4 @@ const Usuario = sequelize.define(
     }
 );
 
-module.exports = Usuario;
+export default Usuario;

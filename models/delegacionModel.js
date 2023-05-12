@@ -1,5 +1,5 @@
-const { DataTypes } = require('sequelize');
-const sequelize = require('../utils/DBconnection');
+import { DataTypes } from 'sequelize';
+import sequelize from '../utils/DBconnection.js';
 
 const Delegacion = sequelize.define(
     'delegacion',
@@ -15,4 +15,4 @@ const Delegacion = sequelize.define(
     }
 );
 
-module.exports = Delegacion;
+export default Delegacion;
