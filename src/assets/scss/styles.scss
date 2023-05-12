@@ -1,7 +1,7 @@
 
 // Colorsitos
 // 005A4E
-$imss-verde: #325A4F;
+$imss-verde: #005A4E;
 $imss-beige:#D9C9A8;
 $imss-gris: #D9D9D9;
 $rojo: #5A0000;
@@ -67,7 +67,18 @@ html, body{
     height: 100%;
 }
 
+body{
+    display: flex;
+    flex-direction: column;
+}
 
+main{
+    margin: 1rem;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    display: inherit;
+}
 
 h2, h3, h4{
     text-align: center;
@@ -84,8 +95,8 @@ h1,h5{
 footer{
     justify-content: space-between;
     background-color: $imss-verde;
-    position: absolute;
-    bottom: 0;
+    margin-top: auto;
+  
     width: 100%;
 }
 

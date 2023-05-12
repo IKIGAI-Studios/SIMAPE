@@ -4990,6 +4990,19 @@ html, body {
   height: 100%;
 }
 
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  margin: 1rem;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  display: inherit;
+}
+
 h2, h3, h4 {
   text-align: center;
   font-family: "Montserrat-Light", sans-serif;
@@ -5004,9 +5017,8 @@ h1, h5 {
 
 footer {
   justify-content: space-between;
-  background-color: #325A4F;
-  position: absolute;
-  bottom: 0;
+  background-color: #005A4E;
+  margin-top: auto;
   width: 100%;
 }
 
@@ -5034,16 +5046,16 @@ footer {
 
 .dark-label {
   font-family: "Montserrat-Bold";
-  color: #325A4F;
+  color: #005A4E;
   align-self: left;
   margin: 1rem;
 }
 
 .text-input-beige {
   background-color: #D9D9D9;
-  border: #325A4F;
+  border: #005A4E;
   border-radius: 5px;
-  color: #325A4F;
+  color: #005A4E;
   margin-left: 1rem;
   padding: 5px;
   font-family: "Montserrat-Medium";
@@ -5051,14 +5063,14 @@ footer {
 }
 
 .text-input-beige:focus-visible {
-  border: #325A4F;
+  border: #005A4E;
 }
 
 .text-input {
   background-color: white;
   font-family: "Montserrat-Medium";
   font-size: 12px;
-  color: #325A4F;
+  color: #005A4E;
   width: 100%;
   border-radius: 10px;
   border: none;
@@ -5081,12 +5093,12 @@ td .text-input {
   border-radius: 6px;
   padding: 10px;
   font-family: "Montserrat-Bold";
-  color: #325A4F;
+  color: #005A4E;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .btn-verde {
-  background-color: #325A4F;
+  background-color: #005A4E;
   border: none;
   border-radius: 10px;
   padding: 10px;
@@ -5101,7 +5113,7 @@ td .text-input {
 }
 
 .banner {
-  background-color: #325A4F;
+  background-color: #005A4E;
 }
 
 .linea {
@@ -5124,20 +5136,20 @@ td .text-input {
   font-family: "Montserrat-Bold";
   font-size: 12px;
   text-align: start;
-  color: #325A4F;
+  color: #005A4E;
 }
 
 .tipo-usuario {
   font-family: "Montserrat-Medium";
   font-size: 12px;
   text-align: left;
-  color: #325A4F;
+  color: #005A4E;
 }
 
 .texto-hint {
   font-family: "Montserrat-Bold";
   font-size: 1rem;
-  color: #325A4F;
+  color: #005A4E;
 }
 
 /* Estilos para la barra lateral */
@@ -5158,7 +5170,7 @@ td .text-input {
   font-family: "Montserrat-Bold";
   display: block;
   padding: 1rem;
-  color: #325A4F;
+  color: #005A4E;
   text-decoration: none;
   border-radius: 20px 0 0 20px;
 }
@@ -5186,7 +5198,7 @@ td .text-input {
   font-family: "Montserrat-Regular";
   display: block;
   padding: 10px;
-  color: #325A4F;
+  color: #005A4E;
   text-decoration: none;
   border-radius: 20px 0 0 20px;
 }
@@ -5199,7 +5211,7 @@ td .text-input {
   font-family: "Montserrat-Medium";
   font-size: 12px;
   text-decoration: none;
-  color: #325A4F;
+  color: #005A4E;
   border-radius: 20px;
   padding: 10px;
 }
