@@ -1,6 +1,6 @@
 const routes = require('express').Router();
-const Delegacion = require('../models/delegacionModel');
-const Usuario = require('../models/usuarioModel');
+//const Delegacion = require('../models/delegacionModel');
+//const Usuario = require('../models/usuarioModel');
 //const dbConnection = require('../utils/DBconnection');
 
 routes.get('/', (req, res) => {
@@ -8,7 +8,8 @@ routes.get('/', (req, res) => {
 });
 
 routes.get('/simape', (req, res) => {
-    res.render('simape');
+    res.render('simape')});
+
 
 routes.get('/test', async (req, res) => {
     try {

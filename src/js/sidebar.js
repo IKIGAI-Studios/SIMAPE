@@ -7,8 +7,17 @@ dropdown.addEventListener('click', () => {
 
 
 // CAMBIAR CONTENIDO CON LA SIDEBAR
+
+// Items de la sidebar
 const sidebarItems = document.querySelectorAll('.sidebar-item', '.sidebar-item sub');
+// Contenido
 const contenidos = document.querySelectorAll('.contenido');
+// Título
+const hint = document.querySelector('.texto-hint');
+
+const titulos = ['DATOS DEL USUARIO', 'CONSULTA DE EXPEDIENTE A PARTIR DE NSS', 'CONTROL DE EXPEDIENTE - ALTA', 
+'CONTROL DE EXPEDIENTE - BAJA', 'CONTROL DE EXPEDIENTE - TRANSFERENCIA', 'GESTIÓN DE USUARIOS DEL SISTEMA',
+'GENERACIÓN DE REPORTES', 'PETICIONES DE TRANSFERENCIAS DE USUARIOS OPERATIVOS'];
 
 sidebarItems.forEach((item, index) => {
   item.addEventListener('click', () => {
@@ -19,6 +28,7 @@ sidebarItems.forEach((item, index) => {
 
     // Muestra el contenido correspondiente
     contenidos[index].classList.add("activo");
+    hint.innerText = titulos[index];
     console.log(index)
 
     // Quita clase activo a sidebar item
