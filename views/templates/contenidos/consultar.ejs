@@ -1,85 +1,117 @@
 <div class="container">
     <div class="row">
-     <div class="col-3 vertical-center">
-         <img src="/imgs/foto.png" alt="ICONO DE FOTO" style="width: 100%;">
-         <button class="d-flex img-btn space-around">
-            <img src="/icons/folder_azul.png" alt="INGRESAR EXPEDIENTE">
-            <p>INGRESAR EXPEDIENTE</p>   
-         </button>
-         <button class="d-flex img-btn space-around">
-            <img src="/icons/folder_rojo.png" alt="EXTRAER EXPEDIENTE">
-            <p>EXTRAER EXPEDIENTE</p>   
-         </button>
-     </div>
-     <div class="col-9">
-
-
-        <div class="row space-between">
-            <div class="col-2">
-                <label class="dark-label" for="nss">NSS</label>
-            </div>
-            <div class="col-8">
-                <input type="text" class="text-input" id="nss"/>
-            </div>
-            <!--LUPA-->
-            <div class="col-2">
-                <button class="btn-verde" type="submit" style="margin-top: 0;">
-                    <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
-                </button>
-            </div>
+        <div class="col-3 vertical-center">
+            <img src="/imgs/foto.png" alt="ICONO DE FOTO" style="width: 100%;">
+            <button class="d-flex img-btn space-around">
+                <img src="/icons/folder_azul.png" alt="INGRESAR EXPEDIENTE">
+                <p>INGRESAR EXPEDIENTE</p>   
+            </button>
+            <button class="d-flex img-btn space-around">
+                <img src="/icons/folder_rojo.png" alt="EXTRAER EXPEDIENTE">
+                <p>EXTRAER EXPEDIENTE</p>   
+            </button>
         </div>
+        <div class="col-9">
+            <form action="" method="" id="formBusqueda">
+                <div class="row space-between">
+                    <div class="col-2">
+                        <label class="dark-label" for="nss">NSS</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="text-input" id="nss" name="nss"/>
+                    </div>
+                    <!--LUPA-->
+                    <div class="col-2">
+                        <button class="btn-verde" type="submit" style="margin-top: 0;">
+                            <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-        <div class="row space-between">
-            <div class="col-3">
-                <label class="dark-label" for="nombre">NOMBRE</label>
+            <div class="row space-between">
+                <div class="col-3">
+                    <label class="dark-label" for="nombre">NOMBRE</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="text-input bloqueado" id="nombre" readonly/>
+                </div>
             </div>
-            <div class="col-9">
-                <input type="text" class="text-input bloqueado" id="nombre" readonly/>
+
+            <div class="row space-between">
+                <div class="col-5">
+                    <label class="dark-label" for="tipoPension">TIPO DE PENSIÓN</label>
+                </div>
+                <div class="col-7">
+                    <input type="text" class="text-input bloqueado" id="tipoPension" readonly/>
+                </div>
             </div>
+
+            <div class="row space-between">
+                <div class="col-2">
+                    <label class="dark-label" for="año">AÑO</label>
+                </div>
+                <div class="col-4">
+                    <input type="text" class="text-input bloqueado" id="año" readonly/>
+                </div>
+                <div class="col-3">
+                    <label class="dark-label" for="estatus">ESTATUS</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" class="text-input bloqueado" id="estatus" readonly/>
+                </div>
+            </div>
+
+            <div class="row space-between">
+                <div class="col-4">
+                    <label class="dark-label" for="ubicacion">UBICACIÓN</label>
+                </div>
+                <div class="col-8">
+                    <input type="text" class="text-input bloqueado" id="ubicacion" readonly/>
+                </div>
+            </div>
+
+
+            <div class="row space-between">
+                <div class="col-12">
+                    <label class="dark-label" for="movimientos">MOVIMIENTOS</label> 
+                    <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
+                    <textarea class="text-input bloqueado mt-3" id="movimientos" readonly></textarea>
+                </div>
+            </div>
+            
+            <script>
+                // TODO: Pasar a otro archivo
+                const formBusqueda = document.getElementById('formBusqueda');
+                const inputNSS = document.getElementById('nss');
+                const inputNombre = document.getElementById('nombre');
+                const inputTipoPension = document.getElementById('tipoPension');
+                const inputAño = document.getElementById('año');
+                const inputEstatus = document.getElementById('estatus')
+                const inputUbicacion = document.getElementById('ubicacion');
+                
+                formBusqueda.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+
+                    try{
+                        const response = await fetch(`http://localhost:3000/buscarPorNSS/${inputNSS.value}`);
+                        const jsonData = await response.json();
+                        if (jsonData != 'Usuario no encontrado') {
+                            inputNombre.value = jsonData.nombre;
+                            inputTipoPension.value = jsonData.categoria;
+                            inputAño.value = jsonData.año;
+                            inputEstatus.value = jsonData.estatus == true ? 'Activo' : 'Inactivo';
+                            inputUbicacion.value = jsonData.ubicacion;
+                        }
+    
+                        console.log(jsonData);
+                    }
+                    catch (e) {
+                        console.info(e);
+                    }
+                });
+            </script>
+
         </div>
-
-        <div class="row space-between">
-            <div class="col-5">
-                <label class="dark-label" for="tipoPension">TIPO DE PENSIÓN</label>
-            </div>
-            <div class="col-7">
-                <input type="text" class="text-input bloqueado" id="tipoPension" readonly/>
-            </div>
-        </div>
-
-        <div class="row space-between">
-            <div class="col-2">
-                <label class="dark-label" for="ano">AÑO</label>
-            </div>
-            <div class="col-4">
-                <input type="text" class="text-input bloqueado" id="ano" readonly/>
-            </div>
-            <div class="col-3">
-                <label class="dark-label" for="estatus">ESTATUS</label>
-            </div>
-            <div class="col-3">
-                <input type="text" class="text-input bloqueado" id="estatus" readonly/>
-            </div>
-        </div>
-
-        <div class="row space-between">
-            <div class="col-4">
-                <label class="dark-label" for="ubicacion">UBICACIÓN</label>
-            </div>
-            <div class="col-8">
-                <input type="text" class="text-input bloqueado" id="ubicacion" readonly/>
-            </div>
-        </div>
-
-
-        <div class="row space-between">
-            <div class="col-12">
-                <label class="dark-label" for="movimientos">MOVIMIENTOS</label> 
-                <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
-                <textarea class="text-input bloqueado mt-3" id="movimientos" readonly></textarea>
-            </div>
-        </div>
-
-     </div>
     </div> 
  </div>
