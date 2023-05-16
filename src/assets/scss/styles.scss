@@ -38,15 +38,6 @@ $paleta-imss: (
 
 @import '../../../node_modules/bootstrap/scss/bootstrap-grid';
 
-// Importa los estilos básicos de Bootstrap
-@import "../../../node_modules/bootstrap/scss/functions";
-@import "../../../node_modules/bootstrap/scss/variables";
-@import "../../../node_modules/bootstrap/scss/mixins";
-
-// Importa los estilos del navbar y sus dependencias
-@import "../../../node_modules/bootstrap/scss/navbar";
-@import "../../../node_modules/bootstrap/scss/nav";
-@import "../../../node_modules/bootstrap/scss/dropdown";
 
 
 $theme-colors: map-merge($theme-colors, $paleta-imss);
@@ -67,7 +58,18 @@ html, body{
     height: 100%;
 }
 
+body{
+    display: flex;
+    flex-direction: column;
+}
 
+main{
+    margin: 1rem;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    display: inherit;
+}
 
 h2, h3, h4{
     text-align: center;
@@ -84,8 +86,8 @@ h1,h5{
 footer{
     justify-content: space-between;
     background-color: $imss-verde;
-    position: absolute;
-    bottom: 0;
+    margin-top: auto;
+  
     width: 100%;
 }
 
@@ -96,6 +98,13 @@ footer{
     justify-content: space-around;
     align-items: center;
 }
+
+.space-between{
+    margin: 1rem;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
 
 .vertical-center{
     display: flex;
@@ -140,24 +149,28 @@ footer{
 }
 
 .text-input{
-    background-color: white;
     font-family: 'Montserrat-Medium';
-    font-size: 12px;
     color: $imss-verde;
     width: 100%;
     border-radius: 10px;
     border: none;
     padding: 5px;
+    resize: none;
     @include shadow();
 }
 
-td .text-input{
+td .datos{   
+    font-family: 'Montserrat-Medium';
+    font-size: 12px;
+    color: $imss-verde;
+    justify-content: end;
+    align-items: end;
     text-align: end;
 }
 
 .text-input.bloqueado{
-    background-color: transparent;
-    box-shadow: none;
+    outline: none;
+    
 }
 
 .btn-beige{
@@ -181,8 +194,19 @@ td .text-input{
     @include shadow();
 }
 
-.btn-beige:hover, .btn-verde:hover{
+.btn-beige:hover, .btn-verde:hover, .img-btn:hover{
     cursor: pointer;
+}
+
+
+.img-btn{
+    background-color: transparent;
+    border: none;
+    color: $imss-verde;
+    font-family: 'Montserrat-Bold';
+    border-radius: 20px;
+    padding: 1rem;
+    @include shadow();
 }
 
 // BANNER 
@@ -288,12 +312,18 @@ td .text-input{
 }
   
 .logout{
+    text-decoration: none;
+    align-items: center;
+    align-self: center;
+    align-content: center;
+    justify-content: center;
     font-family: 'Montserrat-Medium';
     font-size: 12px;
     text-decoration: none;
     color: $imss-verde;
     border-radius: 20px;
     padding: 10px;
+    margin: 10px;
 }
 
 .logout:hover{
@@ -311,3 +341,4 @@ td .text-input{
     height: auto;
     border-radius: 0 20px 20px 0;
 }
+

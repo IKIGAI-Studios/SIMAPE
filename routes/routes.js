@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcrypt';
 import Delegacion from '../models/delegacionModel.js';
 import Usuario from '../models/usuarioModel.js';
+import Expediente from '../models/expedienteModel.js';
 
 const routes = express.Router();
 
@@ -10,11 +11,25 @@ routes.get('/', (req, res) => {
 });
 
 routes.get('/simape', (req, res) => {
-    res.render('simape');
+    if (!req.session.user){
+        res.redirect('/');
+        return;
+    } 
+        res.render('simape', {session: req.session});
 });
 
 routes.get('/login', (req, res) => {
     res.render('login', { session: req.session });
+});
+
+routes.get('/logout', (req, res) => {
+    req.session.destroy((e) => {
+        if (e) {
+          console.log(e);
+        } else {
+          res.redirect('/');
+        }
+    });
 });
 
 routes.post('/login', async (req, res) => {
@@ -51,10 +66,14 @@ routes.post('/login', async (req, res) => {
         }
 
         // Crear la sesión del Usuario
-        req.session.user = { nombre: usuarioEnBD.nombre, matricula: usuarioEnBD.matricula, tipo_usuario: usuarioEnBD.tipo_usuario };
+        req.session.user = { 
+            nombre: usuarioEnBD.nombre, 
+            matricula: usuarioEnBD.matricula, 
+            tipo_usuario: usuarioEnBD.tipo_usuario 
+        };
 
         // Redireccionar al tipo de usuario correspondiente
-        if (usuarioEnBD.tipo_usuario == "administrador") {
+        if (usuarioEnBD.tipo_usuario == "Administrador") {
             console.log(req.session.user);
             console.log("Accediendo a administrador");
             res.redirect('/simape');
@@ -129,6 +148,23 @@ routes.post('/registrarUsuario', async (req, res) => {
         console.log(`Registrer ERROR: ${e}`);
         res.redirect('/simape');
     }
+});
+
+routes.get('/buscarPorNSS/:nss', async (req, res) => {
+    const expedienteEncontrado = await Expediente.findOne({
+        where: { 
+            nss: req.params.nss 
+        }
+    });
+
+    if (expedienteEncontrado)
+    {
+        res.json(expedienteEncontrado);
+        console.log(expedienteEncontrado);
+        return;
+    }
+    res.json('Usuario no encontrado');
+    return;
 });
 
 

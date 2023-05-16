@@ -6,15 +6,15 @@
         <li class="dropdown">
             <a href="#" class="sbi">CONTROL DE EXPEDIENTE</a>
             <ul class="dropdown-menu">
-                <li><a href="#" class="sidebar-item" data-target="alta">ALTA</a></li>
-                <li><a href="#" class="sidebar-item" data-target="baja">BAJA</a></li>
-                <li><a href="#" class="sidebar-item" data-target="transferencia">TRANSFERENCIA</a></li>
+                <li><a href="#" class="sidebar-item sub" data-target="alta">ALTA</a></li>
+                <li><a href="#" class="sidebar-item sub" data-target="baja">BAJA</a></li>
+                <li><a href="#" class="sidebar-item sub" data-target="transferencia">TRANSFERENCIA</a></li>
             </ul>
         </li>
         <li><a href="#" class="sidebar-item" data-target="controlUsuarios">CONTROL DE USUARIOS</a></li>
         <li><a href="#" class="sidebar-item" data-target="reportes">REPORTES</a></li>
         <li><a href="#" class="sidebar-item" data-target="peticiones">PETICIONES</a></li>
-        <li><a href="#" class="logout">CERRAR SESIÓN</a></li>
+        <li style="align-items: center;"><a href="#" class="logout">CERRAR SESIÓN</a></li>
         </ul>
     </div>
     <div class="col-10">
@@ -25,7 +25,7 @@
                 <%- include('contenidos/consultar')%>
             </div>
             <div id="alta" class="contenido">
-                <% include('contenidos/alta')%>
+                <%- include('contenidos/alta')%>
             </div>
             <div id="baja" class="contenido">
                 <%- include('contenidos/baja')%>
