@@ -10,12 +10,20 @@ routes.get('/', (req, res) => {
     res.render('login');
 });
 
-routes.get('/simape', (req, res) => {
+routes.get('/simape-ad', (req, res) => {
     if (!req.session.user){
         res.redirect('/');
         return;
     } 
-        res.render('simape', {session: req.session});
+        res.render('simape-ad', {session: req.session});
+});
+
+routes.get('/simape-op', (req, res) => {
+    if (!req.session.user){
+        res.redirect('/');
+        return;
+    } 
+        res.render('simape-op', {session: req.session});
 });
 
 routes.get('/login', (req, res) => {
@@ -43,7 +51,7 @@ routes.post('/login', async (req, res) => {
             where: {
                 usuario: usuario
             },
-            attributes: ['nombre', 'matricula', 'usuario', 'pass', 'tipo_usuario', 'estatus']
+            attributes: ['nombre', 'apellidos', 'matricula', 'usuario', 'pass', 'tipo_usuario', 'estatus']
         });
 
         // No existe el usuario
@@ -68,6 +76,7 @@ routes.post('/login', async (req, res) => {
         // Crear la sesión del Usuario
         req.session.user = { 
             nombre: usuarioEnBD.nombre, 
+            apellidos: usuarioEnBD.apellidos,
             matricula: usuarioEnBD.matricula, 
             tipo_usuario: usuarioEnBD.tipo_usuario 
         };
@@ -76,12 +85,12 @@ routes.post('/login', async (req, res) => {
         if (usuarioEnBD.tipo_usuario == "Administrador") {
             console.log(req.session.user);
             console.log("Accediendo a administrador");
-            res.redirect('/simape');
+            res.redirect('/simape-ad');
         } 
         else {
             console.log(req.session.user);
             console.log("Accediendo a operativo");
-            res.redirect('/simape');
+            res.redirect('/simape-op');
         }
     } 
     catch (e) {
@@ -93,7 +102,7 @@ routes.post('/login', async (req, res) => {
 
 routes.post('/registrarUsuario', async (req, res) => {
     try {
-        const {matricula, nombre, adscripcion, tipo_usuario, usuario, pass, estatus} = req.body;
+        const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass, estatus} = req.body;
 
         // Validar que el usuario sea único
         const usuarioRegistrado = await Usuario.findOne({ 
@@ -132,6 +141,7 @@ routes.post('/registrarUsuario', async (req, res) => {
         const nuevoUsuario = await Usuario.create({
             matricula,
             nombre,
+            apellidos,
             adscripcion,
             tipo_usuario,
             usuario,
