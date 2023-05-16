@@ -4140,6 +4140,12 @@ footer {
   align-items: center;
 }
 
+.space-between {
+  margin: 1rem;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 .vertical-center {
   display: flex;
   flex-direction: column;
@@ -4179,14 +4185,13 @@ footer {
 }
 
 .text-input {
-  background-color: white;
   font-family: "Montserrat-Medium";
-  font-size: 12px;
   color: #005A4E;
   width: 100%;
   border-radius: 10px;
   border: none;
   padding: 5px;
+  resize: none;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -4200,8 +4205,7 @@ td .datos {
 }
 
 .text-input.bloqueado {
-  background-color: transparent;
-  box-shadow: none;
+  outline: none;
 }
 
 .btn-beige {
@@ -4225,8 +4229,18 @@ td .datos {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.btn-beige:hover, .btn-verde:hover {
+.btn-beige:hover, .btn-verde:hover, .img-btn:hover {
   cursor: pointer;
+}
+
+.img-btn {
+  background-color: transparent;
+  border: none;
+  color: #005A4E;
+  font-family: "Montserrat-Bold";
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .banner {
