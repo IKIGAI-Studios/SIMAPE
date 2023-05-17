@@ -16,7 +16,7 @@ routes.get('/simape-ad', (req, res) => {
         res.redirect('/');
         return;
     } 
-        res.render('simape-ad', {session: req.session});
+    res.render('simape-ad', {session: req.session});
 });
 
 // OPERATIVO
@@ -25,7 +25,7 @@ routes.get('/simape-op', (req, res) => {
         res.redirect('/');
         return;
     } 
-        res.render('simape-op', {session: req.session});
+    res.render('simape-op', {session: req.session});
 });
 
 routes.get('/login', (req, res) => {
@@ -36,7 +36,8 @@ routes.get('/logout', (req, res) => {
     req.session.destroy((e) => {
         if (e) {
           console.log(e);
-        } else {
+        } 
+        else {
           res.redirect('/');
         }
     });
@@ -142,6 +143,15 @@ routes.post('/registrarUsuario', async (req, res) => {
         const saltRounds = 10;
         const hashedPass = await bcrypt.hash(pass, saltRounds);
 
+        // Obtener la fecha actual
+        const date = new Date();
+
+        let day = date.getDate();
+        let month = date.getMonth() + 1;
+        let year = date.getFullYear();
+
+        let fechaActual = `${year}-${month}-${day}`;
+
         const nuevoUsuario = await Usuario.create({
             matricula,
             nombre,
@@ -150,19 +160,22 @@ routes.post('/registrarUsuario', async (req, res) => {
             tipo_usuario,
             usuario,
             pass : hashedPass,
-            estatus: true
+            estatus: true,
+            fecha_registro: fechaActual
         });
 
         console.log('Usuario registrado');
-        res.redirect('/simape');
-        
+        res.json('Usuario registrado')
     } 
     catch (e) {
         req.session.loginError = `ERROR DE REGISTRO ${e}`;
         console.log(`Registrer ERROR: ${e}`);
-        res.redirect('/simape');
+        res.json(`ERROR ${e}`);
     }
 });
+
+// Expedientes
+// TODO: Pasar a otro archivo de rutas
 
 routes.get('/buscarPorNSS/:nss', async (req, res) => {
     const expedienteEncontrado = await Expediente.findOne({
@@ -177,10 +190,29 @@ routes.get('/buscarPorNSS/:nss', async (req, res) => {
         console.log(expedienteEncontrado);
         return;
     }
-    res.json('Usuario no encontrado');
+    res.json('Expediente no encontrado');
     return;
 });
 
+// Control de usuarios
+// TODO: Pasar a otro archivo de rutas
+routes.get('/busquedaUsuario/:matricula', async (req, res) => {
+    const usuarioEncontrado = await Usuario.findOne({
+        where: { 
+            matricula: req.params.matricula 
+        },
+        attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
+    });
+
+    if (usuarioEncontrado)
+    {
+        res.json(usuarioEncontrado);
+        console.log(usuarioEncontrado);
+        return;
+    }
+    res.json('Usuario no encontrado');
+    return;
+});
 
 
 routes.get('/test', async (req, res) => {
