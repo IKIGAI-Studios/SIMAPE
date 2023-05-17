@@ -1,4 +1,5 @@
 
+// MODAL CAMBIO DE CONTRASEÑA
 var modalPass = document.getElementById("modalPass");
 
 var btnPass = document.getElementById("btnPass");
@@ -18,3 +19,4 @@ window.onclick = function(event) {
     modalPass.style.display = "none";
   }
 }
+
