@@ -4,7 +4,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const dbName = process.env.NODE_ENV === 'test' ? process.env.DB_TEST_NAME : process.env.DB_NAME;
-console.log(process.env.NODE_ENV);
 console.log(dbName);
 
 const sequelize = new Sequelize(dbName, process.env.DB_USER, process.env.DB_PASS, {
@@ -12,13 +11,5 @@ const sequelize = new Sequelize(dbName, process.env.DB_USER, process.env.DB_PASS
   dialect: process.env.DB_LANG,
   port: process.env.DB_PORT
 });
-
-// sequelize.sync({force:false})
-// .then(() => {
-//     console.info("Conectado a MYSQL");
-// })
-// .catch((e) => {
-//     console.error(`Error: ${e}`);
-// });
 
 export default sequelize;

@@ -82,37 +82,7 @@
                 </div>
             </div>
             
-            <script>
-                // TODO: Pasar a otro archivo
-                const formBusqueda = document.getElementById('formBusqueda');
-                const inputNSS = document.getElementById('nss');
-                const inputNombre = document.getElementById('nombre');
-                const inputTipoPension = document.getElementById('tipoPension');
-                const inputAño = document.getElementById('año');
-                const inputEstatus = document.getElementById('estatus')
-                const inputUbicacion = document.getElementById('ubicacion');
-                
-                formBusqueda.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-
-                    try{
-                        const response = await fetch(`http://localhost:3000/buscarPorNSS/${inputNSS.value}`);
-                        const jsonData = await response.json();
-                        if (jsonData != 'Usuario no encontrado') {
-                            inputNombre.value = jsonData.nombre;
-                            inputTipoPension.value = jsonData.categoria;
-                            inputAño.value = jsonData.año;
-                            inputEstatus.value = jsonData.estatus == true ? 'Activo' : 'Inactivo';
-                            inputUbicacion.value = jsonData.ubicacion;
-                        }
-    
-                        console.log(jsonData);
-                    }
-                    catch (e) {
-                        console.info(e);
-                    }
-                });
-            </script>
+            <script src="/js/consultaExpediente.js"></script>
 
         </div>
     </div> 
