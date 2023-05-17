@@ -216,6 +216,9 @@ td .datos{
 }
 
 .btn-trans{
+    margin: 1rem;
+    justify-content: center;
+    align-items: center;
     background-color: transparent;
     border: none;
     font-family: 'Montserrat-Bold';
@@ -265,6 +268,11 @@ td .datos{
     font-size: 1rem;
     color: $imss-verde;
 }
+
+
+/*
+            COMPONENTES CSS + JS
+*/
 
 // SIDEBAR
 
@@ -361,3 +369,46 @@ td .datos{
     justify-content: center;
 } 
 
+// SNACKBAR
+
+#snackbar {
+    font-family: 'Montserrat-Bold';
+    visibility: hidden;
+    background-color: $imss-beige; 
+    color: $imss-verde; 
+    text-align: center; 
+    border-radius: 10px; 
+    padding: 10px;
+    position: fixed;
+    z-index: 1;
+    width: fit-content;
+    left: 45%;
+    bottom: 3rem; 
+  }
+  
+#snackbar.show {
+    visibility: visible; 
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  }
+  
+
+  @-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+  }
+  
+  @-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
+  
+  @keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+  }
