@@ -199,7 +199,7 @@ td .datos{
     @include shadow();
 }
 
-.btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans{
+.btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans, .close:hover{
     cursor: pointer;
 }
 
@@ -399,3 +399,33 @@ td .datos{
     from {bottom: 3rem; opacity: 1;}
     to {bottom: 0; opacity: 0;}
   }
+
+
+  // MODAL
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(30,30,30,0.5);
+  }
+  
+  .contenido-modal {
+    background-color: $imss-gris;
+    margin: 15% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 50%;  }
+  
+  .close {
+    color: $imss-verde;
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
