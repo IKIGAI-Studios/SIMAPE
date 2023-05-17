@@ -4413,21 +4413,22 @@ td .datos {
 
 #snackbar.show {
   visibility: visible;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.6s, fadeout 0.6s 2.5s;
 }
+
 @keyframes fadein {
   from {
     bottom: 0;
     opacity: 0;
   }
   to {
-    bottom: 30px;
+    bottom: 3rem;
     opacity: 1;
   }
 }
 @keyframes fadeout {
   from {
-    bottom: 30px;
+    bottom: 3rem;
     opacity: 1;
   }
   to {
