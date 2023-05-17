@@ -242,7 +242,8 @@ td .datos{
 }
 
 .barra{
-    height: 20px;
+    min-height: 1rem;
+    height: 1rem;
     width: 100%;
     background-color: $imss-beige;
 }
