@@ -7,7 +7,7 @@ import Expediente from '../models/expedienteModel.js';
 const routes = express.Router();
 
 routes.get('/', (req, res) => {
-    res.render('login');
+    res.render('login', { session: req.session });
 });
 
 // ADMIN
@@ -83,6 +83,8 @@ routes.post('/login', async (req, res) => {
             matricula: usuarioEnBD.matricula, 
             tipo_usuario: usuarioEnBD.tipo_usuario 
         };
+
+        delete req.session.loginError;
 
         // Redireccionar al tipo de usuario correspondiente
         if (usuarioEnBD.tipo_usuario == "ADMINISTRADOR") {
