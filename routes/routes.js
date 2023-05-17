@@ -10,6 +10,7 @@ routes.get('/', (req, res) => {
     res.render('login');
 });
 
+// ADMIN
 routes.get('/simape-ad', (req, res) => {
     if (!req.session.user){
         res.redirect('/');
@@ -18,6 +19,7 @@ routes.get('/simape-ad', (req, res) => {
         res.render('simape-ad', {session: req.session});
 });
 
+// OPERATIVO
 routes.get('/simape-op', (req, res) => {
     if (!req.session.user){
         res.redirect('/');
@@ -82,7 +84,7 @@ routes.post('/login', async (req, res) => {
         };
 
         // Redireccionar al tipo de usuario correspondiente
-        if (usuarioEnBD.tipo_usuario == "Administrador") {
+        if (usuarioEnBD.tipo_usuario == "ADMINISTRADOR") {
             console.log(req.session.user);
             console.log("Accediendo a administrador");
             res.redirect('/simape-ad');
