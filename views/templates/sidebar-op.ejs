@@ -1,0 +1,36 @@
+<div class="d-flex mb-5"> 
+    <div class="col-2 sidebar">
+        <ul>
+        <li><a href="#" class="sidebar-item activo" data-target="perfil">PERFIL</a></li>
+        <li><a href="#" class="sidebar-item" data-target="consultar">CONSULTAR</a></li>
+        <li class="dropdown">
+            <a href="#" class="sbi">CONTROL DE EXPEDIENTE</a>
+            <ul class="dropdown-menu">
+                <li><a href="#" class="sidebar-item sub" data-target="alta">ALTA</a></li>
+                <li><a href="#" class="sidebar-item sub" data-target="baja">BAJA</a></li>
+                <li><a href="#" class="sidebar-item sub" data-target="transferencia">TRANSFERENCIA</a></li>
+            </ul>
+        </li>
+        <li style="align-items: center;"><a href="#" class="logout">CERRAR SESIÓN</a></li>
+        </ul>
+    </div>
+    <div class="col-10">
+            <div id="perfil" class="contenido activo">
+                <%- include('contenidos/perfil')%>
+            </div>
+            <div id="consultar" class="contenido">
+                <%- include('contenidos/consultar')%>
+            </div>
+            <div id="alta" class="contenido">
+                <%- include('contenidos/alta')%>
+            </div>
+            <div id="baja" class="contenido">
+                <%- include('contenidos/baja')%>
+            </div>
+            <div id="transferencia" class="contenido">
+                <%- include('contenidos/transferencia')%>
+            </div>
+            <div id="controlUsuarios" class="contenido">
+                <%- include('contenidos/controlUsuarios')%>
+            </div>
+        </div>  

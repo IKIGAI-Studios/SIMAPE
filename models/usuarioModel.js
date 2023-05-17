@@ -9,7 +9,8 @@ const Usuario = sequelize.define(
             primaryKey: true, 
             allowNull: false
         },        
-        nombre: DataTypes.STRING(100),
+        nombre: DataTypes.STRING(50),
+        apellidos: DataTypes.STRING(50),
         adscripcion: DataTypes.STRING(50),
         tipo_usuario: DataTypes.STRING(20),
         usuario: DataTypes.STRING(20),
