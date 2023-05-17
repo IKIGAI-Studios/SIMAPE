@@ -105,7 +105,6 @@ footer{
     align-items: center;
 }
 
-
 .vertical-center{
     display: flex;
     flex-direction: column;
@@ -117,7 +116,6 @@ footer{
 
 //
 
-
 .light-label{
     font-family: 'Montserrat-Bold';
     color: $imss-gris;
@@ -127,9 +125,10 @@ footer{
 
 .dark-label{
     font-family: 'Montserrat-Bold';
+    font-size: 15px;
     color: $imss-verde;
     align-self: left;
-    margin: 1rem;
+    margin: 1em;
 }
 
 .text-input-beige{
@@ -144,8 +143,8 @@ footer{
 }
 
 // DETALLITO
-.text-input-beige:focus-visible{
-    border: $imss-verde;    
+.text-input:focus-visible, .text-input-beige:focus-visible{
+    outline: none;
 }
 
 .text-input{
@@ -203,7 +202,6 @@ td .datos{
 .btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans{
     cursor: pointer;
 }
-
 
 .img-btn{
     background-color: transparent;
