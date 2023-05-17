@@ -152,7 +152,7 @@ footer{
     font-family: 'Montserrat-Medium';
     color: $imss-verde;
     width: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
     border: none;
     padding: 5px;
     resize: none;
@@ -172,6 +172,11 @@ td .datos{
     outline: none;
     background-color: rgba(255, 255, 255, 0.5);
     
+}
+
+.foto_usuario{
+    width: 100%;
+    border-radius: 10px;
 }
 
 .btn-beige{
@@ -195,7 +200,7 @@ td .datos{
     @include shadow();
 }
 
-.btn-beige:hover, .btn-verde:hover, .img-btn:hover{
+.btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans{
     cursor: pointer;
 }
 
@@ -208,6 +213,13 @@ td .datos{
     border-radius: 20px;
     padding: 1rem;
     @include shadow();
+}
+
+.btn-trans{
+    background-color: transparent;
+    border: none;
+    font-family: 'Montserrat-Bold';
+    color: $imss-verde;
 }
 
 // BANNER 
@@ -336,10 +348,16 @@ td .datos{
 }
 
 .contenido.activo {
-    padding: 1rem;
+    padding: 2rem;
     display: block;
     background-color: $imss-gris;
     height: auto;
     border-radius: 0 20px 20px 0;
 }
+
+.contenido.activo .col-1, .contenido .col-2, .contenido .col-3, .contenido .col-4, .contenido .col-5, .contenido .col-6, .contenido .col-7, .contenido .col-8, .contenido .col-9, .contenido .col-10{
+    padding-left: 5px;
+    padding-right: 5px;
+    justify-content: center;
+} 
 
