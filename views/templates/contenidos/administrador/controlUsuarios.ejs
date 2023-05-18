@@ -2,23 +2,15 @@
     <div class="row">
         <div class="col-3 vertical-center">
             <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario">
-            <button class="d-flex img-btn space-around">
-                <img src="/icons/guardar.png" alt="INGRESAR EXPEDIENTE">
-                <p>GUARDAR</p>   
-            </button>
-            <button class="d-flex img-btn space-around">
-                <img src="/icons/folder_cancelar.png" alt="EXTRAER EXPEDIENTE">
-                <p>CANCELAR</p>   
-            </button>
         </div>
         <div class="col-9">
             <form action="" method="" id="formBusqueda">
                 <div class="row space-between">
-                    <div class="col-2">
-                        <label class="dark-label" for="nss">NSS</label>
+                    <div class="col-3">
+                        <label class="dark-label" for="matricula">MATRÍCULA</label>
                     </div>
-                    <div class="col-8">
-                        <input type="text" class="text-input" id="nss" name="nss"/>
+                    <div class="col-7">
+                        <input type="text" class="text-input" id="matricula" name="matricula"/>
                     </div>
                     <!--LUPA-->
                     <div class="col-2">
@@ -36,35 +28,35 @@
                     <label class="dark-label" for="nombre">NOMBRE</label>
                 </div>
                 <div class="col-9">
-                    <input type="text" class="text-input" id="nombre"/>
-                </div>
-            </div>
-
-            <div class="row space-between">
-                <div class="col-5">
-                    <label class="dark-label" for="tipoPension">TIPO DE PENSIÓN</label>
-                </div>
-                <div class="col-7">
-                    <input type="text" class="text-input" id="tipoPension"/>
+                    <input type="text" class="text-input bloqueado" id="nombre" readonly/>
                 </div>
             </div>
 
             <div class="row space-between">
                 <div class="col-4">
-                    <label class="dark-label" for="ubicacion">UBICACIÓN</label>
+                    <label class="dark-label" for="adscripcion">ADSCRIPCIÓN</label>
                 </div>
                 <div class="col-8">
-                    <input type="text" class="text-input" id="ubicacion"/>
+                    <input type="text" class="text-input bloqueado" id="adscripcion" readonly/>
                 </div>
             </div>
-
 
             <div class="row space-between">
-                <div class="col">
-                    <label class="dark-label" for="observaciones">OBSERVACIONES</label> 
-                    <textarea class="text-input mt-3" id="observaciones"></textarea>
+                <div class="col-4">
+                    <label class="dark-label" for="año">FECHA DE REGISTRO</label>
+                </div>
+                <div class="col-3">
+                    <input type="text" class="text-input bloqueado" id="fechaReg" readonly/>
+                </div>
+                <div class="col-3">
+                    <label class="dark-label" for="estatus">ESTATUS</label>
+                </div>
+                <div class="col-2">
+                    <input type="text" class="text-input bloqueado" id="estatus" readonly/>
                 </div>
             </div>
+
+
             
             <script>
                 // TODO: Pasar a otro archivo
@@ -99,5 +91,28 @@
             </script>
 
         </div>
+        
     </div> 
+ 
+</div>
+
+<div class="d-flex space-between">
+    <button class="img-btn" type="">
+     <div class="col">
+         <img src="/icons/alta.png" alt="ALTA" style="width: 1rem;">
+         <p>ALTA USUARIO</p>
+     </div>           
+    </button>
+    <button class="img-btn" type="">
+     <div class="col">
+         <img src="/icons/baja.png" alt="BAJA" style="width: 1rem;">
+         <p>BAJA USUARIO</p>
+     </div>        
+    </button>
+    <button class="img-btn" type="">
+     <div class="col">
+         <img src="/icons/cancelar.png" alt="CANCELAR" style="width: 1rem;">
+         <p>CANCELAR</p>
+     </div> 
+    </button>
  </div>
