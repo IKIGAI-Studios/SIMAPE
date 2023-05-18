@@ -105,7 +105,6 @@ footer{
     align-items: center;
 }
 
-
 .vertical-center{
     display: flex;
     flex-direction: column;
@@ -117,7 +116,6 @@ footer{
 
 //
 
-
 .light-label{
     font-family: 'Montserrat-Bold';
     color: $imss-gris;
@@ -127,9 +125,10 @@ footer{
 
 .dark-label{
     font-family: 'Montserrat-Bold';
+    font-size: 15px;
     color: $imss-verde;
     align-self: left;
-    margin: 1rem;
+    margin: 1em;
 }
 
 .text-input-beige{
@@ -144,8 +143,8 @@ footer{
 }
 
 // DETALLITO
-.text-input-beige:focus-visible{
-    border: $imss-verde;    
+.text-input:focus-visible, .text-input-beige:focus-visible{
+    outline: none;
 }
 
 .text-input{
@@ -200,10 +199,9 @@ td .datos{
     @include shadow();
 }
 
-.btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans{
+.btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans, .close:hover{
     cursor: pointer;
 }
-
 
 .img-btn{
     background-color: transparent;
@@ -401,3 +399,33 @@ td .datos{
     from {bottom: 3rem; opacity: 1;}
     to {bottom: 0; opacity: 0;}
   }
+
+
+  // MODAL
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; 
+    background-color: rgba(30,30,30,0.5);
+  }
+  
+  .contenido-modal {
+    background-color: $imss-gris;
+    margin: 15% auto;
+    padding: 2rem;
+    border-radius: 15px;
+    width: 45%;  }
+  
+  .close {
+    color: $imss-verde;
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
