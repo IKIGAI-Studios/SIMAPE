@@ -4450,4 +4450,19 @@ td .datos {
   float: right;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.watermark {
+  padding: 1rem;
+  text-align: end;
+  background-color: #005A4E;
+  font-family: "Montserrat-Regular";
+  color: #D9D9D9;
+  font-size: 13px;
+}
+
+.footer-pleca {
+  background-image: url(https://framework-gb.cdn.gob.mx/landing/img/pleca.svg);
+  background-color: #005A4E;
+  background-repeat: repeat-x;
 }/*# sourceMappingURL=styles.css.map */

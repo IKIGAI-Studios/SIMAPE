@@ -417,3 +417,17 @@ td .datos{
     font-weight: bold;
   }
   
+.watermark{
+    padding: 1rem;
+    text-align: end;
+    background-color: $imss-verde;
+    font-family: 'Montserrat-Regular';
+    color: $imss-gris;
+    font-size: 13px;
+}
+
+.footer-pleca{
+    background-image:url(https://framework-gb.cdn.gob.mx/landing/img/pleca.svg);
+    background-color: $imss-verde;
+    background-repeat: repeat-x;
+}
