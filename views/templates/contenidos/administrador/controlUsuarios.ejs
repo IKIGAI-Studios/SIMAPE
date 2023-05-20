@@ -1,118 +1,78 @@
-<div class="container">
-    <div class="row">
-        <div class="col-3 vertical-center">
-            <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario">
-        </div>
-        <div class="col-9">
-            <form action="" method="" id="formBusqueda">
-                <div class="row space-between">
-                    <div class="col-3">
-                        <label class="dark-label" for="matricula">MATRÍCULA</label>
-                    </div>
-                    <div class="col-7">
-                        <input type="text" class="text-input" id="matricula" name="matricula"/>
-                    </div>
-                    <!--LUPA-->
-                    <div class="col-2">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
-                                <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
 
-            <div class="row space-between">
-                <div class="col-3">
-                    <label class="dark-label" for="nombre">NOMBRE</label>
-                </div>
-                <div class="col-9">
-                    <input type="text" class="text-input bloqueado" id="nombre" readonly/>
-                </div>
-            </div>
-
-            <div class="row space-between">
-                <div class="col-4">
-                    <label class="dark-label" for="adscripcion">ADSCRIPCIÓN</label>
-                </div>
-                <div class="col-8">
-                    <input type="text" class="text-input bloqueado" id="adscripcion" readonly/>
-                </div>
-            </div>
-
-            <div class="row space-between">
-                <div class="col-4">
-                    <label class="dark-label" for="año">FECHA DE REGISTRO</label>
-                </div>
-                <div class="col-3">
-                    <input type="text" class="text-input bloqueado" id="fechaReg" readonly/>
-                </div>
-                <div class="col-3">
-                    <label class="dark-label" for="estatus">ESTATUS</label>
-                </div>
-                <div class="col-2">
-                    <input type="text" class="text-input bloqueado" id="estatus" readonly/>
-                </div>
-            </div>
-
-
-            
-            <script>
-                // TODO: Pasar a otro archivo
-                const formBusqueda = document.getElementById('formBusqueda');
-                const inputNSS = document.getElementById('nss');
-                const inputNombre = document.getElementById('nombre');
-                const inputTipoPension = document.getElementById('tipoPension');
-                const inputAño = document.getElementById('año');
-                const inputEstatus = document.getElementById('estatus')
-                const inputUbicacion = document.getElementById('ubicacion');
-                
-                formBusqueda.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-
-                    try{
-                        const response = await fetch(`http://localhost:3000/buscarPorNSS/${inputNSS.value}`);
-                        const jsonData = await response.json();
-                        if (jsonData != 'Usuario no encontrado') {
-                            inputNombre.value = jsonData.nombre;
-                            inputTipoPension.value = jsonData.categoria;
-                            inputAño.value = jsonData.año;
-                            inputEstatus.value = jsonData.estatus == true ? 'Activo' : 'Inactivo';
-                            inputUbicacion.value = jsonData.ubicacion;
-                        }
-    
-                        console.log(jsonData);
-                    }
-                    catch (e) {
-                        console.info(e);
-                    }
-                });
-            </script>
-
-        </div>
-        
+    <div class="d-flex align-items-center" style="justify-content: space-between;">
+        <p class="dark-label">USUARIOS ACTIVOS</p>        
+        <button class="btn-verde">
+            <img src="/icons/agregar_usuario.png" alt="AGREGAR USUARIO" style="width: 2rem;">
+        </button>
     </div> 
- 
-</div>
+    <div class="row"  style="margin-top: 1rem">
+        <table>
+            <thead>
+                    <th>MATRÍCULA</th>
+                    <th>NOMBRE</th>
+                    <th>ADSCRIPCIÓN</th>
+                    <th>FECHA DE REGISTRO</th>
+                    <th></th>
+            </thead>
+            <tr>
+                <td>matricula</td>
+                <td>nombre</td>
+                <td>adscoipncipmn</td>
+                <td>fecha 01 01 101</td>
+                <td>
+                    <button class="btn-azul">
+                        <img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">
+                    </button>
+                    <button class="btn-rojo">
+                        <img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td>matricula</td>
+                <td>nombre</td>
+                <td>adscoipncipmn</td>
+                <td>fecha 01 01 101</td>
+                <td>
+                    <div style="justify-content: space-between;">
+                        <button class="btn-azul">
+                            <img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">
+                        </button>
+                        <button class="btn-rojo">
+                            <img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
 
-<div class="d-flex space-between">
-    <button class="img-btn" type="">
-     <div class="col">
-         <img src="/icons/alta.png" alt="ALTA" style="width: 1rem;">
-         <p>ALTA USUARIO</p>
-     </div>           
-    </button>
-    <button class="img-btn" type="">
-     <div class="col">
-         <img src="/icons/baja.png" alt="BAJA" style="width: 1rem;">
-         <p>BAJA USUARIO</p>
-     </div>        
-    </button>
-    <button class="img-btn" type="">
-     <div class="col">
-         <img src="/icons/cancelar.png" alt="CANCELAR" style="width: 1rem;">
-         <p>CANCELAR</p>
-     </div> 
-    </button>
- </div>
+    
+    <div class="d-flex align-items-center" style="justify-content: space-between;">
+        <p class="dark-label">USUARIOS INACTIVOS</p>        
+    </div> 
+
+    <div class="row"  style="margin-top: 1rem">
+        <table>
+            <thead>
+                    <th>MATRÍCULA</th>
+                    <th>NOMBRE</th>
+                    <th>ADSCRIPCIÓN</th>
+                    <th>FECHA DE REGISTRO</th>
+                    <th></th>
+            </thead>
+
+            <tr>
+                <td>matricula</td>
+                <td>nombre</td>
+                <td>adscoipncipmn</td>
+                <td>fecha 01 01 101</td>
+                <td>
+                    <button class="btn-verde" style="width: 40px; height: 40px;">
+                        <img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">
+                    </button>
+                </td>
+            </tr>
+            
+        </table>
+    </div>
