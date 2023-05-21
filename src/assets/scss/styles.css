@@ -4137,7 +4137,6 @@ footer {
 .space-around {
   margin: 1rem;
   justify-content: space-around;
-  align-items: center;
 }
 
 .space-between {
@@ -4166,7 +4165,7 @@ footer {
   font-family: "Montserrat-Bold";
   font-size: 15px;
   color: #005A4E;
-  align-self: left;
+  text-align: left;
 }
 
 .text-input-beige {
@@ -4399,12 +4398,6 @@ footer {
   background-color: #D9D9D9;
   height: auto;
   border-radius: 0 20px 20px 0;
-}
-
-.contenido.activo .col-1, .contenido .col-2, .contenido .col-3, .contenido .col-4, .contenido .col-5, .contenido .col-6, .contenido .col-7, .contenido .col-8, .contenido .col-9, .contenido .col-10 {
-  padding-left: 5px;
-  padding-right: 5px;
-  justify-content: center;
 }
 
 #snackbar {
