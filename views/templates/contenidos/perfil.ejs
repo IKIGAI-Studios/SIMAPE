@@ -16,15 +16,15 @@
                 </tr>
                 <tr>
                     <td><p class="dark-label" for="usuarioFechaR">FECHA DE REGISTRO</p></td>
-                    <td><p class="datos">123-123-123</p></td> 
+                    <td><p class="datos"><%=session.user.fecha_registro%></p></td> 
                 </tr>               
                 <tr>
                     <td><p class="dark-label" for="usuarioAdscripcion">ADSCRIPCIÓN</p></td>
-                    <td><p class="datos">123-123-123</p></td></td>
-                  </tr>
-              </table>
-    </div>
-   </div> 
+                    <td><p class="datos"><%=session.user.adscripcion%></p></td></td>
+                    </tr>
+            </table>
+        </div>
+    </div> 
 </div>
 
 <%- include('../modals/cambiarPass')%>

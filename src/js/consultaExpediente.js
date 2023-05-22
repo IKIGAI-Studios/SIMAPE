@@ -1,13 +1,13 @@
-const formBusqueda = document.getElementById('formBusqueda');
-const inputNSS = document.getElementById('nss');
+const formBusquedaExpediente = document.getElementById('formBusquedaExpediente');
+const inputNSS = document.getElementById('nssBusquedaExpediente');
 
-const inputNombre = document.getElementById('nombre');
-const inputTipoPension = document.getElementById('tipoPension');
-const inputAño = document.getElementById('año');
-const inputEstatus = document.getElementById('estatus')
-const inputUbicacion = document.getElementById('ubicacion');
+const inputNombre = document.getElementById('nombreBusquedaExpediente');
+const inputTipoPension = document.getElementById('tipoPensionBusquedaExpediente');
+const inputAño = document.getElementById('añoBusquedaExpediente');
+const inputEstatus = document.getElementById('estatusBusquedaExpediente')
+const inputUbicacion = document.getElementById('ubicacionBusquedaExpediente');
 
-formBusqueda.addEventListener('submit', async (e) => {
+formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (inputNSS.value == '') return;

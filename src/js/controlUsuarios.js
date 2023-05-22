@@ -2,6 +2,7 @@ const formBusquedaUsuario = document.getElementById('formBusquedaUsuario');
 const matriculaUsuario = document.getElementById('matriculaUsuario');
 
 const nombreUsuario = document.getElementById('nombreUsuario');
+const usuarioUsuario = document.getElementById('usuarioUsuario');
 const adscripcionUsuario = document.getElementById('adscripcionUsuario');
 const fechaRegUsuario = document.getElementById('fechaRegUsuario');
 const estatusUsuario = document.getElementById('estatusUsuario');
@@ -24,11 +25,13 @@ btnBusquedaUsuario.addEventListener('click', async (e) => {
 
         if (usuarioData != 'Usuario no encontrado') {
             nombreUsuario.value = usuarioData.nombre +' '+ usuarioData.apellidos;
+            usuarioUsuario.value = '***';
             adscripcionUsuario.value = usuarioData.adscripcion;
             fechaRegUsuario.value = usuarioData.fecha_registro;
             estatusUsuario.value = usuarioData.estatus == true ? 'Activo' : 'Inactivo';
 
             nombreUsuario.setAttribute('readonly', 'true');
+            usuarioUsuario.setAttribute('readonly', 'true');
             adscripcionUsuario.setAttribute('readonly', 'true');
             fechaRegUsuario.setAttribute('readonly', 'true');
         }
@@ -40,22 +43,25 @@ btnBusquedaUsuario.addEventListener('click', async (e) => {
 });
 
 btnAltaUsuario.addEventListener('click', async (e) => {
-
+    console.log('ALTA');
     // TODO: Validar si los campos no están vacíos
     try{
-        dataUsuario = {
-            matricula: matriculaUsuario.value,
-            nombre: nombreUsuario.value,
-            adscripcion: adscripcionUsuario.value,
+        const form = new FormData();
+        form.append("matricula", matriculaUsuario.value);
+        form.append("nombre", nombreUsuario.value);
+        form.append("adscripcion", adscripcionUsuario.value);
+        form.append("usuario", usuarioUsuario.value);
+        form.append("pass", '123');
 
-        };
-        console.log(usuarioData);
+        console.log([...form]);
+        
 
         const response = await fetch(`http://localhost:3000/registrarUsuario`, {
-            method: "POST",
-            body: JSON.stringify(dataUsuario)
+            method: 'POST',
+            body: new URLSearchParams(form)
         });
-        const usuarioData = await response.json();
+        const responseJSON = await response.json();
+        console.log(responseJSON);
 
         nombreUsuario.removeAttribute('readonly');
         adscripcionUsuario.removeAttribute('readonly');
@@ -70,13 +76,16 @@ btnAltaUsuario.addEventListener('click', async (e) => {
 });
 
 btnCancelarUsuario.addEventListener('click', (e) => {
+    console.log('CANCELAR');
     matriculaUsuario.value = '';
     nombreUsuario.value = '';
+    usuarioUsuario.value = '';
     adscripcionUsuario.value = '';
     fechaRegUsuario.value = '';
     estatusUsuario.value = '';
 
     nombreUsuario.removeAttribute('readonly');
+    usuarioUsuario.removeAttribute('readonly');
     adscripcionUsuario.removeAttribute('readonly');
     fechaRegUsuario.removeAttribute('readonly');
 });
