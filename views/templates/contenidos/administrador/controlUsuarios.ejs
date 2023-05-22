@@ -4,47 +4,60 @@
             <img src="/icons/agregar_usuario.png" alt="AGREGAR USUARIO" style="width: 2rem; margin-bottom: 0;">
         </button>
     </div> 
-    <div class="row"  style="margin-top: 1rem">
+    <div class="row" style="margin-top: 1rem">
         <table>
             <thead>
                     <th>MATRÍCULA</th>
                     <th>NOMBRE</th>
                     <th>ADSCRIPCIÓN</th>
                     <th>FECHA DE REGISTRO</th>
-                    <th></th>
             </thead>
-            <tr>
-                <td>matricula</td>
-                <td>nombre</td>
-                <td>adscoipncipmn</td>
-                <td>fecha 01 01 101</td>
-                <td>
-                    <button class="btn-azul">
-                        <img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">
-                    </button>
-                    <button class="btn-rojo">
-                        <img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>matricula</td>
-                <td>nombre</td>
-                <td>adscoipncipmn</td>
-                <td>fecha 01 01 101</td>
-                <td>
-                    <div style="justify-content: space-between;">
-                        <button class="btn-azul">
-                            <img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">
-                        </button>
-                        <button class="btn-rojo">
-                            <img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">
-                        </button>
-                    </div>
-                </td>
-            </tr>
+            <tbody id="tablaUsuariosActivos">
+            </tbody>
         </table>
     </div>
+
+    <script>
+        const tablaUsuariosActivos = document.getElementById('tablaUsuariosActivos');
+        let tablaUsuariosActivosInner = '';
+
+        async function actualizarUsuarios() {
+            try{
+                const response = await fetch('http://localhost:3000/usuario/obtenerUsuarios');
+                const usuariosData = await response.json();
+
+                usuariosData.forEach(usuario => {
+                    tablaUsuariosActivosInner += `
+                        <tr>
+                            <td>${usuario.matricula}</td>
+                            <td>${usuario.nombre}</td>
+                            <td>${usuario.adscripcion}</td>
+                            <td>${usuario.fecha_registro}</td>
+                            <td>
+                                <div style="justify-content: space-between;">
+                                    <button class="btn-azul">
+                                        <img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">
+                                    </button>
+                                    <button class="btn-rojo">
+                                        <img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tablaUsuariosActivos.innerHTML = tablaUsuariosActivosInner;
+                console.log(usuariosData);
+            }
+            catch (e) {
+                console.info(e);
+            }
+        }
+
+        actualizarUsuarios();
+
+
+    </script>
 
     
     <div class="d-flex align-items-center" style="justify-content: space-between;">

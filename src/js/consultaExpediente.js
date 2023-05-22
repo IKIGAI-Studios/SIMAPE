@@ -13,7 +13,7 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     if (inputNSS.value == '') return;
 
     try{
-        const response = await fetch(`http://localhost:3000/buscarPorNSS/${inputNSS.value}`);
+        const response = await fetch(`http://localhost:3000/expediente/buscarPorNSS/${inputNSS.value}`);
         const expedienteData = await response.json();
 
         if (expedienteData != 'Expediente no encontrado') {

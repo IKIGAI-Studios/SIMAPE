@@ -9,7 +9,8 @@ console.log(dbName);
 const sequelize = new Sequelize(dbName, process.env.DB_USER, process.env.DB_PASS, {
   host: process.env.DB_HOST,
   dialect: process.env.DB_LANG,
-  port: process.env.DB_PORT
+  port: process.env.DB_PORT,
+  logging: false
 });
 
 export default sequelize;

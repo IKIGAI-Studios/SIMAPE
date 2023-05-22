@@ -6,11 +6,12 @@ import Expediente from '../models/expedienteModel.js';
 
 const routes = express.Router();
 
+// * Inicio
 routes.get('/', (req, res) => {
     res.render('login', { session: req.session });
 });
 
-// ADMIN
+// * Inicio administrador
 routes.get('/simape-ad', (req, res) => {
     if (!req.session.user || req.session.user.tipo_usuario !== 'ADMINISTRADOR'){
         res.redirect('/');
@@ -19,7 +20,7 @@ routes.get('/simape-ad', (req, res) => {
     res.render('simape-ad', {session: req.session});
 });
 
-// OPERATIVO
+// * Inicio operativo
 routes.get('/simape-op', (req, res) => {
     if (!req.session.user || req.session.user.tipo_usuario !== 'OPERATIVO'){
         res.redirect('/');
@@ -28,18 +29,7 @@ routes.get('/simape-op', (req, res) => {
     res.render('simape-op', {session: req.session});
 });
 
-routes.get('/login', (req, res) => {
-    res.render('login', { session: req.session });
-});
-
-routes.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.writeHead(302, {
-        'Location': '/'
-    });
-    res.end();
-});
-
+// * Login
 routes.post('/login', async (req, res) => {
     try {
         console.log(req.body);
@@ -104,117 +94,16 @@ routes.post('/login', async (req, res) => {
     }
 });
 
-routes.post('/registrarUsuario', async (req, res) => {
-    console.log(req.body);
-    try {
-        const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass, estatus} = req.body;
-
-        // Validar que el usuario sea único
-        const usuarioRegistrado = await Usuario.findOne({ 
-            where: { 
-                usuario 
-            },
-            attributes: ['usuario']
-        });
-
-        if (usuarioRegistrado) {
-            //req.session.registerEjecutor = `El usuario ${user} ya ha sido registrado`;
-            console.log('ERROR Usuario registrado');
-            res.redirect('/simape');
-            return;
-        }
-
-        // Validar que la matricula sea único
-        const matriculaRegistrada = await Usuario.findOne({ 
-            where: { 
-                matricula 
-            },
-            attributes: ['matricula']
-        });
-
-        if (matriculaRegistrada) {
-            //req.session.registerEjecutor = `El usuario ${user} ya ha sido registrado`;
-            console.log('ERROR Matricula registrado');
-            res.redirect('/simape');
-            return;
-        }
-
-        // Encriptar contraseña
-        const saltRounds = 10;
-        const hashedPass = await bcrypt.hash(pass, saltRounds);
-
-        // Obtener la fecha actual
-        const date = new Date();
-
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        let fechaActual = `${year}-${month}-${day}`;
-
-        const nuevoUsuario = await Usuario.create({
-            matricula,
-            nombre,
-            apellidos,
-            adscripcion,
-            tipo_usuario,
-            usuario,
-            pass : hashedPass,
-            estatus: true,
-            fecha_registro: fechaActual
-        });
-
-        console.log('Usuario registrado');
-        res.json('Usuario registrado')
-    } 
-    catch (e) {
-        req.session.loginError = `ERROR DE REGISTRO ${e}`;
-        console.log(`Register ERROR: ${e}`);
-        res.json(`ERROR ${e}`);
-    }
-});
-
-// Expedientes
-// TODO: Pasar a otro archivo de rutas
-
-routes.get('/buscarPorNSS/:nss', async (req, res) => {
-    const expedienteEncontrado = await Expediente.findOne({
-        where: { 
-            nss: req.params.nss 
-        }
+// * Logout
+routes.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.writeHead(302, {
+        'Location': '/'
     });
-
-    if (expedienteEncontrado)
-    {
-        res.json(expedienteEncontrado);
-        console.log(expedienteEncontrado);
-        return;
-    }
-    res.json('Expediente no encontrado');
-    return;
+    res.end();
 });
 
-// Control de usuarios
-// TODO: Pasar a otro archivo de rutas
-routes.get('/busquedaUsuario/:matricula', async (req, res) => {
-    const usuarioEncontrado = await Usuario.findOne({
-        where: { 
-            matricula: req.params.matricula 
-        },
-        attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
-    });
-
-    if (usuarioEncontrado)
-    {
-        res.json(usuarioEncontrado);
-        console.log(usuarioEncontrado);
-        return;
-    }
-    res.json('Usuario no encontrado');
-    return;
-});
-
-
+// * Test
 routes.get('/test', async (req, res) => {
     try {
         const response = await Usuario.findAll();
