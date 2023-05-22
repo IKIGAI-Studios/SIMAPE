@@ -12,7 +12,7 @@ routes.get('/', (req, res) => {
 
 // ADMIN
 routes.get('/simape-ad', (req, res) => {
-    if (!req.session.user){
+    if (!req.session.user || req.session.user.tipo_usuario !== 'ADMINISTRADOR'){
         res.redirect('/');
         return;
     } 
@@ -21,7 +21,7 @@ routes.get('/simape-ad', (req, res) => {
 
 // OPERATIVO
 routes.get('/simape-op', (req, res) => {
-    if (!req.session.user){
+    if (!req.session.user || req.session.user.tipo_usuario !== 'OPERATIVO'){
         res.redirect('/');
         return;
     } 
@@ -33,14 +33,11 @@ routes.get('/login', (req, res) => {
 });
 
 routes.get('/logout', (req, res) => {
-    req.session.destroy((e) => {
-        if (e) {
-          console.log(e);
-        } 
-        else {
-          res.redirect('/');
-        }
+    req.session.destroy();
+    res.writeHead(302, {
+        'Location': '/'
     });
+    res.end();
 });
 
 routes.post('/login', async (req, res) => {
@@ -54,7 +51,7 @@ routes.post('/login', async (req, res) => {
             where: {
                 usuario: usuario
             },
-            attributes: ['nombre', 'apellidos', 'matricula', 'usuario', 'pass', 'tipo_usuario', 'estatus']
+            attributes: ['nombre', 'apellidos', 'matricula', 'usuario', 'pass', 'tipo_usuario', 'estatus', 'fecha_registro', 'adscripcion']
         });
 
         // No existe el usuario
@@ -81,7 +78,9 @@ routes.post('/login', async (req, res) => {
             nombre: usuarioEnBD.nombre, 
             apellidos: usuarioEnBD.apellidos,
             matricula: usuarioEnBD.matricula, 
-            tipo_usuario: usuarioEnBD.tipo_usuario 
+            tipo_usuario: usuarioEnBD.tipo_usuario,
+            fecha_registro: usuarioEnBD.fecha_registro,
+            adscripcion: usuarioEnBD.adscripcion
         };
 
         delete req.session.loginError;
@@ -106,6 +105,7 @@ routes.post('/login', async (req, res) => {
 });
 
 routes.post('/registrarUsuario', async (req, res) => {
+    console.log(req.body);
     try {
         const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass, estatus} = req.body;
 
@@ -169,7 +169,7 @@ routes.post('/registrarUsuario', async (req, res) => {
     } 
     catch (e) {
         req.session.loginError = `ERROR DE REGISTRO ${e}`;
-        console.log(`Registrer ERROR: ${e}`);
+        console.log(`Register ERROR: ${e}`);
         res.json(`ERROR ${e}`);
     }
 });

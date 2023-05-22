@@ -2,10 +2,13 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
+import nocache from 'nocache'
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import routes from './routes/routes.js';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -14,8 +17,9 @@ const PORT = process.env.PORT;
 dotenv.config();
 const app = express();
 
-app.use(cors());
 app.set('view engine', 'ejs');
+app.use(cors());
+app.use(nocache());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(session({

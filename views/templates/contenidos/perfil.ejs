@@ -1,10 +1,10 @@
 <div class="container">
    <div class="row align-items-center">
-    <div class="col-3 vertical-center">
-        <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario">
-        <button class="btn-verde" id="btnPass">CAMBIAR CONTRASEÑA</button>
-    </div>
-    <div class="col-9">
+        <div class="col-3 vertical-center">
+            <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario">
+            <button class="btn-verde" id="btnPass">CAMBIAR CONTRASEÑA</button>
+        </div>
+        <div class="col-9">
             <table style="width: 95%;">
                 <tr>
                     <td><p class="dark-label" for="usuarioMatricula">MATRÍCULA</p></td>
@@ -16,15 +16,15 @@
                 </tr>
                 <tr>
                     <td><p class="dark-label" for="usuarioFechaR">FECHA DE REGISTRO</p></td>
-                    <td><p class="datos">123-123-123</p></td> 
+                    <td><p class="datos"><%=session.user.fecha_registro%></p></td> 
                 </tr>               
                 <tr>
                     <td><p class="dark-label" for="usuarioAdscripcion">ADSCRIPCIÓN</p></td>
-                    <td><p class="datos">123-123-123</p></td></td>
-                  </tr>
-              </table>
-    </div>
-   </div> 
+                    <td><p class="datos"><%=session.user.adscripcion%></p></td></td>
+                    </tr>
+            </table>
+        </div>
+    </div> 
 </div>
 
 <%- include('../modals/cambiarPass')%>

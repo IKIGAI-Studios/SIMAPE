@@ -1,9 +1,8 @@
+const mensajeError = document.getElementById("snackbar");
 
-    const mensajeError = document.getElementById("snackbar");
-  
-    mensajeError.className = ('show');
+mensajeError.className = ('show');
 
-    setTimeout(() => { 
-        mensajeError.className = mensajeError.className.replace("show", ""); 
-    }, 3069);
+setTimeout(() => { 
+    mensajeError.className = mensajeError.className.replace("show", ""); 
+}, 3069);
   

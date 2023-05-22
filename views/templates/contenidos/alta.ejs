@@ -12,13 +12,13 @@
             </button>
         </div>
         <div class="col-9">
-            <form action="" method="" id="formBusqueda">
+            <form id="formAltaExpediente">
                 <div class="row space-between">
                     <div class="col-2">
-                        <label class="dark-label" for="nss">NSS</label>
+                        <label class="dark-label" for="nssAltaExpediente">NSS</label>
                     </div>
                     <div class="col-8">
-                        <input type="text" class="text-input" id="nss" name="nss"/>
+                        <input type="text" class="text-input" id="nssAltaExpediente" name="nss"/>
                     </div>
                     <!--LUPA-->
                     <div class="col-2">
@@ -33,71 +33,38 @@
 
             <div class="row space-between">
                 <div class="col-3">
-                    <label class="dark-label" for="nombre">NOMBRE</label>
+                    <label class="dark-label" for="nombreAltaExpediente">NOMBRE</label>
                 </div>
                 <div class="col-9">
-                    <input type="text" class="text-input" id="nombre"/>
+                    <input type="text" class="text-input" id="nombreAltaExpediente"/>
                 </div>
             </div>
 
             <div class="row space-between">
                 <div class="col-5">
-                    <label class="dark-label" for="tipoPension">TIPO DE PENSIÓN</label>
+                    <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
                 </div>
                 <div class="col-7">
-                    <input type="text" class="text-input" id="tipoPension"/>
+                    <input type="text" class="text-input" id="tipoPensionAltaExpediente"/>
                 </div>
             </div>
 
             <div class="row space-between">
                 <div class="col-4">
-                    <label class="dark-label" for="ubicacion">UBICACIÓN</label>
+                    <label class="dark-label" for="ubicacionAltaExpediente">UBICACIÓN</label>
                 </div>
                 <div class="col-8">
-                    <input type="text" class="text-input" id="ubicacion"/>
+                    <input type="text" class="text-input" id="ubicacionAltaExpediente"/>
                 </div>
             </div>
 
 
             <div class="row space-between">
                 <div class="col">
-                    <label class="dark-label" for="observaciones">OBSERVACIONES</label> 
-                    <textarea class="text-input mt-3" id="observaciones"></textarea>
+                    <label class="dark-label" for="observacionesAltaExpediente">OBSERVACIONES</label> 
+                    <textarea class="text-input mt-3" id="observacionesAltaExpediente"></textarea>
                 </div>
             </div>
-            
-            <script>
-                // TODO: Pasar a otro archivo
-                const formBusqueda = document.getElementById('formBusqueda');
-                const inputNSS = document.getElementById('nss');
-                const inputNombre = document.getElementById('nombre');
-                const inputTipoPension = document.getElementById('tipoPension');
-                const inputAño = document.getElementById('año');
-                const inputEstatus = document.getElementById('estatus')
-                const inputUbicacion = document.getElementById('ubicacion');
-                
-                formBusqueda.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-
-                    try{
-                        const response = await fetch(`http://localhost:3000/buscarPorNSS/${inputNSS.value}`);
-                        const jsonData = await response.json();
-                        if (jsonData != 'Usuario no encontrado') {
-                            inputNombre.value = jsonData.nombre;
-                            inputTipoPension.value = jsonData.categoria;
-                            inputAño.value = jsonData.año;
-                            inputEstatus.value = jsonData.estatus == true ? 'Activo' : 'Inactivo';
-                            inputUbicacion.value = jsonData.ubicacion;
-                        }
-    
-                        console.log(jsonData);
-                    }
-                    catch (e) {
-                        console.info(e);
-                    }
-                });
-            </script>
-
         </div>
     </div> 
  </div>
