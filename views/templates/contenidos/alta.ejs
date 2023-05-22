@@ -1,32 +1,14 @@
-<div class="container">
+
     <div class="row">
-        <div class="col-3 vertical-center">
-            <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario">
-            <button class="d-flex img-btn space-around">
-                <img src="/icons/guardar.png" alt="INGRESAR EXPEDIENTE">
-                <p>GUARDAR</p>   
-            </button>
-            <button class="d-flex img-btn space-around">
-                <img src="/icons/folder_cancelar.png" alt="EXTRAER EXPEDIENTE">
-                <p>CANCELAR</p>   
-            </button>
-        </div>
+
         <div class="col-9">
             <form id="formAltaExpediente">
                 <div class="row space-between">
                     <div class="col-2">
                         <label class="dark-label" for="nssAltaExpediente">NSS</label>
                     </div>
-                    <div class="col-8">
+                    <div class="col-10">
                         <input type="text" class="text-input" id="nssAltaExpediente" name="nss"/>
-                    </div>
-                    <!--LUPA-->
-                    <div class="col-2">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
-                                <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
-                            </button>
-                        </div>
                     </div>
                 </div>
             </form>
@@ -45,7 +27,12 @@
                     <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
                 </div>
                 <div class="col-7">
-                    <input type="text" class="text-input" id="tipoPensionAltaExpediente"/>
+                    <select id="opciones" id="tipoPensionAltaExpediente">    
+                      <option value="">Selecciona una opción:</option>
+                      <option value="tp1">TIPO DE PENSIÓN 1</option>
+                      <option value="tp2">TIPO DE PENSIÓN 2</option>
+                      <option value="tp3">TIPO DE PENSIÓN 3</option>
+                    </select>
                 </div>
             </div>
 
@@ -65,6 +52,19 @@
                     <textarea class="text-input mt-3" id="observacionesAltaExpediente"></textarea>
                 </div>
             </div>
+
         </div>
+
+        
+        <div class="col-3 vertical-center">
+            <button class="img-btn">
+                <img src="/icons/guardar.png" alt="GUARDAR" style="width: 35%;">
+                <p>GUARDAR</p>   
+            </button>
+            <button class="img-btn">
+                <img src="/icons/folder_cancelar.png" alt="CANCELAR" style="width: 35%;">
+                <p>CANCELAR</p>   
+            </button>
+        </div>
+
     </div> 
- </div>

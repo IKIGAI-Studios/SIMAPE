@@ -1,16 +1,6 @@
-<div class="container">
+
     <div class="row">
-        <div class="col-3 vertical-center">
-            <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario">
-            <button class="d-flex img-btn space-around">
-                <img src="/icons/folder_azul.png" alt="INGRESAR EXPEDIENTE">
-                <p>INGRESAR EXPEDIENTE</p>   
-            </button>
-            <button class="d-flex img-btn space-around">
-                <img src="/icons/folder_rojo.png" alt="EXTRAER EXPEDIENTE">
-                <p>EXTRAER EXPEDIENTE</p>   
-            </button>
-        </div>
+
         <div class="col-9">
             <form id="formBusquedaExpediente">
                 <div class="row space-between">
@@ -49,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="row space-between">
+            <div class="row space-around">
                 <div class="col-2">
                     <label class="dark-label" for="añoBusquedaExpediente">AÑO</label>
                 </div>
@@ -64,7 +54,7 @@
                 </div>
             </div>
 
-            <div class="row space-between">
+            <div class="row space-around">
                 <div class="col-4">
                     <label class="dark-label" for="ubicacionBusquedaExpediente">UBICACIÓN</label>
                 </div>
@@ -74,7 +64,7 @@
             </div>
 
 
-            <div class="row space-between">
+            <div class="row space-around">
                 <div class="col-12">
                     <label class="dark-label" for="movimientosBusquedaExpediente">MOVIMIENTOS</label> 
                     <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
@@ -85,5 +75,17 @@
             <script src="/js/consultaExpediente.js"></script>
 
         </div>
+
+        <div class="col-3 vertical-center">
+            <button class="img-btn">
+                <img src="/icons/folder_azul.png" alt="INGRESAR" style="width: 35%;">
+                <p>INGRESAR</p>   
+            </button>
+            <button class="img-btn">
+                <img src="/icons/folder_rojo.png" alt="EXTRAER" style="width: 35%;">
+                <p>EXTRAER</p>   
+            </button>
+        </div>
+        
     </div> 
- </div>
+ 

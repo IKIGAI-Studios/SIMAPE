@@ -4137,12 +4137,11 @@ footer {
 .space-around {
   margin: 1rem;
   justify-content: space-around;
-  align-items: center;
 }
 
 .space-between {
   margin: 1rem;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -4166,8 +4165,7 @@ footer {
   font-family: "Montserrat-Bold";
   font-size: 15px;
   color: #005A4E;
-  align-self: left;
-  margin: 1em;
+  text-align: left;
 }
 
 .text-input-beige {
@@ -4181,7 +4179,7 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.text-input:focus-visible, .text-input-beige:focus-visible {
+.text-input:focus-visible, .text-input-beige:focus-visible, #opciones:focus-visible {
   outline: none;
 }
 
@@ -4196,7 +4194,23 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-td .datos {
+#opciones {
+  width: 100%;
+  border: none;
+  font-family: "Montserrat-Medium";
+  color: #005A4E;
+  border-radius: 5px;
+  padding: 5px;
+  margin-left: 0 !important;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+option:target {
+  background-color: #005A4E;
+  color: #D9D9D9;
+}
+
+.datos {
   font-family: "Montserrat-Medium";
   font-size: 12px;
   color: #005A4E;
@@ -4232,32 +4246,53 @@ td .datos {
   padding: 10px;
   font-family: "Montserrat-Bold";
   color: #D9D9D9;
-  margin-top: 1rem;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.btn-beige:hover, .btn-verde:hover, .img-btn:hover, .btn-trans, .close:hover {
+.btn-azul {
+  width: 40px;
+  height: 40px;
+  background-color: #003A5A;
+  border: none;
+  border-radius: 10px;
+  padding: 3px;
+  margin: 0.5rem 1rem 0.5rem 0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn-rojo {
+  width: 40px;
+  height: 40px;
+  background-color: #5A0000;
+  border: none;
+  border-radius: 10px;
+  padding: 3px;
+  margin: 0.5rem 0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn-beige:hover, .btn-verde:hover,
+.btn-azul:hover, .btn-rojo:hover,
+.img-btn:hover, .close:hover {
   cursor: pointer;
 }
 
 .img-btn {
+  width: 100%;
+  display: inline-flex;
+  flex-direction: row;
   background-color: transparent;
   border: none;
   color: #005A4E;
   font-family: "Montserrat-Bold";
-  border-radius: 20px;
-  padding: 1rem;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
-}
-
-.btn-trans {
-  margin: 1rem;
-  justify-content: center;
+  font-size: 15px;
+  justify-content: space-around;
   align-items: center;
-  background-color: transparent;
-  border: none;
-  font-family: "Montserrat-Bold";
-  color: #005A4E;
+  border-radius: 20px;
+  text-align: center;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 .banner {
@@ -4362,12 +4397,10 @@ td .datos {
 .logout {
   text-decoration: none;
   align-items: center;
-  align-self: center;
   align-content: center;
   justify-content: center;
   font-family: "Montserrat-Medium";
   font-size: 12px;
-  text-decoration: none;
   color: #005A4E;
   border-radius: 20px;
   padding: 10px;
@@ -4388,12 +4421,6 @@ td .datos {
   background-color: #D9D9D9;
   height: auto;
   border-radius: 0 20px 20px 0;
-}
-
-.contenido.activo .col-1, .contenido .col-2, .contenido .col-3, .contenido .col-4, .contenido .col-5, .contenido .col-6, .contenido .col-7, .contenido .col-8, .contenido .col-9, .contenido .col-10 {
-  padding-left: 5px;
-  padding-right: 5px;
-  justify-content: center;
 }
 
 #snackbar {
@@ -4443,18 +4470,21 @@ td .datos {
   z-index: 1;
   left: 0;
   top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
+  min-width: 100%;
+  min-height: 100%;
+  overflow: hidden;
   background-color: rgba(30, 30, 30, 0.5);
 }
 
 .contenido-modal {
   background-color: #D9D9D9;
-  margin: 15% auto;
+  margin: 1.75rem auto;
   padding: 2rem;
   border-radius: 15px;
-  width: 45%;
+  height: 80vh;
+  align-self: center;
+  vertical-align: middle;
+  width: 40%;
 }
 
 .close {
@@ -4462,4 +4492,42 @@ td .datos {
   float: right;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.watermark {
+  padding: 1rem;
+  text-align: end;
+  background-color: #005A4E;
+  font-family: "Montserrat-Regular";
+  color: #D9D9D9;
+  font-size: 13px;
+}
+
+.footer-pleca {
+  margin: auto;
+  background-image: url(https://framework-gb.cdn.gob.mx/landing/img/pleca.svg);
+  background-color: #005A4E;
+  background-repeat: repeat-x;
+}
+
+tbody tr {
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  border-bottom: solid;
+  border-color: rgba(0, 90, 78, 0.25) !important;
+  padding-bottom: 1rem;
+}
+
+th {
+  font-family: "Montserrat-Bold";
+  font-size: 13px;
+  color: #005A4E;
+}
+
+td {
+  font-family: "Montserrat-Regular";
+  font-size: 13px;
+  text-align: center;
+  color: #005A4E;
 }/*# sourceMappingURL=styles.css.map */
