@@ -1,6 +1,5 @@
 
     <div class="row">
-
         <div class="col-9">
             <form id="formAltaExpediente">
                 <div class="row space-between">
@@ -11,60 +10,135 @@
                         <input type="text" class="text-input" id="nssAltaExpediente" name="nss"/>
                     </div>
                 </div>
-            </form>
+            
 
-            <div class="row space-between">
-                <div class="col-3">
-                    <label class="dark-label" for="nombreAltaExpediente">NOMBRE</label>
+                <div class="row space-between">
+                    <div class="col-3">
+                        <label class="dark-label" for="nombreAltaExpediente">NOMBRE</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="text" class="text-input" id="nombreAltaExpediente" name="nombre"/>
+                    </div>
                 </div>
-                <div class="col-9">
-                    <input type="text" class="text-input" id="nombreAltaExpediente"/>
+
+                <div class="row space-between">
+                    <div class="col-5">
+                        <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
+                    </div>
+                    <div class="col-7">
+                        <select id="opciones" id="tipoPensionAltaExpediente" name="categoria">  
+                            <option value="separador">Selecciona una opción:</option>
+                            <option value="separador" disabled>────| 97 |────</option>
+                            <option value="97 - CE">97 - CE</option>
+                            <option value="97 - VE">97 - VE</option>
+                            <option value="97 - ASC">97 - ASC</option>
+                            <option value="97 - OR">97 - OR</option>
+                            <option value="97 - VI">97 - VI</option>
+                            <option value="97 - VO">97 - VO</option>
+                            <option value="97 - IPP">97 - IPP</option>
+                            <option value="97 - INV">97 - INV</option>
+                            <option value="97 - IG">97 - IG</option>
+                            <option value="separador" disabled>────| 73 |────</option>
+                            <option value="73 - CE">73 - CE</option>
+                            <option value="73 - VE">73 - VE</option>
+                            <option value="73 - ASC">73 - ASC</option>
+                            <option value="73 - OR">73 - OR</option>
+                            <option value="73 - VI">73 - VI</option>
+                            <option value="73 - VO">73 - VO</option>
+                            <option value="73 - IPN">73 - IPN</option>
+                            <option value="73 - INV">73 - INV</option>
+                            <option value="73 - IG">73 - IG</option>
+                        </select>
+                    </div>
                 </div>
+
+                <div class="row space-between">
+                    <div class="col-5">
+                        <label class="dark-label" for="tipoPensionAltaExpediente">DELEGACIÓN</label>
+                    </div>
+                    <div class="col-7">
+                        <select id="opciones" id="tipoPensionAltaExpediente" name="delegacion">    
+                            <option value="separador">Selecciona una opción:</option>
+                            <option value="1">Delegacion 1</option>
+                            <option value="2">Delegacion 2</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row space-between">
+                    <div class="col-5">
+                        <label class="dark-label" for="ubicacionAltaExpediente">UBICACIÓN</label>
+                    </div>
+                    <div class="col-7">
+                        <select id="opciones" id="tipoPensionAltaExpediente" name="ubicacion">    
+                            <option value="separador">Selecciona una opción:</option>
+                            <option value="Bodega">Bodega</option>
+                            <option value="Ley 73">Ley 73</option>
+                            <option value="Ley 97">Ley 97</option>
+                            <option value="IG">IG</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row space-between">
+                    <div class="col-3">
+                        <label class="dark-label" for="añoAltaExpediente">AÑO</label>
+                    </div>
+                    <div class="col-9">
+                        <input type="number" class="text-input" id="añoAltaExpediente" name="año"/>
+                    </div>
+                </div>
+                
+                <div class="row space-between">
+                    <div class="col">
+                        <label class="dark-label" for="observacionesAltaExpediente">OBSERVACIONES</label> 
+                        <textarea class="text-input mt-3" id="observacionesAltaExpediente" name="observaciones"></textarea>
+                    </div>
+                </div>
+                
             </div>
-
-            <div class="row space-between">
-                <div class="col-5">
-                    <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
-                </div>
-                <div class="col-7">
-                    <select id="opciones" id="tipoPensionAltaExpediente">    
-                      <option value="">Selecciona una opción:</option>
-                      <option value="tp1">TIPO DE PENSIÓN 1</option>
-                      <option value="tp2">TIPO DE PENSIÓN 2</option>
-                      <option value="tp3">TIPO DE PENSIÓN 3</option>
-                    </select>
-                </div>
+            
+            
+            <div class="col-3 vertical-center">
+                <button class="img-btn" type="submit">
+                    <img src="/icons/guardar.png" alt="GUARDAR" style="width: 35%;">
+                    <p>GUARDAR</p>   
+                </button>
+                <button class="img-btn" type="reset">
+                    <img src="/icons/folder_cancelar.png" alt="CANCELAR" style="width: 35%;">
+                    <p>CANCELAR</p>   
+                </button>
             </div>
+        </form>
 
-            <div class="row space-between">
-                <div class="col-4">
-                    <label class="dark-label" for="ubicacionAltaExpediente">UBICACIÓN</label>
-                </div>
-                <div class="col-8">
-                    <input type="text" class="text-input" id="ubicacionAltaExpediente"/>
-                </div>
-            </div>
+        <script>
+            const formAltaExpediente = document.getElementById('formAltaExpediente');
 
+            //const snackbar = new SnackBar(document.getElementById('snackbar'));
 
-            <div class="row space-between">
-                <div class="col">
-                    <label class="dark-label" for="observacionesAltaExpediente">OBSERVACIONES</label> 
-                    <textarea class="text-input mt-3" id="observacionesAltaExpediente"></textarea>
-                </div>
-            </div>
+            formAltaExpediente.addEventListener('submit', async (e) => {
+                e.preventDefault();
 
-        </div>
+                const form = new FormData(formAltaExpediente);
+                console.log([...form]);
+                
+                try {
+                    const response = await fetch(`http://localhost:3000/expediente/nuevoExpediente`, {
+                        method: 'POST',
+                        body: new URLSearchParams(form)
+                    });
 
-        
-        <div class="col-3 vertical-center">
-            <button class="img-btn">
-                <img src="/icons/guardar.png" alt="GUARDAR" style="width: 35%;">
-                <p>GUARDAR</p>   
-            </button>
-            <button class="img-btn">
-                <img src="/icons/folder_cancelar.png" alt="CANCELAR" style="width: 35%;">
-                <p>CANCELAR</p>   
-            </button>
-        </div>
+                    if (!response.ok) {
+                        throw new Error(response.statusText);
+                    }
+
+                    //snackbar.showMessage(response.statusText);
+                }
+                catch (e) {
+                    console.log(e);
+                    //snackbar.showMessage(e.message);
+                }
+            });
+
+        </script>
 
     </div> 

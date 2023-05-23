@@ -399,9 +399,12 @@ option:target{
 
 // SNACKBAR
 
+.invisible {
+    visibility: hidden;
+}
+
 #snackbar {
     font-family: 'Montserrat-Bold';
-    visibility: hidden;
     background-color: $imss-beige; 
     color: $imss-verde; 
     text-align: center; 
@@ -411,23 +414,27 @@ option:target{
     z-index: 1;
     width: fit-content;
     left: 45%;
-    bottom: 3rem; 
-  }
+    bottom: 3rem;
+}
   
 #snackbar.show {
-    visibility: visible; 
-    animation: fadein 0.6s, fadeout 0.6s 2.5s;
-  }
+    //visibility: visible; 
+    animation: fadein 0.6s;
+}
+
+#snackbar.hide {
+    animation: fadeout 0.6s;
+}
   
-  @keyframes fadein {
+@keyframes fadein {
     from {bottom: 0; opacity: 0;}
     to {bottom: 3rem; opacity: 1;}
-  }
-  
-  @keyframes fadeout {
+}
+
+@keyframes fadeout {
     from {bottom: 3rem; opacity: 1;}
     to {bottom: 0; opacity: 0;}
-  }
+}
 
 
   // MODAL

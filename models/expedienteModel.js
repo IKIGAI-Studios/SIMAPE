@@ -11,13 +11,14 @@ const Expediente = sequelize.define(
         },        
         nombre: DataTypes.STRING(100),
         categoria: DataTypes.STRING(10),
-        fecha_alta: DataTypes.DATE,
-        fecha_baja: DataTypes.DATE,
+        fecha_alta: DataTypes.DATEONLY,
+        fecha_baja: DataTypes.DATEONLY,
         delegacion: DataTypes.STRING(10),
         ubicacion: DataTypes.STRING(10),
         estatus: DataTypes.BOOLEAN,
         año: DataTypes.INTEGER,
-        matricula: DataTypes.STRING(15)
+        matricula: DataTypes.STRING(15),
+        observaciones: DataTypes.STRING(100)
     },
     {
         tableName: "expediente",

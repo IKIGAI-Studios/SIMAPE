@@ -22,7 +22,7 @@
 
                 <!--LOG IN-->
                 <div class="col-lg-3">
-                    <form action="/login" method="post">
+                    <form action="/login" method="post" id="formLogin">
                     
                         <div class="d-flex justify-content-end mt-5">
                             <label class="light-label" for="user">USUARIO</label>
@@ -39,21 +39,15 @@
                             <button type="submit" class="btn-beige">INGRESAR</button>
                           </div>
                         </div>
-                      </form>
+                    </form>
                 </div>
-                
- 
-                
             </div>
         </div>
 
-        <div id="snackbar">  
-            <% if (session.loginError) { %>
-            <%= session.loginError %><% } %>
-        </div>
+        <div id="snackbar" class="invisible"></div>
 
     </footer>
-    <script src="/js/snackbar.js"></script>
+    <script src="/js/login.js" type="module"></script>
 
 </body>
 

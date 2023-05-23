@@ -16,14 +16,58 @@
             </tbody>
         </table>
     </div>
+    
+    <div class="d-flex align-items-center" style="justify-content: space-between;">
+        <p class="dark-label">USUARIOS INACTIVOS</p>        
+    </div> 
+
+    <div class="row"  style="margin-top: 1rem">
+        <table>
+            <thead>
+                    <th>MATRÍCULA</th>
+                    <th>NOMBRE</th>
+                    <th>ADSCRIPCIÓN</th>
+                    <th>FECHA DE REGISTRO</th>
+                    <th></th>
+            </thead>
+            
+            <tbody id="tablaUsuariosInactivos">
+                <tr>
+                    <td>matricula</td>
+                    <td>nombre</td>
+                    <td>adscoipncipmn</td>
+                    <td>fecha 01 01 101</td>
+                    <td>
+                        <button class="btn-verde" style="width: 40px; height: 40px;  margin: .5rem 0;">
+                            <img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>matricula</td>
+                    <td>nombre</td>
+                    <td>adscoipncipmn</td>
+                    <td>fecha 01 01 101</td>
+                    <td>
+                        <button class="btn-verde" style="width: 40px; height: 40px;  margin: .5rem 0">
+                            <img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
     <script>
         const tablaUsuariosActivos = document.getElementById('tablaUsuariosActivos');
         let tablaUsuariosActivosInner = '';
+        const tablaUsuariosInactivos = document.getElementById('tablaUsuariosInactivos');
+        let tablaUsuariosInactivosInner = '';
+        
 
         async function actualizarUsuarios() {
             try{
-                const response = await fetch('http://localhost:3000/usuario/obtenerUsuarios');
+                const response = await fetch('http://localhost:3000/usuario/obtenerUsuarios/activos');
                 const usuariosData = await response.json();
 
                 usuariosData.forEach(usuario => {
@@ -52,53 +96,37 @@
             catch (e) {
                 console.info(e);
             }
+
+            try{
+                const response = await fetch('http://localhost:3000/usuario/obtenerUsuarios/inactivos');
+                const usuariosData = await response.json();
+
+                usuariosData.forEach(usuario => {
+                    tablaUsuariosInactivosInner += `
+                        <tr>
+                            <td>${usuario.matricula}</td>
+                            <td>${usuario.nombre}</td>
+                            <td>${usuario.adscripcion}</td>
+                            <td>${usuario.fecha_registro}</td>
+                            <td>
+                                <button class="btn-verde" style="width: 40px; height: 40px;  margin: .5rem 0">
+                                    <img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+                tablaUsuariosInactivos.innerHTML = tablaUsuariosInactivosInner;
+                console.log(usuariosData);
+            }
+            catch (e) {
+                console.info(e);
+            }
+
         }
 
         actualizarUsuarios();
-
-
     </script>
-
-    
-    <div class="d-flex align-items-center" style="justify-content: space-between;">
-        <p class="dark-label">USUARIOS INACTIVOS</p>        
-    </div> 
-
-    <div class="row"  style="margin-top: 1rem">
-        <table>
-            <thead>
-                    <th>MATRÍCULA</th>
-                    <th>NOMBRE</th>
-                    <th>ADSCRIPCIÓN</th>
-                    <th>FECHA DE REGISTRO</th>
-                    <th></th>
-            </thead>
-
-            <tr>
-                <td>matricula</td>
-                <td>nombre</td>
-                <td>adscoipncipmn</td>
-                <td>fecha 01 01 101</td>
-                <td>
-                    <button class="btn-verde" style="width: 40px; height: 40px;  margin: .5rem 0;">
-                        <img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>matricula</td>
-                <td>nombre</td>
-                <td>adscoipncipmn</td>
-                <td>fecha 01 01 101</td>
-                <td>
-                    <button class="btn-verde" style="width: 40px; height: 40px;  margin: .5rem 0">
-                        <img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">
-                    </button>
-                </td>
-            </tr>
-            
-        </table>
-    </div>
 
 <script src="/js/controlUsuarios.js"></script>
 

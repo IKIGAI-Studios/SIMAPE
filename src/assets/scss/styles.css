@@ -4423,9 +4423,12 @@ option:target {
   border-radius: 0 20px 20px 0;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 #snackbar {
   font-family: "Montserrat-Bold";
-  visibility: hidden;
   background-color: #D9C9A8;
   color: #005A4E;
   text-align: center;
@@ -4440,8 +4443,11 @@ option:target {
 }
 
 #snackbar.show {
-  visibility: visible;
-  animation: fadein 0.6s, fadeout 0.6s 2.5s;
+  animation: fadein 0.6s;
+}
+
+#snackbar.hide {
+  animation: fadeout 0.6s;
 }
 
 @keyframes fadein {

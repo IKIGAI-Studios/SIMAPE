@@ -42,7 +42,7 @@ app.use('/expediente', expedienteRoutes);
 
 // Iniciar servidor
 const server = app.listen(PORT, () => {
-    console.log(`Servidor activo en el puerto ${PORT}`);
+  console.log(`Servidor activo en el puerto ${PORT}`);
 });
 
 // rutas estaticas frontend

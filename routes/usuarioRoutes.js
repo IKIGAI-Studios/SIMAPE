@@ -3,14 +3,15 @@ import bcrypt from 'bcrypt';
 import Delegacion from '../models/delegacionModel.js';
 import Usuario from '../models/usuarioModel.js';
 import Expediente from '../models/expedienteModel.js';
+import SuperDate from '../utils/Superdate.js';
 
 const usuarioRoutes = express.Router();
 
 // * Obtener todos los usuarios
-usuarioRoutes.get('/obtenerUsuarios', async (req, res) => {
+usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
     const usuarios = await Usuario.findAll({
         where: { 
-            estatus: true 
+            estatus: req.params.filter == 'activos' ? true : false 
         },
         attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
     });
@@ -46,7 +47,6 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
 
 // * Registrar usuario
 usuarioRoutes.post('/registrarUsuario', async (req, res) => {
-    console.log(req.body);
     try {
         const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass, estatus} = req.body;
 
@@ -84,15 +84,6 @@ usuarioRoutes.post('/registrarUsuario', async (req, res) => {
         const saltRounds = 10;
         const hashedPass = await bcrypt.hash(pass, saltRounds);
 
-        // Obtener la fecha actual
-        const date = new Date();
-
-        let day = date.getDate();
-        let month = date.getMonth() + 1;
-        let year = date.getFullYear();
-
-        let fechaActual = `${year}-${month}-${day}`;
-
         const nuevoUsuario = await Usuario.create({
             matricula,
             nombre,
@@ -101,8 +92,8 @@ usuarioRoutes.post('/registrarUsuario', async (req, res) => {
             tipo_usuario,
             usuario,
             pass : hashedPass,
-            estatus: true,
-            fecha_registro: fechaActual
+            fecha_registro: SuperDate.today(),
+            estatus: true
         });
 
         console.log('Usuario registrado');

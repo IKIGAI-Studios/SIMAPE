@@ -47,9 +47,7 @@ routes.post('/login', async (req, res) => {
         // No existe el usuario
         if (!usuarioEnBD) {
             console.log("No existe el usuario");
-            req.session.loginError = 'No existe el usuario';
-            res.redirect('/login');
-            return;
+            throw new Error('No existe el usuario');
         }
 
         // Encriptar contraseña para comparar
@@ -58,9 +56,7 @@ routes.post('/login', async (req, res) => {
 
         if (!passComparacion) {
             console.log("Contraseña incorrecta");
-            req.session.loginError = 'Contraseña incorrecta';
-            res.redirect('/login');
-            return;
+            throw new Error('Contraseña incorrecta');
         }
 
         // Crear la sesión del Usuario
@@ -88,9 +84,10 @@ routes.post('/login', async (req, res) => {
         }
     } 
     catch (e) {
-        req.session.loginError = `ERROR DE CONSULTA ${e}`;
-        console.log(`Login ERROR: ${e}`);
-        res.redirect('/');
+        console.log(e);
+        res.statusCode = 427;
+        res.statusMessage = e.message;
+        res.end();
     }
 });
 
