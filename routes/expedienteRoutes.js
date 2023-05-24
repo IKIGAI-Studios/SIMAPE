@@ -52,7 +52,7 @@ expedienteRoutes.post('/nuevoExpediente', async (req, res) => {
             matricula: req.session.user.matricula,
             observaciones
         });
-
+        console.log(req.session.user.matricula)
         console.log('Expediente registrado');
         res.json('Expediente registrado')
     }
