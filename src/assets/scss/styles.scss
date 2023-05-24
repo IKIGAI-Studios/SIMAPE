@@ -440,17 +440,17 @@ option:target{
     left: 0;
     top: 0;
     min-width: 100%;
-    min-height: 100%;
-    overflow:hidden; 
+    min-height: 100%; 
     background-color: rgba(30,30,30,0.5);
   }
   
   .contenido-modal {
+    overflow-y: auto;
     background-color: $imss-gris;
     margin: 1.75rem auto;
     padding: 2rem;
     border-radius: 15px;
-    height: 80vh;
+    max-height: 80vh;
     align-self: center;
     vertical-align: middle;
     width:40%; 

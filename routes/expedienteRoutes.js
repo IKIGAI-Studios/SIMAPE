@@ -52,7 +52,6 @@ expedienteRoutes.post('/nuevoExpediente', async (req, res) => {
             matricula: req.session.user.matricula,
             observaciones
         });
-        console.log(req.session.user.matricula)
         console.log('Expediente registrado');
         res.json('Expediente registrado')
     }
@@ -60,6 +59,6 @@ expedienteRoutes.post('/nuevoExpediente', async (req, res) => {
         console.log(e);
         res.json(`ERROR ${e}`);
     }
-});
+})
 
 export default expedienteRoutes;

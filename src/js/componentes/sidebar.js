@@ -1,6 +1,8 @@
 import SidebarItem from "./sidebarItem.js";
 
 // ! Ta mal pero yanimodo xd
+// * pq¿ 
+// * namas se aser dos tipos de berer coments note rias
 class Sidebar {
     constructor(HTMLhint, dropdown) {
         this.sidebarItems = [];

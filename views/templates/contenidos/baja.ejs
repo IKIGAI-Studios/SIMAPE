@@ -1,1 +1,96 @@
-baja
+
+<div class="row">
+    <div class="col-9">
+        <form id="formBajaExpediente">
+            
+            <form id="formBusquedaExpediente">
+                <div class="row space-between">
+                    <div class="col-2">
+                        <label class="dark-label" for="nssBusquedaExpediente">NSS</label>
+                    </div>
+                    <div class="col-8">
+                        <input type="text" class="text-input" id="nssBusquedaExpediente" name="nss"/>
+                    </div>
+                    <!--LUPA-->
+                    <div class="col-2">
+                        <div class="d-flex justify-content-end">
+                            <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
+                                <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        
+
+            <div class="row space-between">
+                <div class="col-3">
+                    <label class="dark-label" for="nombreExpediente">NOMBRE</label>
+                </div>
+                <div class="col-9">
+                    <input type="text" class="text-input bloqueado" id="nombreExpediente" name="nombre"/>
+                </div>
+            </div>
+
+            <div class="row space-between">
+                <div class="col-5">
+                    <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
+                </div>
+                <div class="col-7">
+                   <input type="text" class="text-input bloqueado" name="tipoPension" id="" value=""/>
+                </div>
+            </div>
+
+            <div class="row space-between">
+                <div class="col-5">
+                    <label class="dark-label" for="delegacion">DELEGACIÓN</label>
+                </div>
+                <div class="col-7">
+                    <input type="text" class="text-input bloqueado" id="delegacion">
+                </div>
+            </div>
+
+            <div class="row space-between">
+                <div class="col-5">
+                    <label class="dark-label" for="ubicacion">UBICACIÓN</label>
+                </div>
+                <div class="col-7">
+                   <input type="text" class="text-input bloqueado" id="ubicacion">
+                </div>
+            </div>
+            <div class="row space-between">
+                <div class="col-3">
+                    <label class="dark-label" for="año">AÑO</label>
+                </div>
+                <div class="col-9">
+                    <input type="number" class="text-input bloqueado" id="añoAltaExpediente" name="año"/>
+                </div>
+            </div>
+            
+            <div class="row space-between">
+                <div class="col">
+                    <label class="dark-label" for="motivoBajaExpediente">MOTIVO</label> 
+                    <textarea class="text-input mt-3" id="motivoBajaExpediente" name="motivo"></textarea>
+                </div>
+            </div>
+            
+        </div>
+        
+        
+        <div class="col-3 vertical-center">
+            <button class="img-btn" type="submit">
+                <img src="/icons/guardar.png" alt="GUARDAR" style="width: 35%;">
+                <p>GUARDAR</p>   
+            </button>
+            <button class="img-btn" type="reset">
+                <img src="/icons/folder_cancelar.png" alt="CANCELAR" style="width: 35%;">
+                <p>CANCELAR</p>   
+            </button>
+        </div>
+    </form>
+
+    <script>
+  
+    </script>
+
+</div> 
