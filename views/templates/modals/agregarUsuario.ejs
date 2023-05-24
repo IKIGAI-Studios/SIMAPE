@@ -7,7 +7,7 @@
         <h5 class="dark-label">AGREGAR USUARIO</h5>
       </div>
 
-      <form action="">
+      <form action="POST" id="formAltaUsuario">
         <div class="col m-5">
           <label class="datos" style="text-align: center;" for="pass">MATRÍCULA</label>
     
@@ -32,7 +32,15 @@
             <input type="text" class="text-input mt-3" id="passNueva"/>
           </div>
   
-
+        <div class="col m-5">
+            <label class="datos" for="tipoUsuario">TIPO DE USUARIO</label>
+            <select id="opciones" id="tipoUsuario" name="tipoUsuario" style="margin-top: 1rem;">    
+                <option value="separador">Selecciona una opción:</option>
+                <option value="OPERATIVO">OPERATIVO</option>
+                <option value="ADMINISTRADOR">ADMINISTRADOR</option>
+            </select>
+        </div>
+  
         <div class="col m-5">
             <label class="datos" for="pass">ADSCRIPCIÓN</label>
       
@@ -46,4 +54,6 @@
       </form>
     </div>
   
+    <script>
+    </script>
 </div>
