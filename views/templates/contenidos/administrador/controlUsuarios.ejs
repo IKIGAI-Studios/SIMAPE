@@ -1,6 +1,6 @@
     <div class="d-flex align-items-center" style="justify-content: space-between;">
         <p class="dark-label">USUARIOS ACTIVOS</p>        
-        <button class="btn-verde">
+        <button class="btn-verde"  id="btnAgregarUsuario">
             <img src="/icons/agregar_usuario.png" alt="AGREGAR USUARIO" style="width: 2rem; margin-bottom: 0;">
         </button>
     </div> 
@@ -58,6 +58,8 @@
         </table>
     </div>
 
+    <%- include('../../modals/agregarUsuario')%>
+
     <script>
         const tablaUsuariosActivos = document.getElementById('tablaUsuariosActivos');
         let tablaUsuariosActivosInner = '';
@@ -74,7 +76,8 @@
                     tablaUsuariosActivosInner += `
                         <tr>
                             <td>${usuario.matricula}</td>
-                            <td>${usuario.nombre}</td>
+                            <td><p>${usuario.nombre}</p>
+                                <p>${usuario.apellidos}</p></td>
                             <td>${usuario.adscripcion}</td>
                             <td>${usuario.fecha_registro}</td>
                             <td>

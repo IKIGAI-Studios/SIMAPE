@@ -4364,6 +4364,7 @@ option:target {
 
 .sidebar-item:hover, .sbi:hover {
   background-color: #eeeeee;
+  cursor: pointer;
 }
 
 .sidebar-item.activo {
@@ -4423,12 +4424,9 @@ option:target {
   border-radius: 0 20px 20px 0;
 }
 
-.invisible {
-  visibility: hidden;
-}
-
 #snackbar {
   font-family: "Montserrat-Bold";
+  visibility: hidden;
   background-color: #D9C9A8;
   color: #005A4E;
   text-align: center;
@@ -4443,11 +4441,8 @@ option:target {
 }
 
 #snackbar.show {
-  animation: fadein 0.6s;
-}
-
-#snackbar.hide {
-  animation: fadeout 0.6s;
+  visibility: visible;
+  animation: fadein 0.6s, fadeout 0.6s 2.5s;
 }
 
 @keyframes fadein {
@@ -4478,16 +4473,16 @@ option:target {
   top: 0;
   min-width: 100%;
   min-height: 100%;
-  overflow: hidden;
   background-color: rgba(30, 30, 30, 0.5);
 }
 
 .contenido-modal {
+  overflow-y: auto;
   background-color: #D9D9D9;
   margin: 1.75rem auto;
   padding: 2rem;
   border-radius: 15px;
-  height: 80vh;
+  max-height: 80vh;
   align-self: center;
   vertical-align: middle;
   width: 40%;
@@ -4498,6 +4493,12 @@ option:target {
   float: right;
   font-size: 2rem;
   font-weight: bold;
+}
+
+.f {
+  margin-bottom: 0;
+  width: 100%;
+  margin-top: 4vh;
 }
 
 .watermark {

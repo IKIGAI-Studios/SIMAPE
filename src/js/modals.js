@@ -1,5 +1,6 @@
 
-// MODAL CAMBIO DE CONTRASEÑA
+//* Modal cambio de contraseña
+
 var modalPass = document.getElementById("modalPass");
 
 var btnPass = document.getElementById("btnPass");
@@ -20,3 +21,24 @@ window.onclick = function(event) {
   }
 }
 
+//* Modal Agregar Usuario
+
+var modalAgregarUsuario = document.getElementById("modalAgregarUsuario");
+
+var btnAgregarUsuario = document.getElementById("btnAgregarUsuario");
+
+var btnCerrar = document.getElementsByClassName("close")[1];
+
+btnAgregarUsuario.onclick = function() {
+  modalAgregarUsuario.style.display = "block";
+}
+
+btnCerrar.onclick = function() {
+  modalAgregarUsuario.style.display = "none";
+}
+
+window.onclick = function(event) {
+  if (event.target == modalAgregarUsuario) {
+    modalAgregarUsuario.style.display = "none";
+  }
+}
