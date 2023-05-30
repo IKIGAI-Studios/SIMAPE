@@ -7,34 +7,40 @@
         <h5 class="dark-label">AGREGAR USUARIO</h5>
       </div>
 
-      <form action="POST" id="formAltaUsuario">
+      <form id="formAltaUsuario">
         <div class="col m-5">
-          <label class="datos" style="text-align: center;" for="pass">MATRÍCULA</label>
+          <label class="datos" style="text-align: center;" for="matriculaAltaUsuario">MATRÍCULA</label>
     
-          <input type="text" class="text-input mt-3" id="passActual"/>
+          <input type="text" class="text-input mt-3" id="matriculaAltaUsuario" name="matricula"/>
         </div>
 
         <div class="col m-5">
-          <label class="datos" for="pass">NOMBRE(S)</label>
+          <label class="datos" for="nombreAltaUsuario">NOMBRE(S)</label>
     
-          <input type="text" class="text-input mt-3" id="passNueva"/>
+          <input type="text" class="text-input mt-3" id="nombreAltaUsuario" name="nombre"/>
         </div>
         
         <div class="col m-5">
-          <label class="datos" for="pass">APELLIDOS</label>
+          <label class="datos" for="apellidosAltaUsuario">APELLIDOS</label>
     
-          <input type="text" class="text-input mt-3" id="passNueva"/>
+          <input type="text" class="text-input mt-3" id="apellidosAltaUsuario" name="apellidos"/>
         </div>
 
         <div class="col m-5">
-            <label class="datos" for="pass">USUARIO</label>
-      
-            <input type="text" class="text-input mt-3" id="passNueva"/>
-          </div>
+          <label class="datos" for="usuarioAltaUsuario">USUARIO</label>
+    
+          <input type="text" class="text-input mt-3" id="usuarioAltaUsuario" name="usuario"/>
+        </div>
+
+        <div class="col m-5">
+          <label class="datos" for="passAltaUsuario">CONTRASEÑA POR DEFECTO</label>
+    
+          <input type="text" class="text-input mt-3" id="passAltaUsuario" name="pass"/>
+        </div>
   
         <div class="col m-5">
             <label class="datos" for="tipoUsuario">TIPO DE USUARIO</label>
-            <select id="opciones" id="tipoUsuario" name="tipoUsuario" style="margin-top: 1rem;">    
+            <select id="opciones" id="tipoUsuario" name="tipo_usuario" style="margin-top: 1rem;">    
                 <option value="separador">Selecciona una opción:</option>
                 <option value="OPERATIVO">OPERATIVO</option>
                 <option value="ADMINISTRADOR">ADMINISTRADOR</option>
@@ -42,18 +48,19 @@
         </div>
   
         <div class="col m-5">
-            <label class="datos" for="pass">ADSCRIPCIÓN</label>
-      
-            <input type="text" class="text-input mt-3" id="passNueva"/>
-          </div>
+          <label class="datos" for="adscripcionAltaUsuario">ADSCRIPCIÓN</label>
+    
+          <input type="text" class="text-input mt-3" id="adscripcionAltaUsuario" name="adscripcion"/>
+        </div>
   
 
-    <div class="row justify-content-center">
-      <button class="btn-verde" type="" style="width: 50%;">DAR DE ALTA</button>
-    </div>
+        <div class="row justify-content-center">
+          <button class="btn-verde" type="submit" style="width: 50%;">DAR DE ALTA</button>
+        </div>
       </form>
     </div>
   
     <script>
+      
     </script>
 </div>

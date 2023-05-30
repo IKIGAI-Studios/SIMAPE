@@ -8,20 +8,29 @@ import SuperDate from '../utils/Superdate.js';
 const expedienteRoutes = express.Router();
 
 expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
-    const expedienteEncontrado = await Expediente.findOne({
-        where: { 
-            nss: req.params.nss 
-        }
-    });
-
-    if (expedienteEncontrado)
-    {
-        res.json(expedienteEncontrado);
+    try {
+        const expedienteEncontrado = await Expediente.findOne({
+            where: { 
+                nss: req.params.nss
+            }
+        });
         console.log(expedienteEncontrado);
-        return;
+    
+        if (expedienteEncontrado)
+        {
+            res.json(expedienteEncontrado);
+            res.end();
+        }
+
+        res.statusMessage = 'Expediente no encontrado';
+        res.json('Expediente no encontrado');
+        res.end();
+    } 
+    catch (e) {
+        res.statusCode = 420;
+        res.statusMessage = e.message;
+        res.end();
     }
-    res.json('Expediente no encontrado');
-    return;
 });
 
 expedienteRoutes.post('/nuevoExpediente', async (req, res) => {
@@ -52,12 +61,14 @@ expedienteRoutes.post('/nuevoExpediente', async (req, res) => {
             matricula: req.session.user.matricula,
             observaciones
         });
-        console.log('Expediente registrado');
+
+        res.statusMessage = 'Expediente registrado correctamente';
         res.json('Expediente registrado')
     }
     catch (e) {
-        console.log(e);
-        res.json(`ERROR ${e}`);
+        res.statusCode = 420;
+        res.statusMessage = e.message;
+        res.end();
     }
 })
 

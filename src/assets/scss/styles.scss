@@ -203,10 +203,13 @@ option:target{
 }
 
 .btn-verde{
+    min-width: 40px;
+    min-height: 40px;
     background-color: $imss-verde;
     border: none;
     border-radius: 10px;
     padding: 10px;
+    margin: .5rem 1rem .5rem 0;
     font-family: 'Montserrat-Bold';
     color: $imss-gris;
     @include shadow();
@@ -404,15 +407,16 @@ option:target{
     font-family: 'Montserrat-Bold';
     visibility: hidden;
     background-color: $imss-beige; 
-    color: $imss-verde; 
+    color: $imss-verde;
     text-align: center; 
     border-radius: 10px; 
     padding: 10px;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     width: fit-content;
-    left: 45%;
     bottom: 3rem; 
+    left: 50%;
+    transform: translate(-50%);
   }
   
 #snackbar.show {

@@ -19,11 +19,9 @@ usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
     if (usuarios)
     {
         res.json(usuarios);
-        console.log(usuarios);
         return;
     }
     res.json('No hay usuarios');
-    return;
 });
 
 // * Buscar usuario por matricula
@@ -46,9 +44,9 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
 });
 
 // * Registrar usuario
-usuarioRoutes.post('/registrarUsuario', async (req, res) => {
+usuarioRoutes.post('/altaUsuario', async (req, res) => {
     try {
-        const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass, estatus} = req.body;
+        const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass} = req.body;
 
         // Validar que el usuario sea único
         const usuarioRegistrado = await Usuario.findOne({ 
@@ -59,10 +57,7 @@ usuarioRoutes.post('/registrarUsuario', async (req, res) => {
         });
 
         if (usuarioRegistrado) {
-            //req.session.registerEjecutor = `El usuario ${user} ya ha sido registrado`;
-            console.log('ERROR Usuario registrado');
-            res.redirect('/simape');
-            return;
+            throw new Error('ERROR: Usuario registrado anteriormente');
         }
 
         // Validar que la matricula sea único
@@ -74,10 +69,7 @@ usuarioRoutes.post('/registrarUsuario', async (req, res) => {
         });
 
         if (matriculaRegistrada) {
-            //req.session.registerEjecutor = `El usuario ${user} ya ha sido registrado`;
-            console.log('ERROR Matricula registrado');
-            res.redirect('/simape');
-            return;
+            throw new Error('ERROR: Matricula registrada anteriormente');
         }
 
         // Encriptar contraseña
@@ -96,13 +88,77 @@ usuarioRoutes.post('/registrarUsuario', async (req, res) => {
             estatus: true
         });
 
-        console.log('Usuario registrado');
+        res.statusMessage = 'Usuario registrado correctamente';
         res.json('Usuario registrado')
     } 
     catch (e) {
-        req.session.loginError = `ERROR DE REGISTRO ${e}`;
-        console.log(`Register ERROR: ${e}`);
-        res.json(`ERROR ${e}`);
+        res.statusCode = 420;
+        res.statusMessage = e.message;
+        res.end();
+    }
+});
+
+// * Dar de baja a un usuario
+usuarioRoutes.post('/bajaUsuario', async (req, res) => {
+    try {
+        const {matricula} = req.body;
+
+        // Validar que el usuario exista
+        const usuarioRegistrado = await Usuario.findOne({ 
+            where: { 
+                matricula 
+            },
+            attributes: ['nombre', 'matricula']
+        });
+
+        if (!usuarioRegistrado) {
+            throw new Error('ERROR: Usuario no existe');
+        }
+
+        // Actualizar el usuario
+        await usuarioRegistrado.update(
+            { estatus: false }
+        );
+
+        res.statusMessage = `Usuario ${usuarioRegistrado.nombre} dado de baja correctamente`;
+        res.json(`Usuario ${usuarioRegistrado.nombre} dado de baja correctamente`);
+    } 
+    catch (e) {
+        res.statusCode = 420;
+        res.statusMessage = e.message;
+        res.end();
+    }
+});
+
+// * Recuperar un usuario dado de baja
+usuarioRoutes.post('/recuperarUsuario', async (req, res) => {
+    try {
+        const {matricula} = req.body;
+
+        // Validar que el usuario exista
+        const usuarioRegistrado = await Usuario.findOne({ 
+            where: { 
+                matricula 
+            },
+            attributes: ['nombre', 'matricula']
+        });
+
+        if (!usuarioRegistrado) {
+            throw new Error('ERROR: Usuario no existe');
+        }
+
+        // Actualizar el usuario
+        await usuarioRegistrado.update(
+            { estatus: true }
+        );
+
+        res.statusMessage = `Usuario ${usuarioRegistrado.nombre} recuperado correctamente`;
+        res.json(`Usuario ${usuarioRegistrado.nombre} recuperado correctamente`);
+    } 
+    catch (e) {
+        res.statusCode = 420;
+        res.statusMessage = e.message;
+        res.end();
     }
 });
 

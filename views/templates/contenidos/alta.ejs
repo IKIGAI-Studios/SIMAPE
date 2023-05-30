@@ -110,35 +110,4 @@
             </div>
         </form>
 
-        <script>
-            const formAltaExpediente = document.getElementById('formAltaExpediente');
-
-            //const snackbar = new SnackBar(document.getElementById('snackbar'));
-
-            formAltaExpediente.addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const form = new FormData(formAltaExpediente);
-                console.log([...form]);
-                
-                try {
-                    const response = await fetch(`http://localhost:3000/expediente/nuevoExpediente`, {
-                        method: 'POST',
-                        body: new URLSearchParams(form)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-
-                    //snackbar.showMessage(response.statusText);
-                }
-                catch (e) {
-                    console.log(e);
-                    //snackbar.showMessage(e.message);
-                }
-            });
-
-        </script>
-
     </div> 

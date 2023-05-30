@@ -2,16 +2,16 @@ import SnackBar from "./componentes/snackbar.js";
 
 const snackbar = new SnackBar(document.getElementById('snackbar'));
 
-const formLogin = document.getElementById('formLogin');
+const formAltaExpediente = document.getElementById('formAltaExpediente');
 
-formLogin.addEventListener('submit', async (e) => {
+formAltaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const form = new FormData(formLogin);
+    const form = new FormData(formAltaExpediente);
     console.log([...form]);
     
     try {
-        const response = await fetch(`http://localhost:3000/login`, {
+        const response = await fetch(`http://localhost:3000/expediente/nuevoExpediente`, {
             method: 'POST',
             body: new URLSearchParams(form)
         });
@@ -20,9 +20,11 @@ formLogin.addEventListener('submit', async (e) => {
             throw new Error(response.statusText);
         }
 
-        formLogin.submit();
+        snackbar.showMessage(response.statusText);
+        formAltaExpediente.reset();
     }
     catch (e) {
+        console.log(e);
         snackbar.showMessage(e.message);
     }
 });

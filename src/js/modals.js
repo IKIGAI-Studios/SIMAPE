@@ -1,6 +1,5 @@
 
 //* Modal cambio de contraseña
-
 var modalPass = document.getElementById("modalPass");
 
 var btnPass = document.getElementById("btnPass");
@@ -22,7 +21,6 @@ window.onclick = function(event) {
 }
 
 //* Modal Agregar Usuario
-
 var modalAgregarUsuario = document.getElementById("modalAgregarUsuario");
 
 var btnAgregarUsuario = document.getElementById("btnAgregarUsuario");

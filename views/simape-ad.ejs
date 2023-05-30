@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <title>SIMAPE | Página principal </title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/imgs/imss-logo.png">
-    <title>SIMAPE | Página principal </title>
+
+    <script src="/js/modals.js" loading="lazy" defer></script>
+    <script src="/js/sidebar.js" type="module" loading="lazy"></script>
+    <script src="/js/tipoPension.js" loading="lazy" defer></script>
+    <script src="/js/consultaExpediente.js" type="module" loading="lazy"></script>
+    <script src="/js/altaExpediente.js" type="module" loading="lazy"></script>
+    <script src="/js/controlUsuarios.js" type="module" loading="lazy"></script>
 
     <%- include('templates/header')%>
     
@@ -20,8 +27,8 @@
                         <img src="/icons/pfp.png" alt="">
                     </div>
                     <div class="col-10">
-                        <div class="row"><span class="nombre-usuario" id=""><%=session.user.nombre%></span></div>
-                        <div class="row"><span class="nombre-usuario" id=""><%=session.user.apellidos%></span></div>
+                        <div class="row"><span class="nombre-usuario"><%=session.user.nombre%></span></div>
+                        <div class="row"><span class="nombre-usuario"><%=session.user.apellidos%></span></div>
                         <div class="row"><p class="tipo-usuario"><%=session.user.tipo_usuario%></p></div>
                     </div>
                 </div>
@@ -38,10 +45,6 @@
 
     </div>
 </div>
-    
-    <script src="/js/modals.js"></script>
-    <script src="/js/sidebar.js" type="module"></script>
-    <script src="/js/tipoPension.js"></script>
 
 </body>
 

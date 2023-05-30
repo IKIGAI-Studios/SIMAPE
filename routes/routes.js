@@ -85,7 +85,7 @@ routes.post('/login', async (req, res) => {
     } 
     catch (e) {
         console.log(e);
-        res.statusCode = 427;
+        res.statusCode = 420;
         res.statusMessage = e.message;
         res.end();
     }

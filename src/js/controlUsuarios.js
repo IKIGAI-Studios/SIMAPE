@@ -1,90 +1,142 @@
-// const formBusquedaUsuario = document.getElementById('formBusquedaUsuario');
-// const matriculaUsuario = document.getElementById('matriculaUsuario');
+import SnackBar from "./componentes/snackbar.js";
+import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/actions.js"
 
-// const nombreUsuario = document.getElementById('nombreUsuario');
-// const usuarioUsuario = document.getElementById('usuarioUsuario');
-// const adscripcionUsuario = document.getElementById('adscripcionUsuario');
-// const fechaRegUsuario = document.getElementById('fechaRegUsuario');
-// const estatusUsuario = document.getElementById('estatusUsuario');
-
-// const btnBusquedaUsuario = document.getElementById('btnBusquedaUsuario');
-
-// const btnAltaUsuario = document.getElementById('btnAltaUsuario');
-// const btnBajaUsuario = document.getElementById('btnBajaUsuario');
-// const btnCancelarUsuario = document.getElementById('btnCancelarUsuario');
-
-// btnBusquedaUsuario.addEventListener('click', async (e) => {
-//     e.preventDefault();
-
-//     // TODO: Validar campos
-//     if (matriculaUsuario.value == '') return;
-
-//     try{
-//         const response = await fetch(`http://localhost:3000/busquedaUsuario/${matriculaUsuario.value}`);
-//         const usuarioData = await response.json();
-
-//         if (usuarioData != 'Usuario no encontrado') {
-//             nombreUsuario.value = usuarioData.nombre +' '+ usuarioData.apellidos;
-//             usuarioUsuario.value = '***';
-//             adscripcionUsuario.value = usuarioData.adscripcion;
-//             fechaRegUsuario.value = usuarioData.fecha_registro;
-//             estatusUsuario.value = usuarioData.estatus == true ? 'Activo' : 'Inactivo';
-
-//             nombreUsuario.setAttribute('readonly', 'true');
-//             usuarioUsuario.setAttribute('readonly', 'true');
-//             adscripcionUsuario.setAttribute('readonly', 'true');
-//             fechaRegUsuario.setAttribute('readonly', 'true');
-//         }
-//         console.log(usuarioData);
-//     }
-//     catch (e) {
-//         console.info(e);
-//     }
-// });
+const formAltaUsuario = document.getElementById('formAltaUsuario');
+const snackbar = new SnackBar(document.getElementById('snackbar'));
 
 
-// btnAltaUsuario.addEventListener('click', async (e) => {
-//     console.log('ALTA');
-//     // TODO: Validar si los campos no están vacíos
-//     try{
-//         const form = new FormData();
-//         form.append("matricula", matriculaUsuario.value);
-//         form.append("nombre", nombreUsuario.value);
-//         form.append("adscripcion", adscripcionUsuario.value);
-//         form.append("usuario", usuarioUsuario.value);
-//         form.append("pass", '123');
+formAltaUsuario.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-//         console.log([...form]);
-        
+    const form = new FormData(formAltaUsuario);
+    
+    const response = await altaUsuario(form);
 
-//         const response = await fetch(`http://localhost:3000/registrarUsuario`, {
-//             method: 'POST',
-//             body: new URLSearchParams(form)
-//         });
-//         const responseJSON = await response.json();
-//         console.log(responseJSON);
+    if ((typeof response) === Error) {
+        snackbar.showMessage(response.message);
+        return;
+    }
 
-//         nombreUsuario.removeAttribute('readonly');
-//         adscripcionUsuario.removeAttribute('readonly');
-//         fechaRegUsuario.removeAttribute('readonly');
+    snackbar.showMessage(response);
+    formAltaUsuario.reset();
+    actualizarUsuarios();
+    // TODO: Dispose modal of user register
+});
 
-//     }
-//     catch (e) {
-//         console.info(e);
-//     }
-// });
+async function actualizarUsuarios() {
+    const tablaUsuariosActivos = document.getElementById('tablaUsuariosActivos');
+    const tablaUsuariosInactivos = document.getElementById('tablaUsuariosInactivos');
+    const usuariosActivos = await obtenerUsuarios();
+    const usuariosInactivos = await obtenerUsuarios('inactivos');
 
-// btnCancelarUsuario.addEventListener('click', (e) => {
-//     console.log('CANCELAR');
-//     matriculaUsuario.value = '';
-//     nombreUsuario.value = '';
-//     usuarioUsuario.value = '';
-//     adscripcionUsuario.value = '';
-//     fechaRegUsuario.value = '';
-//     estatusUsuario.value = '';
+    // Limpiar la tabla de usuarios
+    tablaUsuariosActivos.innerHTML = '';
+    
+    usuariosActivos.forEach(usuario => {
+        // Hacer una fila
+        const fila = crearFilaDeUsuario(usuario);
 
-//     nombreUsuario.removeAttribute('readonly');
-//     usuarioUsuario.removeAttribute('readonly');
-//     adscripcionUsuario.removeAttribute('readonly');
-//     fechaRegUsuario.removeAttribute('readonly');
-// });
+        // Botones
+        const botones = document.createElement('td');
+
+        const botonEditar = document.createElement('button');
+        botonEditar.classList = 'btn-azul';
+        botonEditar.innerHTML = '<img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">'
+        botones.appendChild(botonEditar);
+
+        const botonBaja = document.createElement('button');
+        botonBaja.classList = 'btn-rojo';
+        botonBaja.innerHTML = '<img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">'
+        botones.appendChild(botonBaja);
+
+        botonBaja.addEventListener('click', () => {
+            handleBajaUsuario(usuario.matricula);
+        });
+
+        fila.appendChild(botones);
+  
+        // Agregar la fila a la tabla
+        tablaUsuariosActivos.appendChild(fila);
+    });
+
+    // Limpiar la tabla de usuarios
+    tablaUsuariosInactivos.innerHTML = '';
+
+    usuariosInactivos.forEach(usuario => {
+        // Hacer una fila
+        const fila = crearFilaDeUsuario(usuario);
+
+        // Botones
+        const botones = document.createElement('td');
+
+        const botonRecuperar = document.createElement('button');
+        botonRecuperar.classList = 'btn-verde';
+        botonRecuperar.innerHTML = '<img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">'
+        botones.appendChild(botonRecuperar);
+
+        botonRecuperar.addEventListener('click', () => {
+            handleRecuperarUsuario(usuario.matricula);
+        });
+
+        fila.appendChild(botones);
+    
+        // Agregar la fila a la tabla
+        tablaUsuariosInactivos.appendChild(fila);
+    });
+}
+
+function crearFilaDeUsuario(usuario) {
+    // Crear la fila
+    const fila = document.createElement('tr');
+    
+    // Agregar las celdas con la información del usuario
+    const matricula = document.createElement('td');
+    matricula.textContent = usuario.matricula;
+    fila.appendChild(matricula);
+
+    const nombre = document.createElement('td');
+    nombre.textContent = `${usuario.nombre} ${usuario.apellidos}`;
+    fila.appendChild(nombre);
+
+    const adscripcion = document.createElement('td');
+    adscripcion.textContent = usuario.adscripcion;
+    fila.appendChild(adscripcion);
+    
+    const fecha_registro = document.createElement('td');
+    fecha_registro.textContent = usuario.fecha_registro;
+    fila.appendChild(fecha_registro);
+
+    return fila;
+}
+
+async function handleBajaUsuario(matricula) {
+    const form  = new FormData();
+    form.append('matricula', matricula);
+
+    const response = await bajaUsuario(form);
+
+    if ((typeof response) === Error) {
+        snackbar.showMessage(response.message);
+        return;
+    }
+
+    snackbar.showMessage(response);
+    actualizarUsuarios();
+}
+
+async function handleRecuperarUsuario(matricula) {
+    const form  = new FormData();
+    form.append('matricula', matricula);
+
+    const response = await recuperarUsuario(form);
+    
+    if ((typeof response) === Error) {
+        snackbar.showMessage(response.message);
+        return;
+    }
+
+    snackbar.showMessage(response);
+    actualizarUsuarios();
+}
+
+actualizarUsuarios();
