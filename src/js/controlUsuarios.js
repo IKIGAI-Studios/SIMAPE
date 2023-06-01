@@ -1,5 +1,6 @@
 import SnackBar from "./componentes/snackbar.js";
-import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/actions.js"
+import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/accionesUsuario.js"
+import { ModalAgregarUsuario } from "./modals.js";
 
 const formAltaUsuario = document.getElementById('formAltaUsuario');
 const snackbar = new SnackBar(document.getElementById('snackbar'));
@@ -13,14 +14,14 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     const response = await altaUsuario(form);
 
     if ((typeof response) === Error) {
-        snackbar.showMessage(response.message);
+        snackbar.showError(response.message);
         return;
     }
 
     snackbar.showMessage(response);
     formAltaUsuario.reset();
     actualizarUsuarios();
-    // TODO: Dispose modal of user register
+    ModalAgregarUsuario.disable();
 });
 
 async function actualizarUsuarios() {
@@ -116,7 +117,7 @@ async function handleBajaUsuario(matricula) {
     const response = await bajaUsuario(form);
 
     if ((typeof response) === Error) {
-        snackbar.showMessage(response.message);
+        snackbar.showError(response.message);
         return;
     }
 
@@ -131,7 +132,7 @@ async function handleRecuperarUsuario(matricula) {
     const response = await recuperarUsuario(form);
     
     if ((typeof response) === Error) {
-        snackbar.showMessage(response.message);
+        snackbar.showError(response.message);
         return;
     }
 

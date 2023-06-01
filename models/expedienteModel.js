@@ -18,7 +18,8 @@ const Expediente = sequelize.define(
         estatus: DataTypes.BOOLEAN,
         año: DataTypes.INTEGER,
         matricula: DataTypes.STRING(15),
-        observaciones: DataTypes.STRING(100)
+        observaciones: DataTypes.STRING(100),
+        extraido: DataTypes.BOOLEAN
     },
     {
         tableName: "expediente",

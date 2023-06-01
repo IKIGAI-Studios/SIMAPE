@@ -8,7 +8,6 @@ formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const form = new FormData(formLogin);
-    console.log([...form]);
     
     try {
         const response = await fetch(`http://localhost:3000/login`, {
@@ -23,6 +22,6 @@ formLogin.addEventListener('submit', async (e) => {
         formLogin.submit();
     }
     catch (e) {
-        snackbar.showMessage(e.message);
+        snackbar.showError(e.message);
     }
 });
