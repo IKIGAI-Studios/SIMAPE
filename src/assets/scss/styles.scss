@@ -1,4 +1,3 @@
-
 // Colorsitos
 // 005A4E
 $imss-verde: #005A4E;
@@ -6,6 +5,7 @@ $imss-beige:#D9C9A8;
 $imss-gris: #D9D9D9;
 $rojo: #5A0000;
 $azul: #003A5A;
+$error: #943434;
 
 // IMSS map
 $paleta-imss: (
@@ -19,22 +19,30 @@ $paleta-imss: (
 @font-face {
     font-family: 'Montserrat-Light';
     src: url('../../fonts/Montserrat-Light.ttf') format('truetype');
-  }
+    unicode-range: U+000-5FF;
+    font-display: auto;
+}
 
 @font-face {
     font-family: 'Montserrat-Regular';
     src: url('../../fonts/Montserrat-Regular.ttf') format('truetype');
-  }
+    unicode-range: U+000-5FF;
+    font-display: auto;
+}
 
 @font-face {
     font-family: 'Montserrat-Medium';
     src: url('../../fonts/Montserrat-Medium.ttf') format('truetype');
-  } 
+    unicode-range: U+000-5FF;
+    font-display: auto;
+} 
   
 @font-face {
     font-family: 'Montserrat-Bold';
     src: url('../../fonts/Montserrat-Bold.ttf') format('truetype');
-  } 
+    unicode-range: U+000-5FF;
+    font-display: auto;
+} 
 
 @import '../../../node_modules/bootstrap/scss/bootstrap-grid';
 
@@ -181,10 +189,8 @@ option:target{
     text-align: end;
 }
 
-.text-input.bloqueado{
-    outline: none;
-    background-color: rgba(255, 255, 255, 0.5);
-    
+.text-input[readonly]{
+    background-color: rgba(230, 230, 230, 0.5);
 }
 
 .foto_usuario{
@@ -209,7 +215,7 @@ option:target{
     border: none;
     border-radius: 10px;
     padding: 10px;
-    margin: .5rem 1rem .5rem 0;
+    margin: .5rem 1rem;
     font-family: 'Montserrat-Bold';
     color: $imss-gris;
     @include shadow();
@@ -248,7 +254,7 @@ option:target{
     width: 100%;
     display: inline-flex;
     flex-direction:row;
-    background-color: transparent;
+    background-color: #ffffff;
     border: none;
     color: $imss-verde;
     font-family: 'Montserrat-Bold';
@@ -260,6 +266,10 @@ option:target{
     padding: 1rem;
     margin: 1rem 0;
     @include shadow();
+}
+.img-btn[disabled]{
+    background-color: $imss-gris;
+    cursor: not-allowed;
 }
 
 // BANNER 
@@ -388,7 +398,7 @@ option:target{
     background-color: $imss-beige;
 }
 
-  .contenido {
+.contenido {
     display: none;
 }
 
@@ -417,25 +427,30 @@ option:target{
     bottom: 3rem; 
     left: 50%;
     transform: translate(-50%);
-  }
+}
   
 #snackbar.show {
     visibility: visible; 
     animation: fadein 0.6s, fadeout 0.6s 2.5s;
-  }
+}
+
+#snackbar.error {
+    background-color: $error;
+    color: $imss-gris;
+}
   
-  @keyframes fadein {
+@keyframes fadein {
     from {bottom: 0; opacity: 0;}
     to {bottom: 3rem; opacity: 1;}
-  }
-  
-  @keyframes fadeout {
+}
+
+@keyframes fadeout {
     from {bottom: 3rem; opacity: 1;}
     to {bottom: 0; opacity: 0;}
-  }
+}
 
 
-  // MODAL
+// MODAL
 
 .modal {
     display: none;
@@ -444,28 +459,31 @@ option:target{
     left: 0;
     top: 0;
     min-width: 100%;
-    min-height: 100%; 
+    min-height: 100%;
     background-color: rgba(30,30,30,0.5);
-  }
+}
   
-  .contenido-modal {
+.contenido-modal {
+    position: relative;
     overflow-y: auto;
     background-color: $imss-gris;
     margin: 1.75rem auto;
-    padding: 2rem;
+    padding: 4rem;
     border-radius: 15px;
-    max-height: 80vh;
+    max-height: 70vh;
     align-self: center;
     vertical-align: middle;
-    width:40%; 
- }
+    width: 30%;
+}
   
-  .close {
+.close {
+    position: absolute;
+    top: 0.8em;
+    right: 0.8em;
     color: $imss-verde;
-    float: right;
     font-size: 2rem;
     font-weight: bold;
-  }
+}
   
 .f{
     margin-bottom: 0;

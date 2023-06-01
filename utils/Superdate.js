@@ -9,7 +9,11 @@ class SuperDate {
 
         return actualDate;
     }
-    
+
+    static now() {
+        const date = new Date();
+        return `${this.today()} ${date.toLocaleTimeString()}`
+    }
 } 
 
 export default SuperDate;

@@ -1,18 +1,26 @@
 @font-face {
   font-family: "Montserrat-Light";
   src: url("../../fonts/Montserrat-Light.ttf") format("truetype");
+  unicode-range: U+000-5FF;
+  font-display: auto;
 }
 @font-face {
   font-family: "Montserrat-Regular";
   src: url("../../fonts/Montserrat-Regular.ttf") format("truetype");
+  unicode-range: U+000-5FF;
+  font-display: auto;
 }
 @font-face {
   font-family: "Montserrat-Medium";
   src: url("../../fonts/Montserrat-Medium.ttf") format("truetype");
+  unicode-range: U+000-5FF;
+  font-display: auto;
 }
 @font-face {
   font-family: "Montserrat-Bold";
   src: url("../../fonts/Montserrat-Bold.ttf") format("truetype");
+  unicode-range: U+000-5FF;
+  font-display: auto;
 }
 /*!
  * Bootstrap Grid v5.3.0-alpha3 (https://getbootstrap.com/)
@@ -4219,9 +4227,8 @@ option:target {
   text-align: end;
 }
 
-.text-input.bloqueado {
-  outline: none;
-  background-color: rgba(255, 255, 255, 0.5);
+.text-input[readonly] {
+  background-color: rgba(230, 230, 230, 0.5);
 }
 
 .foto_usuario {
@@ -4246,7 +4253,7 @@ option:target {
   border: none;
   border-radius: 10px;
   padding: 10px;
-  margin: 0.5rem 1rem 0.5rem 0;
+  margin: 0.5rem 1rem;
   font-family: "Montserrat-Bold";
   color: #D9D9D9;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
@@ -4284,7 +4291,7 @@ option:target {
   width: 100%;
   display: inline-flex;
   flex-direction: row;
-  background-color: transparent;
+  background-color: #ffffff;
   border: none;
   color: #005A4E;
   font-family: "Montserrat-Bold";
@@ -4296,6 +4303,11 @@ option:target {
   padding: 1rem;
   margin: 1rem 0;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.img-btn[disabled] {
+  background-color: #D9D9D9;
+  cursor: not-allowed;
 }
 
 .banner {
@@ -4449,6 +4461,11 @@ option:target {
   animation: fadein 0.6s, fadeout 0.6s 2.5s;
 }
 
+#snackbar.error {
+  background-color: #943434;
+  color: #D9D9D9;
+}
+
 @keyframes fadein {
   from {
     bottom: 0;
@@ -4481,20 +4498,23 @@ option:target {
 }
 
 .contenido-modal {
+  position: relative;
   overflow-y: auto;
   background-color: #D9D9D9;
   margin: 1.75rem auto;
-  padding: 2rem;
+  padding: 4rem;
   border-radius: 15px;
-  max-height: 80vh;
+  max-height: 70vh;
   align-self: center;
   vertical-align: middle;
-  width: 40%;
+  width: 30%;
 }
 
 .close {
+  position: absolute;
+  top: 0.8em;
+  right: 0.8em;
   color: #005A4E;
-  float: right;
   font-size: 2rem;
   font-weight: bold;
 }

@@ -1,42 +1,22 @@
+import Modal from "./componentes/modal.js";
 
-//* Modal cambio de contraseña
-var modalPass = document.getElementById("modalPass");
+// * Exportar modals para usarlos en cualquier sitio
+export const ModalPass = new Modal(
+  document.getElementById('modalPass'), 
+  document.getElementById('btnPass'),
+  document.getElementById('modalPassClose')
+);
 
-var btnPass = document.getElementById("btnPass");
+export const ModalAgregarUsuario = new Modal(
+  document.getElementById('modalAgregarUsuario'),
+  document.getElementById('btnAgregarUsuario'),
+  document.getElementById('modalAgregarUsuarioClose')
+);
 
-var btnCerrar = document.getElementsByClassName("close")[0];
-
-btnPass.onclick = function() {
-  modalPass.style.display = "block";
-}
-
-btnCerrar.onclick = function() {
-  modalPass.style.display = "none";
-}
-
+// * Generar eventos para que al dar clic fuera se desactiven
 window.onclick = function(event) {
-  if (event.target == modalPass) {
-    modalPass.style.display = "none";
-  }
-}
-
-//* Modal Agregar Usuario
-var modalAgregarUsuario = document.getElementById("modalAgregarUsuario");
-
-var btnAgregarUsuario = document.getElementById("btnAgregarUsuario");
-
-var btnCerrar = document.getElementsByClassName("close")[1];
-
-btnAgregarUsuario.onclick = function() {
-  modalAgregarUsuario.style.display = "block";
-}
-
-btnCerrar.onclick = function() {
-  modalAgregarUsuario.style.display = "none";
-}
-
-window.onclick = function(event) {
-  if (event.target == modalAgregarUsuario) {
-    modalAgregarUsuario.style.display = "none";
+  if (event.target === ModalPass.HTMLmodal || event.target === ModalAgregarUsuario.HTMLmodal) {
+    ModalPass.disable();
+    ModalAgregarUsuario.disable();
   }
 }

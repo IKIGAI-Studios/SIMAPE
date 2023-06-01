@@ -4,33 +4,43 @@ class SnackBar {
         this.text;
         this.active = false;
         this.time = 3000;
+    }
 
-        this.enable = function () {
-            this.active = true;
-            this.HTMLelement.classList.remove('invisible');
-            this.HTMLelement.classList.add('show');
-        };
+    enable = function () {
+        this.active = true;
+        this.HTMLelement.classList.remove('invisible');
+        this.HTMLelement.classList.add('show');
+    };
 
-        this.disable = function () {
-            this.active = false;
-            this.HTMLelement.classList.remove('show'); 
-            this.HTMLelement.classList.add('hide');
+    disable = function () {
+        this.active = false;
+        this.HTMLelement.classList.remove('show'); 
+        this.HTMLelement.classList.add('hide');
 
-            HTMLelement.addEventListener('animationend', () => {
-                if (!this.active) {
-                    this.HTMLelement.classList.remove('hide'); 
-                    this.HTMLelement.classList.add('invisible');
-                }
-            });
-        };
+        this.HTMLelement.addEventListener('animationend', () => {
+            if (!this.active) {
+                this.HTMLelement.classList.remove('hide'); 
+                this.HTMLelement.classList.add('invisible');
+            }
+        });
+    };
 
-        this.showMessage = function(message) {
-            HTMLelement.innerText = message;
-            this.enable();
-            setTimeout(() => {
-                this.disable();
-            }, this.time);
-        }
+    showMessage = function(message) {
+        this.HTMLelement.innerText = message;
+        this.enable();
+        setTimeout(() => {
+            this.disable();
+        }, this.time);
+    }
+
+    showError = function(message) {
+        this.HTMLelement.classList.add('error');
+        this.HTMLelement.innerText = message;
+        this.enable();
+        setTimeout(() => {
+            this.disable();
+            this.HTMLelement.classList.remove('error');
+        }, this.time);
     }
 };
 

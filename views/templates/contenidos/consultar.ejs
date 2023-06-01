@@ -68,18 +68,18 @@
                 <div class="col-12">
                     <label class="dark-label" for="movimientosBusquedaExpediente">MOVIMIENTOS</label> 
                     <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
-                    <textarea class="text-input bloqueado mt-3" id="movimientosBusquedaExpediente" readonly></textarea>
+                    <textarea class="text-input bloqueado mt-3" id="movimientosBusquedaExpediente" readonly rows="5"></textarea>
                 </div>
             </div>
 
         </div>
 
         <div class="col-3 vertical-center">
-            <button class="img-btn">
+            <button class="img-btn" disabled id="btnIngresarExpediente">
                 <img src="/icons/folder_azul.png" alt="INGRESAR" style="width: 35%;">
-                <p>INGRESAR</p>   
+                <p>INGRESAR</p>
             </button>
-            <button class="img-btn">
+            <button class="img-btn" disabled id="btnExtraerExpediente">
                 <img src="/icons/folder_rojo.png" alt="EXTRAER" style="width: 35%;">
                 <p>EXTRAER</p>   
             </button>

@@ -1,34 +1,32 @@
 <div id="modalPass" class="modal">
 
-    <div class="contenido-modal" style="justify-content: center;">
-      <span class="close">&times;</span>
-      
-      <div class="col m-5">
-        <h5 class="dark-label">PARA CAMBIAR SU CONTRASEÑA LLENE LOS SIGUIENTES CAMPOS</h5>
-      </div>
-
-      <form action="">
-        <div class="col m-5">
+  <div class="contenido-modal">
+    <span class="close" id="modalPassClose">&times;</span>
+    
+    <div class="row">
+      <h5 class="dark-label mb-5">PARA CAMBIAR SU CONTRASEÑA LLENE LOS SIGUIENTES CAMPOS</h5>
+  
+      <form id="formCambioContraseña">
+        <div class="col mb-4">
           <label class="datos" style="text-align: center;" for="pass">INGRESE SU CONTRASEÑA ACTUAL</label>
-    
-          <input type="password" class="text-input mt-3" id="passActual"/>
+          <input type="password" class="text-input mt-3" id=""/>
         </div>
-
-        <div class="col m-5">
+  
+        <div class="col mb-4">
           <label class="datos" for="pass">INGRESE SU NUEVA CONTRASEÑA</label>
-    
-          <input type="password" class="text-input mt-3" id="passNueva"/>
+          <input type="password" class="text-input mt-3" id=""/>
         </div>
         
-        <div class="col m-5">
-          <label class="datos" for="pass">CONFIRME SU CONTRASEÑA</label>
-    
-          <input type="password" class="text-input mt-3" id="passNueva"/>
+        <div class="col mb-4">
+          <label class="datos" for="pass">CONFIRME SU NUEVA CONTRASEÑA</label>
+          <input type="password" class="text-input mt-3" id=""/>
         </div>
-    <div class="row justify-content-center">
-      <button class="btn-verde" type="" style="width: 50%;">CAMBIAR CONTRASEÑA</button>
-    </div>
+
+        <div class="col" style="text-align: center;">
+          <button class="btn-verde" type="submit">CAMBIAR CONTRASEÑA</button>
+        </div>
+
       </form>
     </div>
-  
+  </div>
 </div>

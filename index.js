@@ -9,6 +9,7 @@ import routes from './routes/routes.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import expedienteRoutes from './routes/expedienteRoutes.js';
 import dotenv from 'dotenv';
+import SuperDate from './utils/Superdate.js';
 
 // Declarar constantes para uso de rutas estaticas
 const __filename = fileURLToPath(import.meta.url);
@@ -22,6 +23,7 @@ const PORT = process.env.PORT;
 const app = express();
 
 // Configuraciones de servidor
+process.env.TZ = 'America/Mexico_City';
 app.set('view engine', 'ejs');
 app.use(cors());
 app.use(nocache());
@@ -31,7 +33,7 @@ app.use(session({
     secret: process.env.SECRET_KEY_SESSION,
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 3600000 }, 
+    cookie: { maxAge: 1000 * 60 * 10 }, 
   }));
 
 

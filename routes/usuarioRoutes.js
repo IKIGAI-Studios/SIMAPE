@@ -101,7 +101,7 @@ usuarioRoutes.post('/altaUsuario', async (req, res) => {
 // * Dar de baja a un usuario
 usuarioRoutes.post('/bajaUsuario', async (req, res) => {
     try {
-        const {matricula} = req.body;
+        const { matricula } = req.body;
 
         // Validar que el usuario exista
         const usuarioRegistrado = await Usuario.findOne({ 
