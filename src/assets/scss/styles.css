@@ -4565,4 +4565,37 @@ td {
   font-size: 13px;
   text-align: center;
   color: #005A4E;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  background-color: #D9C9A8;
+  color: #005A4E;
+  font-family: "Montserrat-Bold";
+  text-align: center;
+  padding: 10px;
+  border-radius: 10px;
+  position: absolute;
+  z-index: 1;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes disappear {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext {
+  visibility: visible;
+  animation: appear 0.6s, disappear 0.6s 2.5s;
 }/*# sourceMappingURL=styles.css.map */
