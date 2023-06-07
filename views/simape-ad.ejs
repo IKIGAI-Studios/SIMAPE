@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="/imgs/imss-logo.png">
     <link href="/scss/styles.css" rel="stylesheet" type="text/css" loading="lazy" rel="preload"/>
 
+    <script src="/js/perfil.js" type="module" loading="lazy" rel="preload"></script>
     <script src="/js/modals.js" type="module" loading="lazy"></script>
     <script src="/js/sidebar.js" type="module" loading="lazy"></script>
     <script src="/js/tipoPension.js" loading="lazy" defer></script>
@@ -29,9 +30,9 @@
                         <img src="/icons/pfp.png" alt="Fotografia del usuario" loading="lazy">
                     </div>
                     <div class="col-10">
-                        <div class="row"><span class="nombre-usuario"><%=session.user.nombre%></span></div>
-                        <div class="row"><span class="nombre-usuario"><%=session.user.apellidos%></span></div>
-                        <div class="row"><p class="tipo-usuario"><%=session.user.tipo_usuario%></p></div>
+                        <div class="row"><span class="nombre-usuario" id="nombreBanner"></span></div>
+                        <div class="row"><span class="nombre-usuario" id="apellidoBanner"></span></div>
+                        <div class="row"><p class="tipo-usuario" id="tipoUsuarioBanner"></p></div>
                     </div>
                 </div>
             </div>

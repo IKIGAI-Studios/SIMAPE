@@ -55,13 +55,13 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
         const { nss } = req.params;
 
         // Buscar el expediente
-        const expedienteEncontrado = await Expediente.findOne({
+        const expediente = await Expediente.findOne({
             where: {
                 nss
             }
         });
 
-        if (!expedienteEncontrado) {
+        if (!expediente) {
             throw new Error('Expediente no encontrado');
         }
 
@@ -76,7 +76,7 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
 
         // Regresar todos los datos
         res.json({
-            expedienteEncontrado,
+            expediente,
             movimientos
         });
 
