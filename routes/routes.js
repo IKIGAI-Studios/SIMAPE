@@ -32,21 +32,18 @@ routes.get('/simape-op', (req, res) => {
 // * Login
 routes.post('/login', async (req, res) => {
     try {
-        console.log(req.body);
-        // Destructurar los datos necesarios
         const { usuario, pass } = req.body;
 
         // Buscar el usuario
         const usuarioEnBD = await Usuario.findOne({
             where: {
-                usuario: usuario
+                usuario
             },
-            attributes: ['nombre', 'apellidos', 'matricula', 'usuario', 'pass', 'tipo_usuario', 'estatus', 'fecha_registro', 'adscripcion']
+            attributes: ['matricula', 'usuario', 'pass', 'tipo_usuario']
         });
 
         // No existe el usuario
         if (!usuarioEnBD) {
-            console.log("No existe el usuario");
             throw new Error('No existe el usuario');
         }
 
@@ -61,15 +58,9 @@ routes.post('/login', async (req, res) => {
 
         // Crear la sesión del Usuario
         req.session.user = { 
-            nombre: usuarioEnBD.nombre, 
-            apellidos: usuarioEnBD.apellidos,
-            matricula: usuarioEnBD.matricula, 
-            tipo_usuario: usuarioEnBD.tipo_usuario,
-            fecha_registro: usuarioEnBD.fecha_registro,
-            adscripcion: usuarioEnBD.adscripcion
+            matricula: usuarioEnBD.matricula,
+            tipo_usuario: usuarioEnBD.tipo_usuario
         };
-
-        delete req.session.loginError;
 
         // Redireccionar al tipo de usuario correspondiente
         if (usuarioEnBD.tipo_usuario == "ADMINISTRADOR") {

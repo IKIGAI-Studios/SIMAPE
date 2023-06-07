@@ -4,8 +4,18 @@ import Delegacion from '../models/delegacionModel.js';
 import Usuario from '../models/usuarioModel.js';
 import Expediente from '../models/expedienteModel.js';
 import SuperDate from '../utils/Superdate.js';
+import { subirArchivo, obtenerNombre } from '../middlewares/subirArchivos.js';
 
 const usuarioRoutes = express.Router();
+
+// * Obtener mi matricula
+usuarioRoutes.get('/obtenerMiMatricula', async (req, res) => {
+    if (!req.session.user) {
+        return new Error('Inicio de sesión fallido');
+    }
+
+    return res.json(req.session.user.matricula);
+});
 
 // * Obtener todos los usuarios
 usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
@@ -18,8 +28,7 @@ usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
 
     if (usuarios)
     {
-        res.json(usuarios);
-        return;
+        return res.json(usuarios);
     }
     res.json('No hay usuarios');
 });
@@ -30,23 +39,24 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
         where: { 
             matricula: req.params.matricula 
         },
-        attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
+        attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro', 'tipo_usuario', 'foto']
     });
 
     if (usuarioEncontrado)
     {
-        res.json(usuarioEncontrado);
-        console.log(usuarioEncontrado);
-        return;
+        return res.json(usuarioEncontrado);
     }
-    res.json('Usuario no encontrado');
-    return;
+    return res.json('Usuario no encontrado');
 });
 
 // * Registrar usuario
-usuarioRoutes.post('/altaUsuario', async (req, res) => {
+usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, res) => {
+    
+    console.log(req.file);
+
     try {
-        const {matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass} = req.body;
+        const { matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass } = req.body;
+        const foto = obtenerNombre(req, req.file);
 
         // Validar que el usuario sea único
         const usuarioRegistrado = await Usuario.findOne({ 
@@ -76,6 +86,7 @@ usuarioRoutes.post('/altaUsuario', async (req, res) => {
         const saltRounds = 10;
         const hashedPass = await bcrypt.hash(pass, saltRounds);
 
+
         const nuevoUsuario = await Usuario.create({
             matricula,
             nombre,
@@ -84,8 +95,9 @@ usuarioRoutes.post('/altaUsuario', async (req, res) => {
             tipo_usuario,
             usuario,
             pass : hashedPass,
-            fecha_registro: SuperDate.today(),
-            estatus: true
+            fecha_registro: new Date(),
+            estatus: true,
+            foto
         });
 
         res.statusMessage = 'Usuario registrado correctamente';

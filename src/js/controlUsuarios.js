@@ -10,7 +10,6 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const form = new FormData(formAltaUsuario);
-    
     const response = await altaUsuario(form);
 
     if ((typeof response) === Error) {

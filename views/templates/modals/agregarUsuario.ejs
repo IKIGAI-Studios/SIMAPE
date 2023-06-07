@@ -6,9 +6,9 @@
       <div class="row">
         <h5 class="dark-label mb-5">AGREGAR USUARIO</h5>
 
-        <form id="formAltaUsuario">
+        <form id="formAltaUsuario" enctype="multipart/form-data">
           <div class="col mb-4">
-            <label class="datos" style="text-align: center;" for="matriculaAltaUsuario">MATRÍCULA</label>
+            <label class="datos" for="matriculaAltaUsuario">MATRÍCULA</label>
             <input type="text" class="text-input mt-3" id="matriculaAltaUsuario" name="matricula"/>
           </div>
 
@@ -42,11 +42,20 @@
               </select>
           </div>
     
-          <div class="col mb-5">
+          <div class="col mb-4">
             <label class="datos" for="adscripcionAltaUsuario">ADSCRIPCIÓN</label>
             <input type="text" class="text-input mt-3" id="adscripcionAltaUsuario" name="adscripcion" value="San Juan del Río" readonly/>
           </div>
-    
+
+          <div class="col mb-4">
+            <label class="datos"  style="text-align: center;" for="fotoAltaUsuario">FOTO</label>
+            <input type="file" class="text-input mt-3" id="fotoAltaUsuario" name="foto"/>
+          </div>
+
+          <div id="fotoUsuario">
+            
+          </div>
+
           <div class="col" style="text-align: center;">
             <button class="btn-verde" type="submit">DAR DE ALTA</button>
           </div>
