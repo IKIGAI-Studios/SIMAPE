@@ -16,7 +16,8 @@ const Usuario = sequelize.define(
         usuario: DataTypes.STRING(20),
         pass: DataTypes.STRING(80),
         estatus: DataTypes.BOOLEAN,
-        fecha_registro: DataTypes.DATEONLY
+        fecha_registro: DataTypes.DATEONLY,
+        foto: DataTypes.STRING(100)
     },
     {
         tableName: "usuario",

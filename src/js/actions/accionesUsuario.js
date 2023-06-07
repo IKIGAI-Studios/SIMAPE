@@ -1,6 +1,28 @@
 import env from '../utils/utils.js'
 
-const URL_BASE = `${env.URL_BASE}usuario/`;
+const URL_BASE = `/usuario`;
+
+/**
+    Obtiene la matricula de la sesión iniciada.
+    @returns Matricula.
+*/
+export async function obtenerMiMatricula() {
+    const ENDPOINT = `/obtenerMiMatricula`;
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT);
+
+        if (!response.ok) {
+            throw new Error('No se pudo obtener el usuario');
+        }
+
+        const matricula = await response.json();
+        return matricula;
+    }
+    catch (e) {
+        return e;
+    }
+}
 
 /**
     Busca un usuario a partir de su matricula.
@@ -8,7 +30,7 @@ const URL_BASE = `${env.URL_BASE}usuario/`;
     @returns Un objeto con el usuario encontrado
 */
 export async function buscarUsuario(matricula) {
-    const ENDPOINT = `busquedaUsuario/${matricula}`;
+    const ENDPOINT = `/busquedaUsuario/${matricula}`;
 
     try {
         const response = await fetch(URL_BASE + ENDPOINT);
@@ -32,7 +54,7 @@ export async function buscarUsuario(matricula) {
     @returns Un arreglo con los usuarios.  
 */
 export async function obtenerUsuarios(estatus = 'activos') {
-    const ENDPOINT = `obtenerUsuarios/${estatus}`;
+    const ENDPOINT = `/obtenerUsuarios/${estatus}`;
     
     try {
         const response = await fetch(URL_BASE + ENDPOINT);
@@ -51,18 +73,18 @@ export async function obtenerUsuarios(estatus = 'activos') {
 
 /**
     Crea un nuevo usuario y lo introduce en la base de datos.
-    @param form Se requiere para enviar todos los datos del usuario.
+    @param form Se requiere para enviar todos los datos del usuario. Su formato es **multipart/form-data**
     @returns Datos del usuario que se ha introducido.
 */
 export async function altaUsuario(form) {
-    const ENDPOINT = `altaUsuario`;
+    const ENDPOINT = `/altaUsuario`;
 
     try {
         const response = await fetch(URL_BASE + ENDPOINT, {
             method: 'POST',
-            body: new URLSearchParams(form)
+            body: form
         });
-    
+        
         if (!response.ok) {
             throw new Error(response.statusText);
         }
@@ -81,7 +103,7 @@ export async function altaUsuario(form) {
     @returns Datos del usuario que se ha actualizado.
 */
 export async function bajaUsuario(form) {
-    const ENDPOINT = `bajaUsuario`;
+    const ENDPOINT = `/bajaUsuario`;
     
     try {
         const response = await fetch( URL_BASE + ENDPOINT, { 
@@ -107,7 +129,7 @@ export async function bajaUsuario(form) {
     @returns Datos del usuario que se ha actualizado.
 */
 export async function recuperarUsuario(form) {
-    const ENDPOINT = `recuperarUsuario`;
+    const ENDPOINT = `/recuperarUsuario`;
     
     try {
         const response = await fetch( URL_BASE + ENDPOINT, { 

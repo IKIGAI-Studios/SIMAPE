@@ -27,7 +27,8 @@ process.env.TZ = 'America/Mexico_City';
 app.set('view engine', 'ejs');
 app.use(cors());
 app.use(nocache());
-app.use(express.urlencoded({extended:true}));
+app.use(express.json());
+app.use(express.urlencoded({ extended:true }));
 app.use(cookieParser());
 app.use(session({
     secret: process.env.SECRET_KEY_SESSION,
@@ -53,5 +54,6 @@ app.use("/imgs", express.static(join(__dirname, 'src/imgs')));
 app.use("/icons", express.static(join(__dirname, 'src/icons')));
 app.use("/fonts", express.static(join(__dirname, 'src/fonts')));
 app.use("/js", express.static(join(__dirname, 'src/js')));
+app.use("/public", express.static(join(__dirname, 'src/public')));
 
 export { app, server };

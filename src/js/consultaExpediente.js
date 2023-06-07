@@ -1,4 +1,5 @@
 import SnackBar from "./componentes/snackbar.js";
+import { buscarExpediente } from "./actions/accionesExpediente.js";
 
 const formBusquedaExpediente = document.getElementById('formBusquedaExpediente');
 const inputNSS = document.getElementById('nssBusquedaExpediente');
@@ -25,45 +26,27 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 
     clearInputs();
 
-    try{
-        const response = await fetch(`http://localhost:3000/expediente/buscarPorNSS/${inputNSS.value}`);
-        const expedienteData = await response.json();
-        console.log(response);
-        console.log(expedienteData);
+    const expedienteData = await buscarExpediente(inputNSS.value);
+    const { expediente, movimientos } = expedienteData;
 
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
-        
-        if (response.statusText == 'Expediente no encontrado') {
-            throw new Error(response.statusText);
-        }
-        
-        const { expedienteEncontrado, movimientos } = expedienteData;
-        
+    // Escribir los datos
+    inputNombre.value = expediente.nombre;
+    inputTipoPension.value = expediente.categoria;
+    inputAño.value = expediente.año;
+    inputEstatus.value = expediente.estatus == true ? 'Activo' : 'Inactivo';
+    inputUbicacion.value = expediente.ubicacion;
 
-        // Escribir los datos
-        inputNombre.value = expedienteEncontrado.nombre;
-        inputTipoPension.value = expedienteEncontrado.categoria;
-        inputAño.value = expedienteEncontrado.año;
-        inputEstatus.value = expedienteEncontrado.estatus == true ? 'Activo' : 'Inactivo';
-        inputUbicacion.value = expedienteEncontrado.ubicacion;
+    // Activar/Desactivar los botones
+    resetValues();
+    expediente.extraido == true ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
+    
+    // Escribir los movimientos
+    const movimientosText = movimientos.map((movimiento) => {
+        return `FOLIO: ${movimiento.folio} | TIPO: ${movimiento.tipo_movimiento} | FECHA: ${movimiento.fecha.slice(0,10)}`;
+    }).join('\n');
 
-        // Activar/Desactivar los botones
-        resetValues();
-        expedienteEncontrado.extraido == true ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
-        
-        // Escribir los movimientos
-        const movimientosText = movimientos.map((movimiento) => {
-            return `FOLIO: ${movimiento.folio} | TIPO: ${movimiento.tipo_movimiento} | FECHA: ${movimiento.fecha.slice(0,10)}`;
-        }).join('\n');
-
-        movimientosBusquedaExpediente.value = movimientosText;
-        snackbar.showMessage('Expediente encontrado');
-    }
-    catch (e) {
-        snackbar.showMessage(e.message);
-    }
+    movimientosBusquedaExpediente.value = movimientosText;
+    snackbar.showMessage('Expediente encontrado');
 });
 
 btnExtraerExpediente.addEventListener('click', async () => {
