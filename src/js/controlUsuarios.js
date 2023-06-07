@@ -41,13 +41,23 @@ async function actualizarUsuarios() {
 
         const botonEditar = document.createElement('button');
         botonEditar.classList = 'btn-azul';
-        botonEditar.innerHTML = '<img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">'
+        botonEditar.innerHTML = '<img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">'   
         botones.appendChild(botonEditar);
+
+        const tooltipEditar = document.createElement('span');
+        tooltipEditar.classList = 'tooltiptext';
+        tooltipEditar.innerHTML = '<span>Editar</span>' 
+        botonEditar.appendChild(tooltipEditar);
 
         const botonBaja = document.createElement('button');
         botonBaja.classList = 'btn-rojo';
         botonBaja.innerHTML = '<img src="/icons/flecha_baja.png" alt="BAJA" style="width: 1rem;">'
         botones.appendChild(botonBaja);
+
+        const tooltipBaja = document.createElement('span');
+        tooltipBaja.classList = 'tooltiptext';
+        tooltipBaja.innerHTML = '<span>Dar de baja</span>' 
+        botonBaja.appendChild(tooltipBaja);
 
         botonBaja.addEventListener('click', () => {
             handleBajaUsuario(usuario.matricula);
@@ -73,6 +83,11 @@ async function actualizarUsuarios() {
         botonRecuperar.classList = 'btn-verde';
         botonRecuperar.innerHTML = '<img src="/icons/flecha_vuelta.png" alt="EDITAR" style="width: 1rem;">'
         botones.appendChild(botonRecuperar);
+
+        const tooltipRecuperar = document.createElement('span');
+        tooltipRecuperar.classList = 'tooltiptext';
+        tooltipRecuperar.innerHTML = '<span>Reactivar</span>' 
+        botonRecuperar.appendChild(tooltipRecuperar);
 
         botonRecuperar.addEventListener('click', () => {
             handleRecuperarUsuario(usuario.matricula);
