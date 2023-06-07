@@ -410,7 +410,7 @@ textarea{
     padding: 2rem;
     display: block;
     background-color: $imss-gris;
-    height: auto;
+    min-height: 65vh;
     border-radius: 0 20px 20px 0;
 }
 
@@ -511,13 +511,23 @@ textarea{
     background-repeat: repeat-x;
 }
 
+
+.tabla {
+    border-collapse: collapse;
+    
+}
+
 tbody tr{
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    border-bottom: solid;
+    border-bottom: solid 1px;
     border-color: rgba(0, 90, 78, 0.25) !important;
     padding-bottom: 1rem;
+}
+
+#tablaUsuariosActivos tr:hover, #tablaUsuariosInactivos tr:hover, #tablaPeticiones tr:hover{
+  border-radius: 20px;
+    background-color: rgba(0, 90, 78, 0.1);
+    border-bottom: solid 1px;
+    cursor: default;
 }
 
 th{
@@ -526,10 +536,12 @@ th{
     color: $imss-verde;
 }
 
-td{
+#tablaUsuariosActivos td,  #tablaUsuariosInactivos td, #tablaPeticiones td{
     font-family: 'Montserrat-Regular';
     font-size: 13px;
     text-align: center;
+    margin: 0;
+    padding: 0;
     color: $imss-verde;
 }
 
