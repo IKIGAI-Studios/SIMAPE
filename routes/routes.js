@@ -8,7 +8,7 @@ const routes = express.Router();
 
 // * Inicio
 routes.get('/', (req, res) => {
-    res.render('login', { session: req.session });
+    res.render('login');
 });
 
 // * Inicio administrador

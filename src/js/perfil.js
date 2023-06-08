@@ -23,7 +23,7 @@ async function rellenarDatos() {
     tipoUsuarioBanner.innerHTML = usuario.tipo_usuario;
 
     if (usuario.foto) {
-        fotoPerfil.src = `/public/imgs/${usuario.foto}`;
+        fotoPerfil.src = `/uploads/${usuario.foto}`;
     }
     matriculaPerfil.innerHTML = usuario.matricula;
     nombrePerfil.innerHTML = `${usuario.nombre} ${usuario.apellidos}`;

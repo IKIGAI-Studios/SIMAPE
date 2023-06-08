@@ -4,7 +4,6 @@ import Delegacion from '../models/delegacionModel.js';
 import Usuario from '../models/usuarioModel.js';
 import Expediente from '../models/expedienteModel.js';
 import Movimiento from '../models/movimientoModel.js';
-import SuperDate from '../utils/Superdate.js';
 import { fn, col } from 'sequelize';
 
 const expedienteRoutes = express.Router();
