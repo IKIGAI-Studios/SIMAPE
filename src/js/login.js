@@ -10,7 +10,7 @@ formLogin.addEventListener('submit', async (e) => {
     const form = new FormData(formLogin);
     
     try {
-        const response = await fetch(`http://localhost:3000/login`, {
+        const response = await fetch(`/login`, {
             method: 'POST',
             body: new URLSearchParams(form)
         });

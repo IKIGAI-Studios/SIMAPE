@@ -9,7 +9,7 @@
     "url": "git+https://github.com/IKIGAI-Studios/SIMAPE.git"
   },
   "scripts": {
-    "server": "nodemon index",
+    "server": "nodemon index --ignore src",
     "test": "set NODE_OPTIONS=--experimental-vm-modules NODE_ENV=test && jest --detectOpenHandles --verbose --silent"
   },
   "homepage": "https://github.com/IKIGAI-Studios/SIMAPE#readme",
@@ -31,7 +31,8 @@
     "mysql2": "3.2.4",
     "nocache": "3.0.4",
     "nodemon": "2.0.22",
-    "sequelize": "6.31.1"
+    "sequelize": "6.31.1",
+    "socket.io": "^4.6.2"
   },
   "devDependencies": {
     "jest": "29.5.0",

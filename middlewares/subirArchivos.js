@@ -2,7 +2,7 @@ import multer, { diskStorage } from "multer";
 
 // Rutas por tipo
 const ROUTES = Object.freeze({
-    usuario: 'src/public/imgs'
+    usuario: 'src/uploads'
 });
 
 // Filtro de subida
