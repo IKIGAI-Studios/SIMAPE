@@ -1,80 +1,77 @@
 
 <div class="row">
-    <div class="col-9">
-        <form id="formBajaExpediente">
-            
-            <form id="formBusquedaExpediente">
-                <div class="row space-between">
-                    <div class="col-2">
-                        <label class="dark-label" for="nssBusquedaExpediente">NSS</label>
-                    </div>
-                    <div class="col-8">
-                        <input type="text" class="text-input" id="nssBusquedaExpediente" name="nss"/>
-                    </div>
-                    <!--LUPA-->
-                    <div class="col-2">
-                        <div class="d-flex justify-content-end">
-                            <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
-                                <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
-                            </button>
-                        </div>
-                    </div>
+    <div class="col-9" id="seccionBajaExpediente">
+
+        <div class="row space-between">
+            <div class="col-2">
+                <label class="dark-label" for="nssBusquedaExpediente">NSS</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="text-input" id="nssBusquedaExpedienteBaja" name="nss"/>
+            </div>
+            <!--LUPA-->
+            <div class="col-2">
+                <div class="d-flex justify-content-end">
+                    <button class="btn-verde" id="btnBuscarExpedienteBaja" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
+                        <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
+                    </button>
                 </div>
-            </form>
+            </div>
+        </div>
         
 
-            <div class="row space-between">
-                <div class="col-3">
-                    <label class="dark-label" for="nombreExpediente">NOMBRE</label>
-                </div>
-                <div class="col-9">
-                    <input type="text" class="text-input bloqueado" id="nombreExpediente" name="nombre" readonly/>
-                </div>
+        <div class="row space-between">
+            <div class="col-3">
+                <label class="dark-label" for="nombreExpediente">NOMBRE</label>
             </div>
-
-            <div class="row space-between">
-                <div class="col-5">
-                    <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
-                </div>
-                <div class="col-7">
-                   <input type="text" class="text-input bloqueado" name="tipoPension" id="" value="" readonly/>
-                </div>
+            <div class="col-9">
+                <input type="text" class="text-input bloqueado" id="nombreExpediente" name="nombre" readonly/>
             </div>
-
-            <div class="row space-between">
-                <div class="col-5">
-                    <label class="dark-label" for="delegacion">DELEGACIÓN</label>
-                </div>
-                <div class="col-7">
-                    <input type="text" class="text-input bloqueado" id="delegacion" readonly>
-                </div>
-            </div>
-
-            <div class="row space-between">
-                <div class="col-5">
-                    <label class="dark-label" for="ubicacion">UBICACIÓN</label>
-                </div>
-                <div class="col-7">
-                   <input type="text" class="text-input bloqueado" id="ubicacion" readonly>
-                </div>
-            </div>
-            <div class="row space-between">
-                <div class="col-3">
-                    <label class="dark-label" for="año">AÑO</label>
-                </div>
-                <div class="col-9">
-                    <input type="number" class="text-input bloqueado" id="añoAltaExpediente" name="año" readonly/>
-                </div>
-            </div>
-            
-            <div class="row space-between">
-                <div class="col">
-                    <label class="dark-label" for="motivoBajaExpediente">MOTIVO</label> 
-                    <textarea class="text-input mt-3" id="motivoBajaExpediente" name="motivo"></textarea>
-                </div>
-            </div>
-            
         </div>
+
+        <div class="row space-between">
+            <div class="col-5">
+                <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
+            </div>
+            <div class="col-7">
+                <input type="text" class="text-input bloqueado" name="tipoPension" id="" value="" readonly/>
+            </div>
+        </div>
+
+        <div class="row space-between">
+            <div class="col-5">
+                <label class="dark-label" for="delegacion">DELEGACIÓN</label>
+            </div>
+            <div class="col-7">
+                <input type="text" class="text-input bloqueado" id="delegacion" readonly>
+            </div>
+        </div>
+
+        <div class="row space-between">
+            <div class="col-5">
+                <label class="dark-label" for="ubicacion">UBICACIÓN</label>
+            </div>
+            <div class="col-7">
+                <input type="text" class="text-input bloqueado" id="ubicacion" readonly>
+            </div>
+        </div>
+        <div class="row space-between">
+            <div class="col-3">
+                <label class="dark-label" for="año">AÑO</label>
+            </div>
+            <div class="col-9">
+                <input type="number" class="text-input bloqueado" id="añoAltaExpediente" name="año" readonly/>
+            </div>
+        </div>
+        
+        <div class="row space-between">
+            <div class="col">
+                <label class="dark-label" for="motivoBajaExpediente">MOTIVO</label> 
+                <textarea class="text-input mt-3" id="motivoBajaExpediente" name="motivo"></textarea>
+            </div>
+        </div>
+        
+    </div>
         
         
         <div class="col-3 vertical-center">

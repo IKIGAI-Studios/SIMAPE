@@ -46,7 +46,7 @@ async function actualizarUsuarios() {
 
         const tooltipEditar = document.createElement('span');
         tooltipEditar.classList = 'tooltiptext';
-        tooltipEditar.innerHTML = '<span>Editar</span>' 
+        tooltipEditar.innerHTML = 'Editar' 
         botonEditar.appendChild(tooltipEditar);
 
         const botonBaja = document.createElement('button');
@@ -56,7 +56,7 @@ async function actualizarUsuarios() {
 
         const tooltipBaja = document.createElement('span');
         tooltipBaja.classList = 'tooltiptext';
-        tooltipBaja.innerHTML = '<span>Dar de baja</span>' 
+        tooltipBaja.innerHTML = 'Dar de baja' 
         botonBaja.appendChild(tooltipBaja);
 
         botonBaja.addEventListener('click', () => {
@@ -86,7 +86,7 @@ async function actualizarUsuarios() {
 
         const tooltipRecuperar = document.createElement('span');
         tooltipRecuperar.classList = 'tooltiptext';
-        tooltipRecuperar.innerHTML = '<span>Reactivar</span>' 
+        tooltipRecuperar.innerHTML = 'Reactivar' 
         botonRecuperar.appendChild(tooltipRecuperar);
 
         botonRecuperar.addEventListener('click', () => {

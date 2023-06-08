@@ -1,5 +1,3 @@
-import env from '../utils/utils.js'
-
 const URL_BASE = `/usuario`;
 
 /**
