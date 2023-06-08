@@ -4236,13 +4236,14 @@ textarea {
 }
 
 .foto_usuario {
-  width: 35vh;
-  height: 35vh;
+  width: 20cqw;
+  height: 20cqw;
   border-radius: 10px;
+  margin: 1rem;
   -o-object-fit: cover;
      object-fit: cover;
-  -o-object-position: 50% 0%;
-     object-position: 50% 0%;
+  -o-object-position: 50% 20%;
+     object-position: 50% 20%;
 }
 
 .btn-beige {
