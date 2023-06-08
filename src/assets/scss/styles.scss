@@ -198,8 +198,11 @@ textarea{
 }
 
 .foto_usuario{
-    width: 100%;
+    width: 35vh;
+    height: 35vh;
     border-radius: 10px;
+    object-fit: cover;
+    object-position: 50% 0%;
 }
 
 .btn-beige{
