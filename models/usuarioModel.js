@@ -5,7 +5,7 @@ const Usuario = sequelize.define(
     'usuario',
     {
         matricula: {
-            type: DataTypes.STRING(15), // TODO: Cambiar luego por la longitud y tipo correcto
+            type: DataTypes.STRING(15),
             primaryKey: true, 
             allowNull: false
         },        

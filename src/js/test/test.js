@@ -1,2 +1,5 @@
+const socket = io();
 
-io();
+socket.on('server:conexion', (res) => {
+    console.log(res)
+});

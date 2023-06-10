@@ -4,6 +4,9 @@ import Delegacion from '../models/delegacionModel.js';
 import Usuario from '../models/usuarioModel.js';
 import Expediente from '../models/expedienteModel.js';
 import { subirArchivo, obtenerNombre } from '../middlewares/subirArchivos.js';
+import multer  from 'multer';
+
+const upload = multer({ dest: 'src/uploads/' });
 
 const usuarioRoutes = express.Router();
 
@@ -48,6 +51,12 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
     return res.json('Usuario no encontrado');
 });
 
+// * TEST UPLOAD
+usuarioRoutes.post('/upload', upload.single('file'), (req, res) => {
+    console.log('uploaded \n: ', req.file);
+    res.json('success');
+});
+
 // * Registrar usuario
 usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, res) => {
     
@@ -55,7 +64,7 @@ usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, 
 
     try {
         const { matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass } = req.body;
-        const foto = obtenerNombre(req, req.file);
+        const foto = req.file.filename;
 
         // Validar que el usuario sea único
         const usuarioRegistrado = await Usuario.findOne({ 
