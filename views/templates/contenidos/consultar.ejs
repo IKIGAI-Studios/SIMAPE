@@ -1,17 +1,17 @@
 
     <div class="row">
 
-        <div class="col-9">
+        <div class="col-lg-9 col-md-9 col-sm-9">
             <form id="formBusquedaExpediente">
                 <div class="row space-between">
-                    <div class="col-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <label class="dark-label" for="nssBusquedaExpediente">NSS</label>
                     </div>
-                    <div class="col-8">
-                        <input type="text" class="text-input" id="nssBusquedaExpediente" name="nss"/>
+                    <div class="col-lg-8 col-md-8 col-sm-8">
+                        <input type="number" class="text-input" id="nssBusquedaExpediente" name="nss"/>
                     </div>
                     <!--LUPA-->
-                    <div class="col-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <div class="d-flex justify-content-end">
                             <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
                                 <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
@@ -22,56 +22,56 @@
             </form>
 
             <div class="row space-between">
-                <div class="col-3">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label class="dark-label" for="nombreBusquedaExpediente">NOMBRE</label>
                 </div>
-                <div class="col-9">
+                <div class="col-lg-9 col-md-9 col-sm-9">
                     <input type="text" class="text-input bloqueado" id="nombreBusquedaExpediente" readonly/>
                 </div>
             </div>
 
             <div class="row space-between">
-                <div class="col-5">
+                <div class="col-lg-5 col-md-5 col-sm-5">
                     <label class="dark-label" for="tipoPensionBusquedaExpediente">TIPO DE PENSIÓN</label>
                 </div>
-                <div class="col-7">
+                <div class="col-lg-7 col-md-7 col-sm-7">
                     <input type="text" class="text-input bloqueado" id="tipoPensionBusquedaExpediente" readonly/>
                 </div>
             </div>
 
             <div class="row space-around">
-                <div class="col-2">
+                <div class="col-lg-2 col-md-2 col-sm-2">
                     <label class="dark-label" for="añoBusquedaExpediente">AÑO</label>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <input type="text" class="text-input bloqueado" id="añoBusquedaExpediente" readonly/>
                 </div>
-                <div class="col-3">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <label class="dark-label" for="estatusBusquedaExpediente">ESTATUS</label>
                 </div>
-                <div class="col-3">
+                <div class="col-lg-3 col-md-3 col-sm-3">
                     <input type="text" class="text-input bloqueado" id="estatusBusquedaExpediente" readonly/>
                 </div>
             </div>
 
             <div class="row space-around">
-                <div class="col-4">
+                <div class="col-lg-4 col-md-4 col-sm-4">
                     <label class="dark-label" for="ubicacionBusquedaExpediente">UBICACIÓN</label>
                 </div>
-                <div class="col-8">
+                <div class="col-lg-8 col-md-8 col-sm-8">
                     <input type="text" class="text-input bloqueado" id="ubicacionBusquedaExpediente" readonly/>
                 </div>
             </div>
 
             <div class="row space-around">
-                <div class="col-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <label class="dark-label" for="observacionesBusquedaExpediente">OBSERVACIONES</label>
                     <textarea class="text-input bloqueado mt-3" id="observacionesBusquedaExpediente" readonly rows="5"></textarea>
                 </div>
             </div>
 
             <div class="row space-around">
-                <div class="col-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
                     <label class="dark-label" for="movimientosBusquedaExpediente">MOVIMIENTOS</label> 
                     <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
                     <textarea class="text-input bloqueado mt-3" id="movimientosBusquedaExpediente" readonly rows="5"></textarea>
@@ -80,15 +80,22 @@
 
         </div>
 
-        <div class="col-3 vertical-center">
+        <div class="col-lg-3 col-md-3 col-sm-3 vertical-center">
+
             <button class="img-btn" disabled id="btnIngresarExpediente">
-                <img src="/icons/folder_azul.png" alt="INGRESAR" style="width: 35%;">
-                <p>INGRESAR</p>
+                <div class="row">
+                    <img src="/icons/folder_azul.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="INGRESAR">
+                    <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">INGRESAR</p>
+                </div>  
             </button>
+
             <button class="img-btn" disabled id="btnExtraerExpediente">
-                <img src="/icons/folder_rojo.png" alt="EXTRAER" style="width: 35%;">
-                <p>EXTRAER</p>   
+               <div class="row">
+                    <img src="/icons/folder_rojo.png" alt="EXTRAER" class="col-lg-6 col-md-12 col-sm-12 vertical-center">
+                    <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">EXTRAER</p>   
+                </div>
             </button>
+
         </div>
         
     </div> 

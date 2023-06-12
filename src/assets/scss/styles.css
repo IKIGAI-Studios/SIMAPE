@@ -4235,6 +4235,12 @@ textarea {
   height: 5rem;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .foto_usuario {
   width: 20cqw;
   height: 20cqw;
@@ -4298,16 +4304,10 @@ textarea {
 }
 
 .img-btn {
-  width: 100%;
-  display: inline-flex;
-  flex-direction: row;
   background-color: #ffffff;
   border: none;
   color: #005A4E;
   font-family: "Montserrat-Bold";
-  font-size: 15px;
-  justify-content: space-around;
-  align-items: center;
   border-radius: 20px;
   text-align: center;
   padding: 1rem;
