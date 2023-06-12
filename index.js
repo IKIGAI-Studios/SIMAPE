@@ -9,7 +9,9 @@ import routes from './routes/routes.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import expedienteRoutes from './routes/expedienteRoutes.js';
 import dotenv from 'dotenv';
-import SuperDate from './utils/Superdate.js';
+import { Server } from 'socket.io';
+import http from 'http';
+import { socketsUsuario } from './sockets/socketsUsuario.js';
 
 // Declarar constantes para uso de rutas estaticas
 const __filename = fileURLToPath(import.meta.url);
@@ -21,6 +23,12 @@ dotenv.config();
 // Constantes de inicio de servidor
 const PORT = process.env.PORT;
 const app = express();
+const HTTPserver = http.createServer(app);
+const io = new Server(HTTPserver);
+
+// Sockets
+socketsUsuario(io);
+
 
 // Configuraciones de servidor
 process.env.TZ = 'America/Mexico_City';
@@ -31,11 +39,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 app.use(cookieParser());
 app.use(session({
-    secret: process.env.SECRET_KEY_SESSION,
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 10 }, 
-  }));
+  secret: process.env.SECRET_KEY_SESSION,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge: 1000 * 60 * 10 }, 
+}));
 
 
 // Rutas
@@ -44,7 +52,7 @@ app.use('/usuario', usuarioRoutes);
 app.use('/expediente', expedienteRoutes);
 
 // Iniciar servidor
-const server = app.listen(PORT, () => {
+const server = HTTPserver.listen(PORT, () => {
   console.log(`Servidor activo en el puerto ${PORT}`);
 });
 
@@ -54,6 +62,10 @@ app.use("/imgs", express.static(join(__dirname, 'src/imgs')));
 app.use("/icons", express.static(join(__dirname, 'src/icons')));
 app.use("/fonts", express.static(join(__dirname, 'src/fonts')));
 app.use("/js", express.static(join(__dirname, 'src/js')));
-app.use("/public", express.static(join(__dirname, 'src/public')));
+app.use("/uploads", express.static(join(__dirname, 'src/uploads')));
+
+app.use((req, res, next) => {
+  res.status(404).send('404'); //TODO: Hacer una pag de 404 xd
+});
 
 export { app, server };

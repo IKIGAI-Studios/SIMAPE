@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import Delegacion from '../models/delegacionModel.js';
 import Usuario from '../models/usuarioModel.js';
 import Expediente from '../models/expedienteModel.js';
-import SuperDate from '../utils/Superdate.js';
 import { subirArchivo, obtenerNombre } from '../middlewares/subirArchivos.js';
 
 const usuarioRoutes = express.Router();
