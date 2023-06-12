@@ -1,8 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import Delegacion from '../models/delegacionModel.js';
-import Usuario from '../models/usuarioModel.js';
-import Expediente from '../models/expedienteModel.js';
+import { Usuario } from '../models/usuarioModel.js';
 
 const routes = express.Router();
 

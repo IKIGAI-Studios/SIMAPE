@@ -4,6 +4,11 @@ import sequelize from '../utils/DBconnection.js';
 const MovimientoSupervision = sequelize.define(
     'movimientoSupervision',
     {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
         folio: {
             type: DataTypes.INTEGER,
             allowNull: false

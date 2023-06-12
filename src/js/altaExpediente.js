@@ -16,11 +16,13 @@ formAltaExpediente.addEventListener('submit', async (e) => {
             body: new URLSearchParams(form)
         });
 
+        const resJson = await response.json();
+
         if (!response.ok) {
-            throw new Error(response.statusText);
+            throw new Error(resJson);
         }
 
-        snackbar.showMessage(response.statusText);
+        snackbar.showMessage('Ok');
         formAltaExpediente.reset();
     }
     catch (e) {

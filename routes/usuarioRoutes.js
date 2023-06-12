@@ -1,9 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import Delegacion from '../models/delegacionModel.js';
-import Usuario from '../models/usuarioModel.js';
-import Expediente from '../models/expedienteModel.js';
-import { subirArchivo, obtenerNombre } from '../middlewares/subirArchivos.js';
+import { Usuario } from '../models/usuarioModel.js';
+import { subirArchivo } from '../middlewares/subirArchivos.js';
 import multer  from 'multer';
 
 const upload = multer({ dest: 'src/uploads/' });
