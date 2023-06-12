@@ -11,7 +11,7 @@ formAltaExpediente.addEventListener('submit', async (e) => {
     console.log([...form]);
     
     try {
-        const response = await fetch(`http://localhost:3000/expediente/altaExpediente`, {
+        const response = await fetch(`/expediente/altaExpediente`, {
             method: 'POST',
             body: new URLSearchParams(form)
         });

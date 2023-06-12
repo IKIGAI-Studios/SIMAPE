@@ -28,6 +28,7 @@ export const subirArchivo = (type, fieldName) => {
     const storage = diskStorage({
         destination: route,
         filename: function (req, file, cb) {
+            
             cb(null, obtenerNombre(req, file));
         }
     });

@@ -1,20 +1,21 @@
 import SnackBar from "./componentes/snackbar.js";
 import { buscarExpediente } from "./actions/accionesExpediente.js";
 
-const formBusquedaExpediente = document.getElementById('formBusquedaExpediente');
-const inputNSS = document.getElementById('nssBusquedaExpediente');
+const formBusquedaExpediente = document.querySelector('#formBusquedaExpediente');
+const inputNSS = document.querySelector('#nssBusquedaExpediente');
 
-const inputNombre = document.getElementById('nombreBusquedaExpediente');
-const inputTipoPension = document.getElementById('tipoPensionBusquedaExpediente');
-const inputAño = document.getElementById('añoBusquedaExpediente');
-const inputEstatus = document.getElementById('estatusBusquedaExpediente')
-const inputUbicacion = document.getElementById('ubicacionBusquedaExpediente');
-const movimientosBusquedaExpediente = document.getElementById('movimientosBusquedaExpediente');
+const inputNombre = document.querySelector('#nombreBusquedaExpediente');
+const inputTipoPension = document.querySelector('#tipoPensionBusquedaExpediente');
+const inputAño = document.querySelector('#añoBusquedaExpediente');
+const inputEstatus = document.querySelector('#estatusBusquedaExpediente')
+const inputUbicacion = document.querySelector('#ubicacionBusquedaExpediente');
+const movimientosBusquedaExpediente = document.querySelector('#movimientosBusquedaExpediente');
+const observacionesBusquedaExpediente = document.querySelector('#observacionesBusquedaExpediente');
 
-const btnIngresarExpediente = document.getElementById('btnIngresarExpediente');
-const btnExtraerExpediente = document.getElementById('btnExtraerExpediente');
+const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
+const btnExtraerExpediente = document.querySelector('#btnExtraerExpediente');
 
-const snackbar = new SnackBar(document.getElementById('snackbar'));
+const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -35,6 +36,7 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     inputAño.value = expediente.año;
     inputEstatus.value = expediente.estatus == true ? 'Activo' : 'Inactivo';
     inputUbicacion.value = expediente.ubicacion;
+    observacionesBusquedaExpediente.value = expediente.observaciones;
 
     // Activar/Desactivar los botones
     resetValues();
@@ -56,7 +58,7 @@ btnExtraerExpediente.addEventListener('click', async () => {
         form.append('tipo_movimiento', 'EXTRACCION');
         form.append('motivo', 'prueba');
 
-        const response = await fetch('http://localhost:3000/expediente/movimiento', {
+        const response = await fetch('/expediente/movimiento', {
             method: 'POST',
             body: new URLSearchParams(form)
         });
@@ -80,7 +82,7 @@ btnIngresarExpediente.addEventListener('click', async () => {
         form.append('tipo_movimiento', 'INGRESO');
         form.append('motivo', 'prueba');
 
-        const response = await fetch('http://localhost:3000/expediente/movimiento', {
+        const response = await fetch('/expediente/movimiento', {
             method: 'POST',
             body: new URLSearchParams(form)
         });
@@ -109,4 +111,5 @@ function clearInputs() {
     inputEstatus.value = '';
     inputUbicacion.value = '';
     movimientosBusquedaExpediente.value = '';
+    observacionesBusquedaExpediente.value = '';
 }

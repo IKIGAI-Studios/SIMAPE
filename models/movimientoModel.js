@@ -10,10 +10,9 @@ const Movimiento = sequelize.define(
             allowNull: false
         },
         matricula: DataTypes.STRING(15),
-        nss: DataTypes.STRING(15),
-        tipo_movimiento: DataTypes.STRING(20),
+        motivo: DataTypes.STRING(50),
         fecha: DataTypes.DATE,
-        motivo: DataTypes.STRING(50)
+        tipo_movimiento: DataTypes.STRING(20),
     },
     {
         tableName: "movimiento",
