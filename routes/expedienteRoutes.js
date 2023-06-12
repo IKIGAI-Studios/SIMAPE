@@ -100,7 +100,9 @@ expedienteRoutes.post('/bajaExpediente', async (req, res) => {
 
         // Comprobar que existe el expediente
         const resExpediente = await Expediente.exists({ nss });
-        if (!resExpediente.exists) throw new Error('El expediente no existe');
+        if (!resExpediente.exists) {
+            return res.status(404).json('')
+        }
 
         resExpediente.expediente.update({
             fecha_baja: new Date(),
@@ -122,22 +124,19 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
     try {
         const { nss } = req.params;
 
-        // Buscar el expediente
-        const expediente = await ExpedienteModel.findOne({
-            where: {
-                nss
-            }
-        });
 
-        if (!expediente) {
-            throw new Error('Expediente no encontrado');
+        // Buscar el expediente
+        const expedienteBD = await Expediente.existe({ nss });
+
+        if (!expedienteBD.existe) {
+            return res.status(404).json('Expediente no encontrado');
         }
 
         // Buscar los movimientos del expediente
         //TODO: Hacer esto con el ORM
         const movimientos = await sequelize.query(
-            `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss = ${nss} && movimientoNormal.pendiente != true;`,
-            { type: sequelize.QueryTypes.SELECT }    
+            `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss = ${nss} && movimientoNormal.pendiente != true ORDER BY movimiento.fecha DESC LIMIT 5`,
+            { type: sequelize.QueryTypes.SELECT }
         );
 
         // const movimientos = await MovimientoModel.findAll({
@@ -153,7 +152,7 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
 
         // Regresar todos los datos
         return res.json({
-            expediente,
+            expediente: expedienteBD.expediente,
             movimientos
         });
     } 
@@ -170,50 +169,117 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
-        const resExpediente = await Expediente.exists({nss});
-        if (resExpediente.exists) throw new Error('El expediente ya existe');
-
-        // Obtener numero de folio
-        const numFolios = await Movimiento.findAll({
-            attributes: [
-              [fn('COUNT', col('folio')), 'numeroMovimientos']
-            ]
-        });
-
-        const folio = numFolios[0].get('numeroMovimientos') + 1;
-        
-        // Crear el movimiento nuevo movimiento
-        crearMovimientoNormal({
+        const folio = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
             folio, 
             matricula, 
             motivo, 
-            fecha, 
-            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.ALTA,
-            nss, 
-            pendiente: false
-        })
-        
-        return res.json('Movimiento realizado con éxito');
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO
+        };
+
+        const nuevoMovimientoIngreso = {
+            folio,
+            nss,
+            pendiente: false, //TODO: Cambiar dependiendo del sujeto
+            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
+        }
+
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
+
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
+
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+        console.log('Movimiento creado: \n',movimientoCreado);
+
+        // * Validar movimientoIngreso
+        const movimientoIngresoVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoIngreso);
+        if (!movimientoIngresoVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoIngresoVal.errores.join(' '));
+        }
+
+        // Crear movimientoAlta
+        const movimientoIngresoCreado = await MovimientoNormalModel.create(nuevoMovimientoIngreso);
+        console.log('Movimiento ingreso creado: \n',movimientoIngresoCreado);
+
+        // Actualizar expediente
+        const expedienteBD = (await Expediente.existe({ nss })).expediente;
+        await expedienteBD.update({
+            extraido: false
+        });
+
+        // Devolver respuesta
+        return res.status(201).json('Ingreso realizado con éxito');
     } 
     catch (e) {
         console.log(e);
+        return res.status(400).json(e.message);
     }
 });
 
-// * EXTRACCIÓN
+// * EXTRACCION
+expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { nss, motivo } = req.body;
 
+        const folio = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
+            folio, 
+            matricula, 
+            motivo, 
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION
+        };
 
+        const nuevoMovimientoExtraccion = {
+            folio,
+            nss,
+            pendiente: false,
+            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
+        }
 
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
 
-function altaExpediente() {
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
 
-}
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+        console.log('Movimiento creado: \n',movimientoCreado);
 
-/**
- * función que se encarga de generar únicamente el movimiento
- */
+        // * Validar movimientoExtraccion
+        const movimientoExtraccionVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoExtraccion);
+        if (!movimientoExtraccionVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoExtraccionVal.errores.join(' '));
+        }
 
+        // Crear movimientoAlta
+        const movimientoExtraccionCreado = await MovimientoNormalModel.create(nuevoMovimientoExtraccion);
+        console.log('Movimiento extracción creado: \n',movimientoExtraccionCreado);
 
+        // Actualizar expediente
+        const expedienteBD = (await Expediente.existe({ nss })).expediente;
+        await expedienteBD.update({
+            extraido: true
+        });
+
+        // Devolver respuesta
+        return res.status(201).json('Extracción realizada con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
 
 
 async function obtenerNumeroFolio() {
@@ -226,9 +292,5 @@ async function obtenerNumeroFolio() {
 
     return numFolios[0].get('numeroMovimientos');
 }
-
-
-
-
 
 export default expedienteRoutes;

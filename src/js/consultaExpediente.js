@@ -1,5 +1,5 @@
 import SnackBar from "./componentes/snackbar.js";
-import { buscarExpediente } from "./actions/accionesExpediente.js";
+import { buscarExpediente, extraerExpediente, ingresarExpediente } from "./actions/accionesExpediente.js";
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpediente');
 const inputNSS = document.querySelector('#nssBusquedaExpediente');
@@ -28,6 +28,11 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     clearInputs();
 
     const expedienteData = await buscarExpediente(inputNSS.value);
+
+    if (expedienteData instanceof Error) {
+        return snackbar.showError(expedienteData.message);
+    }
+
     const { expediente, movimientos } = expedienteData;
 
     // Escribir los datos
@@ -52,51 +57,37 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 });
 
 btnExtraerExpediente.addEventListener('click', async () => {
-    try {
-        const form = new FormData();
-        form.append('nss', inputNSS.value);
-        form.append('tipo_movimiento', 'EXTRACCION');
-        form.append('motivo', 'prueba');
+    const form = new FormData();
+    form.append('nss', inputNSS.value);
+    form.append('motivo', 'prueba');
+    
+    const data = await extraerExpediente(form);
 
-        const response = await fetch('/expediente/movimiento', {
-            method: 'POST',
-            body: new URLSearchParams(form)
-        });
-
-        if (!response.ok) throw new Error('Error');
-
-        inputNSS.value = '';
-        clearInputs();
-        resetValues();
-        snackbar.showMessage('Imprimiendo...');
-    } 
-    catch (e) {
-        console.log(e);
+    if (data instanceof Error) {
+        return snackbar.showError(data.message);
     }
+
+    inputNSS.value = '';
+    clearInputs();
+    resetValues();
+    snackbar.showMessage('Imprimiendo...');
 });
 
 btnIngresarExpediente.addEventListener('click', async () => {
-    try {
-        const form = new FormData();
-        form.append('nss', inputNSS.value);
-        form.append('tipo_movimiento', 'INGRESO');
-        form.append('motivo', 'prueba');
+    const form = new FormData();
+    form.append('nss', inputNSS.value);
+    form.append('motivo', 'prueba'); //TODO: Cambiar
+    
+    const data = await ingresarExpediente(form);
 
-        const response = await fetch('/expediente/movimiento', {
-            method: 'POST',
-            body: new URLSearchParams(form)
-        });
-
-        if (!response.ok) throw new Error('Error');
-
-        inputNSS.value = '';
-        clearInputs();
-        resetValues();
-        snackbar.showMessage('Imprimiendo...');
-    } 
-    catch (e) {
-        console.log(e);
+    if (data instanceof Error) {
+        return snackbar.showError(data.message);
     }
+
+    inputNSS.value = '';
+    clearInputs();
+    resetValues();
+    snackbar.showMessage('Imprimiendo...');
 });
 
 function resetValues() {

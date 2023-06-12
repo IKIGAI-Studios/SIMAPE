@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
-import { Movimiento } from './movimientoModel.js';
+import Movimiento from './movimientoModel.js';
 import Expediente from './expedienteModel.js';
 import { TIPO_MOVIMIENTO } from '../utils/constants.js';
 
