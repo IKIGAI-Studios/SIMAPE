@@ -11,7 +11,7 @@ const MIME_EXTENSION = Object.freeze({
     'image/png': '.png'
 });
 
-export function obtenerNombre(req, file) {
+function obtenerNombre(req, file) {
     const ext = MIME_EXTENSION[file.mimetype];
     return `${req.body.nombre}_foto${ext}`;
 }
