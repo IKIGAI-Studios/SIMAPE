@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
 
-const Delegacion = sequelize.define(
+export const Delegacion = sequelize.define(
     'delegacion',
     {
         id_delegacion: {
@@ -20,4 +20,13 @@ const Delegacion = sequelize.define(
     }
 );
 
-export default Delegacion;
+export async function existe(filtro) {
+    const delegacion = await Delegacion.findOne({
+        where: filtro
+    });
+
+    if (delegacion) return {existe: true, delegacion};
+    return {existe: false};
+}
+
+export default { existe };

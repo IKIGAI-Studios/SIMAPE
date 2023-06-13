@@ -2,7 +2,7 @@ import express from 'express';
 import Expediente, { Expediente as ExpedienteModel } from '../models/expedienteModel.js';
 import Movimiento, { Movimiento as MovimientoModel } from '../models/movimientoModel.js';
 import MovimientoNormal, { MovimientoNormal as MovimientoNormalModel } from '../models/movimientoNormalModel.js';
-import MovimientoTransferencia from '../models/movimientoTransferenciaModel.js';
+import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransferenciaModel } from '../models/movimientoTransferenciaModel.js';
 import { fn, col } from 'sequelize';
 import { TIPO_MOVIMIENTO } from '../utils/constants.js';
 import movimientoNormalModel from '../models/movimientoNormalModel.js';
@@ -99,8 +99,8 @@ expedienteRoutes.post('/bajaExpediente', async (req, res) => {
         const { nss } = req.params;
 
         // Comprobar que existe el expediente
-        const resExpediente = await Expediente.exists({ nss });
-        if (!resExpediente.exists) {
+        const resExpediente = await Expediente.existe({ nss });
+        if (!resExpediente.existe) {
             return res.status(404).json('')
         }
 
@@ -134,10 +134,17 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
 
         // Buscar los movimientos del expediente
         //TODO: Hacer esto con el ORM
-        const movimientos = await sequelize.query(
+        const movimientosNormales = await sequelize.query(
             `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss = ${nss} && movimientoNormal.pendiente != true ORDER BY movimiento.fecha DESC LIMIT 5`,
             { type: sequelize.QueryTypes.SELECT }
         );
+
+        const transferencia = await sequelize.query(
+            `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoTransferencia ON (movimiento.folio = movimientoTransferencia.folio) WHERE movimientoTransferencia.nss = ${nss} && movimientoTransferencia.pendiente != true ORDER BY movimiento.fecha DESC LIMIT 5;`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientos = transferencia.concat(movimientosNormales);
 
         // const movimientos = await MovimientoModel.findAll({
         //     include: [{
@@ -280,7 +287,127 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
         return res.status(400).json(e.message);
     }
 });
+// * BAJA
+expedienteRoutes.post('/movimiento/baja', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { nss, motivo } = req.body;
 
+        const folio = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
+            folio, 
+            matricula, 
+            motivo, 
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.BAJA
+        };
+
+        const nuevoMovimientoBaja = {
+            folio,
+            nss,
+            pendiente: false, // TODO: CAMBIAR DESPUÉS 
+            tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.BAJA,
+        }
+
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
+
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
+
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+        console.log('Movimiento creado: \n',movimientoCreado);
+
+        // * Validar movimientoBaja
+        const movimientoBajaVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoBaja);
+        if (!movimientoBajaVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoBajaVal.errores.join(' '));
+        }
+
+        // Crear movimientoAlta
+        const movimientoBajaCreado = await MovimientoNormalModel.create(nuevoMovimientoBaja);
+        console.log('Movimiento baja creado: \n',movimientoBajaCreado);
+
+        // Actualizar expediente
+        const expedienteBD = (await Expediente.existe({ nss })).expediente;
+        await expedienteBD.update({
+            estatus: false
+        });
+
+        // Devolver respuesta
+        return res.status(201).json('Baja realizada con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
+// * TRANSFERENCIA
+expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { nss, del_destino, motivo } = req.body;
+        console.log('DELEGACION: ', del_destino);
+
+        const folio = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
+            folio, 
+            matricula, 
+            motivo, 
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.TRANSFERENCIA
+        };
+
+        const nuevoMovimientoTransferencia = {
+            folio,
+            nss,
+            pendiente: false, // TODO: CAMBIAR DESPUÉS
+            del_destino,
+            tipo_movimiento: TIPO_MOVIMIENTO.TRANSFERENCIA,
+        }
+
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
+
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
+
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+        console.log('Movimiento creado: \n',movimientoCreado);
+
+        // * Validar movimientoTransferencia
+        const movimientoTransferenciaVal = await MovimientoTransferencia.validarMovimientoTransferencia(nuevoMovimientoTransferencia);
+        if (!movimientoTransferenciaVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoTransferenciaVal.errores.join(' '));
+        }
+        console.log('antes de crear');
+        // Crear movimientoTransferencia
+        const movimientoTransferenciaCreado = await MovimientoTransferenciaModel.create(nuevoMovimientoTransferencia);
+        console.log('Movimiento transferencia creado: \n',movimientoTransferenciaCreado);
+
+        // Actualizar expediente
+        const expedienteBD = (await Expediente.existe({ nss })).expediente;
+        await expedienteBD.update({
+            delegacion: del_destino,
+            estatus: false,
+            ubicacion: 'TRANSFERIDO'
+        });
+
+        // Devolver respuesta
+        return res.status(201).json('Transferencia realizada con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
 
 async function obtenerNumeroFolio() {
     // Obtener numero de folio

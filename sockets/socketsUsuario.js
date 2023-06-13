@@ -5,7 +5,7 @@ export function socketsUsuario(io) {
         //listaUsuarios.
 
         //io.to(socketId).emit()
-
+        
         socket.emit('server:conexion', `Hola cliente, tu id es: ${socket.id}`);
     });
 }

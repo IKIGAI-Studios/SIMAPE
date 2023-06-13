@@ -2,25 +2,25 @@
   font-family: "Montserrat-Light";
   src: url("../../fonts/Montserrat-Light.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 @font-face {
   font-family: "Montserrat-Regular";
   src: url("../../fonts/Montserrat-Regular.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 @font-face {
   font-family: "Montserrat-Medium";
   src: url("../../fonts/Montserrat-Medium.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 @font-face {
   font-family: "Montserrat-Bold";
   src: url("../../fonts/Montserrat-Bold.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 /*!
  * Bootstrap Grid v5.3.0-alpha3 (https://getbootstrap.com/)
@@ -4187,7 +4187,7 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.text-input:focus-visible, .text-input-beige:focus-visible, #opciones:focus-visible {
+.text-input:focus-visible, .text-input-beige:focus-visible, .opciones:focus-visible {
   outline: none;
 }
 
@@ -4202,7 +4202,7 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-#opciones {
+.opciones {
   width: 100%;
   border: none;
   font-family: "Montserrat-Medium";
