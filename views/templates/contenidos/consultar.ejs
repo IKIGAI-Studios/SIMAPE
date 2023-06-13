@@ -71,11 +71,30 @@
             </div>
 
             <div class="row space-around">
-                <div class="col-lg-12 col-md-12 col-sm-12">
                     <label class="dark-label" for="movimientosBusquedaExpediente">MOVIMIENTOS</label> 
-                    <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
-                    <textarea class="text-input bloqueado mt-3" id="movimientosBusquedaExpediente" readonly rows="5"></textarea>
-                </div>
+                    <table class="tabla mt-3">
+                        <thead>
+                                <th>FOLIO</th>
+                                <th>TIPO DE MOVIMIENTO</th>
+                                <th>MATRÍCULA</th>
+                                <th>FECHA</th>
+                        </thead>
+                        <tbody id="tablaMovimientos">
+                            <tr>
+                                <td>1</td>
+                                <td>TRANSFERENCIA</td>
+                                <td>2323535</td>
+                                <td>2023-05-31</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>999999999</td>
+                                <td>EXTRACCIÓN</td>
+                                <td>2023-06-01</td>
+                            </tr>
+                            
+                        </tbody>
+                    </table>
             </div>
 
         </div>
@@ -95,8 +114,15 @@
                     <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">EXTRAER</p>   
                 </div>
             </button>
+            
+            <button class="img-btn" disabled id="btnPrestarExpediente">
+                <div class="row">
+                    <img src="/icons/folder_verde.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="PRESTAR">
+                    <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">PRÉSTAMO</p>
+                </div>  
+            </button>
 
         </div>
         
     </div> 
- 
+    

@@ -481,15 +481,7 @@ input[type=number]::-webkit-outer-spin-button
     align-self: center;
     vertical-align: middle;
     width: 30%;
-    
-    scrollbar-face-color:fuchsia;
-    scrollbar-highlight-color:yellow;
-    scrollbar-3dlight-color:orange;
-    scrollbar-darkshadow-color:darkblue;
-    scrollbar-shadow-color:gray;
-    scrollbar-arrow-color:yellow;
-    scrollbar-track-color:aqua;
-}
+    }
   
 .close {
     position: absolute;
@@ -534,7 +526,7 @@ tbody tr{
     padding-bottom: 1rem;
 }
 
-#tablaUsuariosActivos tr:hover, #tablaUsuariosInactivos tr:hover, #tablaPeticiones tr:hover, #tablaHistorial tr:hover{
+#tablaUsuariosActivos tr:hover, #tablaUsuariosInactivos tr:hover, #tablaPeticiones tr:hover, #tablaHistorial tr:hover, #tablaMovimientos tr:hover{
   border-radius: 20px;
     background-color: rgba(0, 90, 78, 0.1);
     border-bottom: solid 1px;
@@ -547,7 +539,7 @@ th{
     color: $imss-verde;
 }
 
-#tablaUsuariosActivos td,  #tablaUsuariosInactivos td, #tablaPeticiones td, #tablaHistorial td{
+#tablaUsuariosActivos td,  #tablaUsuariosInactivos td, #tablaPeticiones td, #tablaHistorial td, #tablaMovimientos td{
     font-family: 'Montserrat-Regular';
     font-size: 13px;
     text-align: center;
