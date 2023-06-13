@@ -1,6 +1,6 @@
 
 <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="col-lg-9 col-md-9 col-sm-9">
         <form id="supervisionExpedientes">     
 
             <div class="row space-between">
@@ -21,11 +21,9 @@
                         <input type="number" class="text-input" id="nssBusquedaExpediente" name="nss"/>
                     </div>
                     <div class="col-lg-1 col-md-1 col-sm-1">
-                        <div class="d-flex">
                             <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
                                 <img src="/icons/mas.png" alt="AGREGAR" style="width: 1rem;">
                             </button>
-                        </div>
                     </div>
                 </div>
             </form>
@@ -37,22 +35,51 @@
                 </div>
             </div>
         
+
     </div>
         
-        <div class="d-flex space-around">
+    <div class="col-lg-3 col-md-3 col-sm-3 vertical-center">
 
-                <button class="img-btn" type="" style="width: 30%;">
-                    <img src="/icons/folder_azul.png" alt="GUARDAR" style="width: 35%;">
-                    <p>INGRESAR EXPEDIENTES</p>   
-                </button>
-                <button class="img-btn" type="submit" style="width: 30%;">
-                    <img src="/icons/folder_rojo.png" alt="CANCELAR" style="width: 35%;">
-                    <p>FINALIZAR TRANSACCIÓN</p>   
-                </button>
-            
-        </div>
+        <button class="img-btn" type="submit">
+            <div class="row">
+                <img src="/icons/folder_rojo.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="CANCELAR">
+                <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">FINALIZAR TRANSACCIÓN</p>
+            </div>   
+        </button>
+    
+</div>
+
+
     </form>
       
     <!-- <script src="/js/consultaExpediente.js"></script> -->
 
 </div> 
+
+<p class="dark-label">SUPERVISIONES ACTIVAS</p>    
+
+<div class="row" style="margin-top: 1rem">
+    <table class="tabla">
+        <thead>
+                <th>FOLIO</th>
+                <th>SUPERVISOR</th>
+                <th>FECHA</th>
+        </thead>
+        <tbody id="tablaPeticiones">
+            <tr>
+                <td>1</td>
+                <td>Erick Pinzón</td>
+                <td>2023-05-31</td>
+                <td>
+                    <button class="img-btn">
+                        <img src="/icons/folder_azul.png" alt="BAJA" style="width: 2rem">
+                        <span class="tooltiptext">INGRESAR EXPEDIENTES</span>
+                    </button>
+                </td>
+            </tr>
+
+            
+        </tbody>
+    </table>
+</div>
+
