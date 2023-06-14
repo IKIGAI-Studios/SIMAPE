@@ -4554,13 +4554,13 @@ textarea {
   border-collapse: collapse;
 }
 
-tbody tr {
+.tabla tbody tr {
   border-bottom: solid 1px;
   border-color: rgba(0, 90, 78, 0.25) !important;
   padding-bottom: 1rem;
 }
 
-#tablaUsuariosActivos tr:hover, #tablaUsuariosInactivos tr:hover, #tablaPeticiones tr:hover {
+.tabla tbody tr:hover {
   border-radius: 20px;
   background-color: rgba(0, 90, 78, 0.1);
   border-bottom: solid 1px;
@@ -4573,7 +4573,7 @@ th {
   color: #005A4E;
 }
 
-#tablaUsuariosActivos td, #tablaUsuariosInactivos td, #tablaPeticiones td {
+td {
   font-family: "Montserrat-Regular";
   font-size: 13px;
   text-align: center;

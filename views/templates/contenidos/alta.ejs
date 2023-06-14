@@ -1,31 +1,30 @@
 
     <div class="row">
-        <div class="col-9">
+        <div class="col-lg-9 col-md-9 col-sm-9">
             <form id="formAltaExpediente">
                 <div class="row space-between">
-                    <div class="col-2">
+                    <div class="col-lg-2 col-md-2 col-sm-2">
                         <label class="dark-label" for="nssAltaExpediente">NSS</label>
                     </div>
-                    <div class="col-10">
-                        <input type="text" class="text-input" id="nssAltaExpediente" name="nss"/>
+                    <div class="col-lg-10 col-md-10 col-sm-10">
+                        <input type="number" class="text-input" id="nssAltaExpediente" name="nss"/>
                     </div>
                 </div>
-            
 
                 <div class="row space-between">
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <label class="dark-label" for="nombreAltaExpediente">NOMBRE</label>
                     </div>
-                    <div class="col-9">
+                    <div class="col-lg-9 col-md-9 col-sm-9">
                         <input type="text" class="text-input" id="nombreAltaExpediente" name="nombre"/>
                     </div>
                 </div>
 
                 <div class="row space-between">
-                    <div class="col-5">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
                         <label class="dark-label" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
                     </div>
-                    <div class="col-7">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <select class="opciones" id="tipoPensionAltaExpediente" name="categoria">
                             <option value="separador">Selecciona una opción:</option>
                             <option value="separador" disabled>────| 97 |────</option>
@@ -53,10 +52,10 @@
                 </div>
 
                 <div class="row space-between">
-                    <div class="col-5">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
                         <label class="dark-label" for="delegacionAltaExpediente">DELEGACIÓN</label>
                     </div>
-                    <div class="col-7">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <select class="opciones" id="delegacionAltaExpediente" name="delegacion">    
                             <option value="separador">Selecciona una opción:</option>
                         </select>
@@ -64,10 +63,10 @@
                 </div>
 
                 <div class="row space-between">
-                    <div class="col-5">
+                    <div class="col-lg-5 col-md-5 col-sm-5">
                         <label class="dark-label" for="ubicacionAltaExpediente">UBICACIÓN</label>
                     </div>
-                    <div class="col-7">
+                    <div class="col-lg-7 col-md-7 col-sm-7">
                         <select class="opciones" id="ubicacionAltaExpediente" name="ubicacion">    
                             <option value="separador">Selecciona una opción:</option>
                             <option value="Bodega">Bodega</option>
@@ -78,16 +77,16 @@
                     </div>
                 </div>
                 <div class="row space-between">
-                    <div class="col-3">
+                    <div class="col-lg-3 col-md-3 col-sm-3">
                         <label class="dark-label" for="añoAltaExpediente">AÑO</label>
                     </div>
-                    <div class="col-9">
+                    <div class="col-lg-9 col-md-9 col-sm-9">
                         <input type="number" class="text-input" id="añoAltaExpediente" name="año"/>
                     </div>
                 </div>
                 
                 <div class="row space-between">
-                    <div class="col">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
                         <label class="dark-label" for="observacionesAltaExpediente">OBSERVACIONES</label> 
                         <textarea class="text-input mt-3" id="observacionesAltaExpediente" name="observaciones"></textarea>
                     </div>
@@ -96,14 +95,18 @@
             </div>
             
             
-            <div class="col-3 vertical-center">
+            <div class="col-lg-3 col-md-3 col-sm-3 vertical-center">
                 <button class="img-btn" type="submit">
-                    <img src="/icons/guardar.png" alt="GUARDAR" style="width: 35%;">
-                    <p>GUARDAR</p>   
+                    <div class="row">
+                        <img src="/icons/guardar.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="GUARDAR">
+                        <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">GUARDAR</p>   
+                    </div>
                 </button>
                 <button class="img-btn" type="reset">
-                    <img src="/icons/folder_cancelar.png" alt="CANCELAR" style="width: 35%;">
-                    <p>CANCELAR</p>   
+                    <div class="row">
+                        <img src="/icons/folder_cancelar.png"  class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="CANCELAR">
+                        <p  class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">CANCELAR</p>  
+                    </div>   
                 </button>
             </div>
         </form>
