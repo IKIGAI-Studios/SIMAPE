@@ -1,21 +1,26 @@
 import SnackBar from "./componentes/snackbar.js";
 import { buscarExpediente, extraerExpediente, ingresarExpediente } from "./actions/accionesExpediente.js";
 
-const formBusquedaExpediente = document.querySelector('#formBusquedaExpediente');
-const inputNSS = document.querySelector('#nssBusquedaExpediente');
+const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteConsulta');
+const inputNSS = document.querySelector('#nssBusquedaExpedienteConsulta');
 
-const inputNombre = document.querySelector('#nombreBusquedaExpediente');
-const inputTipoPension = document.querySelector('#tipoPensionBusquedaExpediente');
-const inputAño = document.querySelector('#añoBusquedaExpediente');
-const inputEstatus = document.querySelector('#estatusBusquedaExpediente')
-const inputUbicacion = document.querySelector('#ubicacionBusquedaExpediente');
-const movimientosBusquedaExpediente = document.querySelector('#movimientosBusquedaExpediente');
-const observacionesBusquedaExpediente = document.querySelector('#observacionesBusquedaExpediente');
+const inputNombre = document.querySelector('#nombreBusquedaExpedienteConsulta');
+const inputTipoPension = document.querySelector('#tipoPensionBusquedaExpedienteConsulta');
+const inputAño = document.querySelector('#añoBusquedaExpedienteConsulta');
+const inputEstatus = document.querySelector('#estatusBusquedaExpedienteConsulta')
+const inputUbicacion = document.querySelector('#ubicacionBusquedaExpedienteConsulta');
+const movimientosBusquedaExpediente = document.querySelector('#movimientosBusquedaExpedienteConsulta');
+const observacionesBusquedaExpediente = document.querySelector('#observacionesBusquedaExpedienteConsulta');
 
 const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
 const btnExtraerExpediente = document.querySelector('#btnExtraerExpediente');
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
+
+inputNSS.addEventListener('keydown', (e) => {
+    clearInputs();
+    resetValues();
+});
 
 formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -39,14 +44,19 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     inputNombre.value = expediente.nombre;
     inputTipoPension.value = expediente.categoria;
     inputAño.value = expediente.año;
-    inputEstatus.value = expediente.estatus == true ? 'Activo' : 'Inactivo';
     inputUbicacion.value = expediente.ubicacion;
     observacionesBusquedaExpediente.value = expediente.observaciones;
 
-    // Activar/Desactivar los botones
     resetValues();
-    expediente.extraido == true ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
-    
+    inputEstatus.value = 'Inactivo';
+
+    if (expediente.estatus) {
+        inputEstatus.value = 'Activo';
+
+        // Activar/Desactivar los botones
+        expediente.extraido ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
+    }
+
     // Escribir los movimientos
     const movimientosText = movimientos.map((movimiento) => {
         return `FOLIO: ${movimiento.folio} | TIPO: ${movimiento.tipo_movimiento} | FECHA: ${movimiento.fecha.slice(0,10)}`;

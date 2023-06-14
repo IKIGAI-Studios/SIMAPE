@@ -1,59 +1,47 @@
 
 <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-9">
-        <form id="supervisionExpedientes">     
+        <div class="row space-between">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <label class="dark-label" for="nombreSupervisor">NOMBRE DE SUPERVISOR</label>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <input type="text" class="text-input" id="" name="nombreSupervisor"/>
+            </div>
+        </div>            
 
+        <form id="formBusquedaExpediente">
             <div class="row space-between">
-                <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label class="dark-label" for="nombreSupervisor">NOMBRE DE SUPERVISOR</label>
+                <div class="col-lg-3 col-md-3 col-sm-3">
+                    <label class="dark-label" for="nssBusquedaExpediente">EXPEDIENTE (NSS)</label>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8">
-                    <input type="text" class="text-input" id="" name="nombreSupervisor"/>
+                    <input type="number" class="text-input" id="nssBusquedaExpediente" name="nss"/>
                 </div>
-            </div>            
-
-            <form id="formBusquedaExpediente">
-                <div class="row space-between">
-                    <div class="col-lg-3 col-md-3 col-sm-3">
-                        <label class="dark-label" for="nssBusquedaExpediente">EXPEDIENTE (NSS)</label>
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8">
-                        <input type="number" class="text-input" id="nssBusquedaExpediente" name="nss"/>
-                    </div>
-                    <div class="col-lg-1 col-md-1 col-sm-1">
-                            <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
-                                <img src="/icons/mas.png" alt="AGREGAR" style="width: 1rem;">
-                            </button>
-                    </div>
-                </div>
-            </form>
-
-            <div class="row space-between">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label class="dark-label" for="expedientes">EXPEDIENTES: </label> 
-                    <textarea class="text-input bloqueado mt-3" id="" name="expedientes" readonly></textarea>
+                <div class="col-lg-1 col-md-1 col-sm-1">
+                        <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
+                            <img src="/icons/mas.png" alt="AGREGAR" style="width: 1rem;">
+                        </button>
                 </div>
             </div>
-        
+        </form>
 
+        <div class="row space-between">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label class="dark-label" for="expedientes">EXPEDIENTES: </label> 
+                <textarea class="text-input bloqueado mt-3" id="" name="expedientes" readonly></textarea>
+            </div>
+        </div>
     </div>
         
     <div class="col-lg-3 col-md-3 col-sm-3 vertical-center">
-
         <button class="img-btn" type="submit">
             <div class="row">
                 <img src="/icons/folder_rojo.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="CANCELAR">
                 <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">FINALIZAR TRANSACCIÓN</p>
             </div>   
         </button>
-    
-</div>
-
-
-    </form>
-      
-    <!-- <script src="/js/consultaExpediente.js"></script> -->
-
+    </div>
 </div> 
 
 <p class="dark-label">SUPERVISIONES ACTIVAS</p>    
@@ -61,9 +49,9 @@
 <div class="row" style="margin-top: 1rem">
     <table class="tabla">
         <thead>
-                <th>FOLIO</th>
-                <th>SUPERVISOR</th>
-                <th>FECHA</th>
+            <th>FOLIO</th>
+            <th>SUPERVISOR</th>
+            <th>FECHA</th>
         </thead>
         <tbody id="tablaPeticiones">
             <tr>
@@ -77,8 +65,6 @@
                     </button>
                 </td>
             </tr>
-
-            
         </tbody>
     </table>
 </div>

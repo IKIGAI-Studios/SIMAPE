@@ -1,1 +1,100 @@
-TRANSFERENCIA USUARIO OPERATIVO
+
+<div class="row">
+    <div class="col-lg-9 col-md-9 col-sm-9">
+        <form id="formBusquedaExpedienteTransferencia">
+            <div class="row space-between">
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <label class="dark-label" for="nssBusquedaExpedienteTransferencia">NSS</label>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <input type="number" class="text-input" id="nssBusquedaExpedienteTransferencia" name="nss"/>
+                </div>
+                <!--LUPA-->
+                <div class="col-lg-2 col-md-2 col-sm-2">
+                    <div class="d-flex justify-content-end">
+                        <button class="btn-verde" type="submit" style="margin-top: 0; font-family: none; justify-content: center; display: flex;">
+                            <img src="/icons/lupa.png" alt="BUSCAR" style="width: 1rem;">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        
+
+        <div class="row space-between">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <label class="dark-label" for="nombreBusquedaExpedienteTransferencia">NOMBRE</label>
+            </div>
+            <div class="col-lg-9 col-md-9 col-sm-9">
+                <input type="text" class="text-input" id="nombreBusquedaExpedienteTransferencia" readonly/>
+            </div>
+        </div>
+
+        <div class="row space-between">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <label class="dark-label" for="tipoPensionBusquedaExpedienteTransferencia">TIPO DE PENSIÓN</label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7">
+                <input type="text" class="text-input" id="tipoPensionBusquedaExpedienteTransferencia" readonly/>
+            </div>
+        </div>
+
+        <div class="row space-between">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <label class="dark-label" for="delegacionBusquedaExpedienteTransferencia">DELEGACIÓN</label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7">
+                <input type="text" class="text-input" id="delegacionBusquedaExpedienteTransferencia" readonly>
+            </div>
+        </div>
+
+        <div class="row space-between">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <label class="dark-label" for="ubicacionBusquedaExpedienteTransferencia">UBICACIÓN</label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7">
+                <input type="text" class="text-input" id="ubicacionBusquedaExpedienteTransferencia" readonly>
+            </div>
+        </div>
+
+        <div class="row space-between mt-4">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <p class="dark-label">TRANSFERIR EXPEDIENTE A:</p>
+            </div>
+        </div>
+        
+        <div class="row space-between">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <label class="dark-label" for="delegacionTransfenciaExpediente">DELEGACIÓN</label>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7">
+                <select class="opciones" id="delegacionTransfenciaExpediente" name="delegacion" disabled>    
+                    <option value="separador">Selecciona una opción:</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row space-between">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label class="dark-label" for="motivoTransferenciaExpediente">MOTIVO</label> 
+                <textarea class="text-input mt-3" id="motivoTransferenciaExpediente" name="motivo" readonly></textarea>
+            </div>
+        </div>
+    </div>
+        
+        
+    <div class="col-lg-3 col-md-3 col-sm-3 vertical-center">
+        <button class="img-btn" id="btnTransferenciaExpediente" disabled>
+            <div class="row">
+                <img src="/icons/guardar.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="GUARDAR">
+                <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">GUARDAR</p>
+            </div>
+        </button>
+        <button class="img-btn" id="btnTransferenciaExpedienteCancelar" disabled>
+            <div class="row">
+                <img src="/icons/folder_cancelar.png" class="col-lg-6 col-md-12 col-sm-12 vertical-center" alt="CANCELAR">
+                <p class="col-lg-6 col-md-12 col-sm-12 vertical-center" style="margin: 0;">CANCELAR</p>   
+            </div>
+        </button>
+    </div>
+</div> 

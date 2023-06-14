@@ -2,13 +2,13 @@
     <div class="row">
 
         <div class="col-lg-9 col-md-9 col-sm-9">
-            <form id="formBusquedaExpediente">
+            <form id="formBusquedaExpedienteConsulta">
                 <div class="row space-between">
                     <div class="col-lg-2 col-md-2 col-sm-2">
-                        <label class="dark-label" for="nssBusquedaExpediente">NSS</label>
+                        <label class="dark-label" for="nssBusquedaExpedienteConsulta">NSS</label>
                     </div>
                     <div class="col-lg-8 col-md-8 col-sm-8">
-                        <input type="number" class="text-input" id="nssBusquedaExpediente" name="nss"/>
+                        <input type="number" class="text-input" id="nssBusquedaExpedienteConsulta" name="nss"/>
                     </div>
                     <!--LUPA-->
                     <div class="col-lg-2 col-md-2 col-sm-2">
@@ -23,79 +23,88 @@
 
             <div class="row space-between">
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label class="dark-label" for="nombreBusquedaExpediente">NOMBRE</label>
+                    <label class="dark-label" for="nombreBusquedaExpedienteConsulta">NOMBRE</label>
                 </div>
                 <div class="col-lg-9 col-md-9 col-sm-9">
-                    <input type="text" class="text-input bloqueado" id="nombreBusquedaExpediente" readonly/>
+                    <input type="text" class="text-input bloqueado" id="nombreBusquedaExpedienteConsulta" readonly/>
                 </div>
             </div>
 
             <div class="row space-between">
                 <div class="col-lg-5 col-md-5 col-sm-5">
-                    <label class="dark-label" for="tipoPensionBusquedaExpediente">TIPO DE PENSIÓN</label>
+                    <label class="dark-label" for="tipoPensionBusquedaExpedienteConsulta">TIPO DE PENSIÓN</label>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-7">
-                    <input type="text" class="text-input bloqueado" id="tipoPensionBusquedaExpediente" readonly/>
+                    <input type="text" class="text-input bloqueado" id="tipoPensionBusquedaExpedienteConsulta" readonly/>
                 </div>
             </div>
 
             <div class="row space-around">
                 <div class="col-lg-2 col-md-2 col-sm-2">
-                    <label class="dark-label" for="añoBusquedaExpediente">AÑO</label>
+                    <label class="dark-label" for="añoBusquedaExpedienteConsulta">AÑO</label>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <input type="text" class="text-input bloqueado" id="añoBusquedaExpediente" readonly/>
+                    <input type="text" class="text-input bloqueado" id="añoBusquedaExpedienteConsulta" readonly/>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <label class="dark-label" for="estatusBusquedaExpediente">ESTATUS</label>
+                    <label class="dark-label" for="estatusBusquedaExpedienteConsulta">ESTATUS</label>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3">
-                    <input type="text" class="text-input bloqueado" id="estatusBusquedaExpediente" readonly/>
+                    <input type="text" class="text-input bloqueado" id="estatusBusquedaExpedienteConsulta" readonly/>
                 </div>
             </div>
 
             <div class="row space-around">
                 <div class="col-lg-4 col-md-4 col-sm-4">
-                    <label class="dark-label" for="ubicacionBusquedaExpediente">UBICACIÓN</label>
+                    <label class="dark-label" for="ubicacionBusquedaExpedienteConsulta">UBICACIÓN</label>
                 </div>
                 <div class="col-lg-8 col-md-8 col-sm-8">
-                    <input type="text" class="text-input bloqueado" id="ubicacionBusquedaExpediente" readonly/>
+                    <input type="text" class="text-input bloqueado" id="ubicacionBusquedaExpedienteConsulta" readonly/>
                 </div>
             </div>
 
             <div class="row space-around">
                 <div class="col-lg-12 col-md-12 col-sm-12">
-                    <label class="dark-label" for="observacionesBusquedaExpediente">OBSERVACIONES</label>
-                    <textarea class="text-input bloqueado mt-3" id="observacionesBusquedaExpediente" readonly rows="5"></textarea>
+                    <label class="dark-label" for="observacionesBusquedaExpedienteConsulta">OBSERVACIONES</label>
+                    <textarea class="text-input bloqueado mt-3" id="observacionesBusquedaExpedienteConsulta" readonly rows="5"></textarea>
                 </div>
             </div>
 
             <div class="row space-around">
-                    <label class="dark-label" for="movimientosBusquedaExpediente">MOVIMIENTOS</label> 
-                    <table class="tabla mt-3">
-                        <thead>
-                                <th>FOLIO</th>
-                                <th>TIPO DE MOVIMIENTO</th>
-                                <th>MATRÍCULA</th>
-                                <th>FECHA</th>
-                        </thead>
-                        <tbody id="tablaMovimientos">
-                            <tr>
-                                <td>1</td>
-                                <td>TRANSFERENCIA</td>
-                                <td>2323535</td>
-                                <td>2023-05-31</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>999999999</td>
-                                <td>EXTRACCIÓN</td>
-                                <td>2023-06-01</td>
-                            </tr>
-                            
-                        </tbody>
-                    </table>
+                <div class="col-12">
+                    <label class="dark-label" for="movimientosBusquedaExpedienteConsulta">MOVIMIENTOS</label> 
+                    <!-- FALTA AGREGAR LOS FILTROS QUE NO RECUERDO CUALES ERAN XD-->
+                    <textarea class="text-input bloqueado mt-3" id="movimientosBusquedaExpedienteConsulta" readonly rows="5"></textarea>
+                </div>
             </div>
+
+
+            <!-- <div class="row space-around">
+                <label class="dark-label">MOVIMIENTOS</label> 
+                <table class="tabla mt-3" id="movimientosBusquedaExpediente">
+                    <thead>
+                        <th>FOLIO</th>
+                        <th>TIPO DE MOVIMIENTO</th>
+                        <th>MATRÍCULA</th>
+                        <th>FECHA</th>
+                    </thead>
+                    <tbody id="tablaMovimientos">
+                        <tr>
+                            <td>1</td>
+                            <td>TRANSFERENCIA</td>
+                            <td>2323535</td>
+                            <td>2023-05-31</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>999999999</td>
+                            <td>EXTRACCIÓN</td>
+                            <td>2023-06-01</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div> -->
 
         </div>
 

@@ -12,6 +12,7 @@ import dotenv from 'dotenv';
 import { Server } from 'socket.io';
 import http from 'http';
 import { socketsUsuario } from './sockets/socketsUsuario.js';
+import delegacionRoutes from './routes/delegacionRoutes.js';
 
 // Declarar constantes para uso de rutas estaticas
 const __filename = fileURLToPath(import.meta.url);
@@ -50,6 +51,7 @@ app.use(session({
 app.use('/', routes);
 app.use('/usuario', usuarioRoutes);
 app.use('/expediente', expedienteRoutes);
+app.use('/delegacion', delegacionRoutes);
 
 // Iniciar servidor
 const server = HTTPserver.listen(PORT, () => {

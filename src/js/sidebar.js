@@ -14,7 +14,7 @@ const hint = document.querySelector('.texto-hint');
 
 const titulos = [
   'DATOS DEL USUARIO', 
-  'HISTORIAL DE MOVIMIENTOS',
+  'HISTORIAL DE MOVIMIENTOS', 
   'CONSULTA DE EXPEDIENTE A PARTIR DE NSS', 
   'CONTROL DE EXPEDIENTE - ALTA', 
   'CONTROL DE EXPEDIENTE - BAJA', 

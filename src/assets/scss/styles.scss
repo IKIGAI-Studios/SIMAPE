@@ -20,28 +20,28 @@ $paleta-imss: (
     font-family: 'Montserrat-Light';
     src: url('../../fonts/Montserrat-Light.ttf') format('truetype');
     unicode-range: U+000-5FF;
-    font-display: auto;
+    font-display: block;
 }
 
 @font-face {
     font-family: 'Montserrat-Regular';
     src: url('../../fonts/Montserrat-Regular.ttf') format('truetype');
     unicode-range: U+000-5FF;
-    font-display: auto;
+    font-display: block;
 }
 
 @font-face {
     font-family: 'Montserrat-Medium';
     src: url('../../fonts/Montserrat-Medium.ttf') format('truetype');
     unicode-range: U+000-5FF;
-    font-display: auto;
+    font-display: block;
 } 
   
 @font-face {
     font-family: 'Montserrat-Bold';
     src: url('../../fonts/Montserrat-Bold.ttf') format('truetype');
     unicode-range: U+000-5FF;
-    font-display: auto;
+    font-display: block;
 } 
 
 @import '../../../node_modules/bootstrap/scss/bootstrap-grid';
@@ -149,7 +149,7 @@ footer{
 }
 
 // DETALLITO
-.text-input:focus-visible, .text-input-beige:focus-visible, #opciones:focus-visible{
+.text-input:focus-visible, .text-input-beige:focus-visible, .opciones:focus-visible{
     outline: none;
 }
 
@@ -164,7 +164,7 @@ footer{
     @include shadow();
 }
 
-#opciones{
+.opciones{
     width: 100%;
     border: none;
     font-family: 'Montserrat-Medium';
@@ -517,29 +517,28 @@ input[type=number]::-webkit-outer-spin-button
 
 .tabla {
     border-collapse: collapse;
-    
 }
 
-tbody tr{
+.tabla tbody tr {
     border-bottom: solid 1px;
     border-color: rgba(0, 90, 78, 0.25) !important;
     padding-bottom: 1rem;
 }
 
-#tablaUsuariosActivos tr:hover, #tablaUsuariosInactivos tr:hover, #tablaPeticiones tr:hover, #tablaHistorial tr:hover, #tablaMovimientos tr:hover{
-  border-radius: 20px;
+.tabla tbody tr:hover {
+    border-radius: 20px;
     background-color: rgba(0, 90, 78, 0.1);
     border-bottom: solid 1px;
     cursor: default;
 }
 
-th{
+th {
     font-family: 'Montserrat-Bold';
     font-size: 13px;
     color: $imss-verde;
 }
 
-#tablaUsuariosActivos td,  #tablaUsuariosInactivos td, #tablaPeticiones td, #tablaHistorial td, #tablaMovimientos td{
+td {
     font-family: 'Montserrat-Regular';
     font-size: 13px;
     text-align: center;
@@ -559,9 +558,9 @@ th{
     border-radius: 10px;
     position: absolute;
     z-index: 1;  
-  }
+}
   
-  @keyframes appear {
+@keyframes appear {
     from {opacity: 0;}
     to {opacity: 1;}
 }
@@ -574,4 +573,4 @@ th{
   .btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext, .img-btn:hover .tooltiptext  {
     visibility: visible;
     animation: appear 0.6s, disappear 0.6s 2.5s;
-  }
+}
