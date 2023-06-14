@@ -2,25 +2,25 @@
   font-family: "Montserrat-Light";
   src: url("../../fonts/Montserrat-Light.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 @font-face {
   font-family: "Montserrat-Regular";
   src: url("../../fonts/Montserrat-Regular.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 @font-face {
   font-family: "Montserrat-Medium";
   src: url("../../fonts/Montserrat-Medium.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 @font-face {
   font-family: "Montserrat-Bold";
   src: url("../../fonts/Montserrat-Bold.ttf") format("truetype");
   unicode-range: U+000-5FF;
-  font-display: auto;
+  font-display: block;
 }
 /*!
  * Bootstrap Grid v5.3.0-alpha3 (https://getbootstrap.com/)
@@ -4187,7 +4187,7 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-.text-input:focus-visible, .text-input-beige:focus-visible, #opciones:focus-visible {
+.text-input:focus-visible, .text-input-beige:focus-visible, .opciones:focus-visible {
   outline: none;
 }
 
@@ -4202,7 +4202,16 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
-#opciones {
+.month-input {
+  font-family: "Montserrat-Medium";
+  color: #005A4E;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.opciones {
   width: 100%;
   border: none;
   font-family: "Montserrat-Medium";
@@ -4239,6 +4248,28 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+input[type=checkbox] {
+  cursor: pointer;
+  background-color: #fff;
+  background-image: url("../../icons/littledove.png");
+  background-image: url("/icons/littledove.png");
+  height: 1rem;
+  width: 1rem;
+  border: 2px solid #005A4E;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  margin: auto 1rem;
+  border-radius: 3px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+input[type=checkbox]:checked {
+  background-image: url("../../icons/littledove.png");
+  background-image: url("/icons/littledove.png");
+  background-color: #005A4E;
 }
 
 .foto_usuario {
@@ -4555,13 +4586,13 @@ input[type=number]::-webkit-outer-spin-button {
   border-collapse: collapse;
 }
 
-tbody tr {
+.tabla tbody tr {
   border-bottom: solid 1px;
   border-color: rgba(0, 90, 78, 0.25) !important;
   padding-bottom: 1rem;
 }
 
-#tablaUsuariosActivos tr:hover, #tablaUsuariosInactivos tr:hover, #tablaPeticiones tr:hover, #tablaHistorial tr:hover, #tablaMovimientos tr:hover {
+.tabla tbody tr:hover {
   border-radius: 20px;
   background-color: rgba(0, 90, 78, 0.1);
   border-bottom: solid 1px;
@@ -4574,7 +4605,7 @@ th {
   color: #005A4E;
 }
 
-#tablaUsuariosActivos td, #tablaUsuariosInactivos td, #tablaPeticiones td, #tablaHistorial td, #tablaMovimientos td {
+td {
   font-family: "Montserrat-Regular";
   font-size: 13px;
   text-align: center;
