@@ -1,1 +1,125 @@
-reportes admin
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <p class="dark-label">- GENERACIÓN DE REPORTES POR FECHA -</p>
+
+        <div class="row mt-4 align-items-center">
+            <label for="" class="dark-label col-lg-2 col-md-2 col-sm-2">DEL MES</label>
+            <input type="month" name="" id="" class="month-input col-lg-4 col-md-4 col-sm-4">
+            <label for="" class="dark-label col-lg-2 col-md-2 col-sm-2">AL MES</label>
+            <input type="month" name="" id="" class="month-input col-lg-4 col-md-4 col-sm-4">
+        </div>
+
+        <div class="row mt-3 align-items-center">
+            <div class="row mt-2">
+                    <label class="dark-label col-lg-5 col-md-5 col-sm-5" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
+                <div class="col-lg-7 col-md-7 col-sm-7">
+                    <select class="opciones" id="tipoPensionAltaExpediente" name="categoria">
+                        <option value="separador">Selecciona una opción:</option>
+                        <option value="separador" disabled>────| 97 |────</option>
+                        <option value="97 - CE">97 - CE</option>
+                        <option value="97 - VE">97 - VE</option>
+                        <option value="97 - ASC">97 - ASC</option>
+                        <option value="97 - OR">97 - OR</option>
+                        <option value="97 - VI">97 - VI</option>
+                        <option value="97 - VO">97 - VO</option>
+                        <option value="97 - IPP">97 - IPP</option>
+                        <option value="97 - INV">97 - INV</option>
+                        <option value="97 - IG">97 - IG</option>
+                        <option value="separador" disabled>────| 73 |────</option>
+                        <option value="73 - CE">73 - CE</option>
+                        <option value="73 - VE">73 - VE</option>
+                        <option value="73 - ASC">73 - ASC</option>
+                        <option value="73 - OR">73 - OR</option>
+                        <option value="73 - VI">73 - VI</option>
+                        <option value="73 - VO">73 - VO</option>
+                        <option value="73 - IPN">73 - IPN</option>
+                        <option value="73 - INV">73 - INV</option>
+                        <option value="73 - IG">73 - IG</option>
+                    </select>
+                </div>
+                <div class="row mt-3 align-items-center">
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <label class="dark-label">TRANSFERENCIAS</label>
+                        <input type="checkbox">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <label class="dark-label">ALTAS</label>
+                        <input type="checkbox">
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4">
+                        <label class="dark-label">BAJAS</label>
+                        <input type="checkbox">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+
+        <div class="vertical-center">
+            <button class="img-btn">
+                <img src="/icons/HTML.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">GENERAR REPORTE</span>
+            </button>
+            <button class="img-btn">
+                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">VISUALIZAR</span>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <p class="dark-label">- PENSIONADOS -</p>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <label class="dark-label" for="nssReportes">NSS</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10">
+                <input type="number" class="text-input" id="nssReportes" name="nss"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="row space-around    ">
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
+                <img src="/icons/HTML.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">GENERAR REPORTE</span>
+            </button>
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
+                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">VISUALIZAR</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8">
+        <p class="dark-label">- USUARIOS DEL SISTEMA -</p>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-2">
+                <label class="dark-label" for="matricula">MATRÍCULA</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10">
+                <input type="number" class="text-input" id="matricula" name="matricula"/>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-4">
+        <div class="row space-around    ">
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
+                <img src="/icons/HTML.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">GENERAR REPORTE</span>
+            </button>
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
+                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">VISUALIZAR</span>
+            </button>
+        </div>
+    </div>
+</div>

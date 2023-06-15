@@ -4202,6 +4202,15 @@ footer {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
+.month-input {
+  font-family: "Montserrat-Medium";
+  color: #005A4E;
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
 .opciones {
   width: 100%;
   border: none;
@@ -4235,14 +4244,43 @@ textarea {
   height: 5rem;
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=checkbox] {
+  cursor: pointer;
+  background-color: #fff;
+  background-image: url("../../icons/littledove.png");
+  background-image: url("/icons/littledove.png");
+  height: 1rem;
+  width: 1rem;
+  border: 2px solid #005A4E;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  margin: auto 1rem;
+  border-radius: 3px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+input[type=checkbox]:checked {
+  background-image: url("../../icons/littledove.png");
+  background-image: url("/icons/littledove.png");
+  background-color: #005A4E;
+}
+
 .foto_usuario {
-  width: 35vh;
-  height: 35vh;
+  width: 20cqw;
+  height: 20cqw;
   border-radius: 10px;
+  margin: 1rem;
   -o-object-fit: cover;
      object-fit: cover;
-  -o-object-position: 50% 0%;
-     object-position: 50% 0%;
+  -o-object-position: 50% 20%;
+     object-position: 50% 20%;
 }
 
 .btn-beige {
@@ -4297,16 +4335,10 @@ textarea {
 }
 
 .img-btn {
-  width: 100%;
-  display: inline-flex;
-  flex-direction: row;
   background-color: #ffffff;
   border: none;
   color: #005A4E;
   font-family: "Montserrat-Bold";
-  font-size: 15px;
-  justify-content: space-around;
-  align-items: center;
   border-radius: 20px;
   text-align: center;
   padding: 1rem;
@@ -4610,7 +4642,7 @@ td {
     opacity: 0;
   }
 }
-.btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext {
+.btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext, .img-btn:hover .tooltiptext {
   visibility: visible;
   animation: appear 0.6s, disappear 0.6s 2.5s;
 }/*# sourceMappingURL=styles.css.map */
