@@ -146,17 +146,6 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
 
         const movimientos = transferencia.concat(movimientosNormales);
 
-        // const movimientos = await MovimientoModel.findAll({
-        //     include: [{
-        //         model: MovimientoNormalModel,
-        //         where: {
-        //             nss
-        //         }
-        //     }],
-        //     order: [['fecha', 'DESC']],
-        //     limit: 5
-        // });
-
         // Regresar todos los datos
         return res.json({
             expediente: expedienteBD.expediente,
