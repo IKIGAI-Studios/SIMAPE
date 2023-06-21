@@ -7,23 +7,25 @@ export const ModalPass = new Modal(
   document.getElementById('modalPassClose')
 );
 
-export const ModalAgregarUsuario = new Modal(
-  document.getElementById('modalAgregarUsuario'),
-  document.getElementById('btnAgregarUsuario'),
-  document.getElementById('modalAgregarUsuarioClose')
-);
+// export const ModalAgregarUsuario = new Modal(
+//   document.getElementById('modalAgregarUsuario'),
+//   document.getElementById('btnAgregarUsuario'),
+//   document.getElementById('modalAgregarUsuarioClose')
+// );
 
 export const ModalIngresarExpediente = new Modal(
-  document.getElementById('modalIngresarExpediente'),
-  document.getElementById('btnIngresarExpediente'),
-  document.getElementById('modalIngresarExpedienteClose')
+  document.getElementById('modalPrestarExpediente'),
+  document.getElementById('btnPrestarExpediente'),
+  document.getElementById('modalPrestarExpedienteClose')
 );
+
+
 
 // * Generar eventos para que al dar clic fuera se desactiven
 window.onclick = function(event) {
-  if (event.target === ModalPass.HTMLmodal || event.target === ModalAgregarUsuario.HTMLmodal || event.target === ModalIngresarExpediente.HTMLmodal) {
+  if (event.target === ModalPass.HTMLmodal || event.target === ModalIngresarExpediente.HTMLmodal) {
     ModalPass.disable();
-    ModalAgregarUsuario.disable();
+    //ModalAgregarUsuario.disable();
     ModalIngresarExpediente.disable();
   }
 }
