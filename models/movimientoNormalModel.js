@@ -30,7 +30,6 @@ export async function validarMovimientoNormal({ folio, nss, pendiente, tipo_movi
     let errores = [];
 
     if (!folio || typeof folio !== 'number') {
-        console.log(folio);
         valido = false;
         errores.push(new Error('Folio no válido'));
     }

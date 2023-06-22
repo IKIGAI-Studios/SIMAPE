@@ -1,12 +1,14 @@
 import express from 'express';
+import Usuario from '../models/usuarioModel.js';
 import Expediente, { Expediente as ExpedienteModel } from '../models/expedienteModel.js';
 import Movimiento, { Movimiento as MovimientoModel } from '../models/movimientoModel.js';
 import MovimientoNormal, { MovimientoNormal as MovimientoNormalModel } from '../models/movimientoNormalModel.js';
 import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransferenciaModel } from '../models/movimientoTransferenciaModel.js';
+import { Peticion as PeticionModel } from '../models/peticionModel.js';
 import { fn, col } from 'sequelize';
-import { TIPO_MOVIMIENTO } from '../utils/constants.js';
-import movimientoNormalModel from '../models/movimientoNormalModel.js';
+import { ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
 import sequelize from '../utils/DBconnection.js';
+
 
 const expedienteRoutes = express.Router();
 
@@ -123,7 +125,6 @@ expedienteRoutes.post('/bajaExpediente', async (req, res) => {
 expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
     try {
         const { nss } = req.params;
-
 
         // Buscar el expediente
         const expedienteBD = await Expediente.existe({ nss });
@@ -290,12 +291,24 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
             fecha: new Date(),
             tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.BAJA
         };
+        
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
 
         const nuevoMovimientoBaja = {
             folio,
             nss,
-            pendiente: false, // TODO: CAMBIAR DESPUÉS 
+            pendiente: usuarioVal.usuario.tipo_usuario === TIPO_USUARIO.OPERATIVO, 
             tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.BAJA,
+        }
+
+        const nuevaPeticion = {
+            folio,
+            estado: ESTADO_PETICION.PENDIENTE,
+            tipo: TIPO_PETICION.BAJA
         }
 
         // * Validar movimiento
@@ -316,9 +329,18 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
             return res.status(400).json(movimientoBajaVal.errores.join(' '));
         }
 
-        // Crear movimientoAlta
+        // Crear movimientoBaja
         const movimientoBajaCreado = await MovimientoNormalModel.create(nuevoMovimientoBaja);
         console.log('Movimiento baja creado: \n',movimientoBajaCreado);
+
+
+        // Si el usuario es operativo, realizar la petición
+        if (usuarioVal.usuario.tipo_usuario === TIPO_USUARIO.OPERATIVO) {
+            const peticionCreada = await PeticionModel.create(nuevaPeticion);
+            console.log('Peticion creada: \n',peticionCreada);
+            // Devolver respuesta
+            return res.status(201).json('Petición de baja realizada con éxito');
+        }
 
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;

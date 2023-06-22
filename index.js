@@ -14,6 +14,7 @@ import http from 'http';
 import { socketsUsuario } from './sockets/socketsUsuario.js';
 import delegacionRoutes from './routes/delegacionRoutes.js';
 import movimientoRoutes from './routes/movimientoRoutes.js';
+import peticionRoutes from './routes/peticionRoutes.js';
 
 // Declarar constantes para uso de rutas estaticas
 const __filename = fileURLToPath(import.meta.url);
@@ -54,6 +55,7 @@ app.use('/usuario', usuarioRoutes);
 app.use('/expediente', expedienteRoutes);
 app.use('/delegacion', delegacionRoutes);
 app.use('/movimiento', movimientoRoutes);
+app.use('/peticion', peticionRoutes);
 
 // Iniciar servidor
 const server = HTTPserver.listen(PORT, () => {

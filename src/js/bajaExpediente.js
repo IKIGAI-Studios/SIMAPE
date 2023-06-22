@@ -69,7 +69,7 @@ btnBajaUsuario.addEventListener('click', async (e) => {
     const expedienteEliminado = await bajaExpediente(form);
 
     if (expedienteEliminado instanceof Error) {
-        return snackbar.showError(expedienteCreado.message);
+        return snackbar.showError(expedienteEliminado.message);
     }
 
     snackbar.showMessage('Expediente dado de baja correctamente');

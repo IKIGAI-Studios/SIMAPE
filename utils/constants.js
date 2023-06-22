@@ -15,6 +15,17 @@ export const TIPO_USUARIO = {
     OPERATIVO: 'OPERATIVO'
 }
 
+export const TIPO_PETICION = {
+    BAJA: 'BAJA',
+    TRANSFERENCIA: 'TRANSFERENCIA'
+}
+
+export const ESTADO_PETICION = {
+    PENDIENTE: 'PENDIENTE',
+    ACEPTADO: 'ACEPTADO',
+    RECHAZADO: 'RECHAZADO'
+}
+
 export const CATEGORIA_EXPEDIENTE = {
     '97 - CE': '97 - CE',
     '97 - VE': '97 - VE',

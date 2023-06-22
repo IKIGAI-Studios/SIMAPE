@@ -1,7 +1,9 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
+import Movimiento from './movimientoModel.js';
+import { TIPO_PETICION } from '../utils/constants.js';
 
-const Peticion = sequelize.define(
+export const Peticion = sequelize.define(
     'peticion',
     {
         id: {
@@ -22,4 +24,44 @@ const Peticion = sequelize.define(
     }
 );
 
-export default Peticion;
+export async function validarPeticion({ folio, estado, tipo }) {
+    let valido = true;
+    let errores = [];
+
+    if (!folio || typeof folio !== 'number') {
+        valido = false;
+        errores.push(new Error('Folio no válido'));
+    }
+
+    const folioVal = await Movimiento.existe({ folio });
+    if (!folioVal.existe) {
+        valido = false;
+        errores.push(new Error('Folio no existe'));
+    }
+
+    if (typeof estado !== 'boolean') {
+        valido = false;
+        errores.push(new Error('Estado no válido'));
+    }
+
+    if (!tipo || !TIPO_PETICION[tipo]) {
+        valido: false;
+        errores.push(new Error('Movimiento no válido'));
+    }
+
+    return {
+        valido,
+        errores
+    }
+}
+
+export async function existe(filtro) {
+    const peticion = await Peticion.findOne({
+        where: filtro
+    });
+
+    if (peticion) return {existe: true, peticion};
+    return {existe: false};
+}
+
+export default { validarPeticion, existe };
