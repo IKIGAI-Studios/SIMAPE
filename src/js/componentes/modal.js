@@ -5,11 +5,15 @@ class Modal {
         this.HTMLbtnClose = HTMLbtnClose;
         this.active = false;
 
+        console.log('nose');
+
         this.HTMLbtnClose.addEventListener('click', () => {
             this.disable();
+            console.log('disabling');
         });
         
         this.HTMLbtnOpen.addEventListener('click', () => {
+            console.log('enabling');
             this.enable();
         });
     }
