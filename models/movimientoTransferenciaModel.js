@@ -64,8 +64,6 @@ export async function validarMovimientoTransferencia({ folio, nss, pendiente, de
         errores.push(new Error('Del_destino no válida'));
     }
 
-    console.log('asjdajsd');
-    console.log('folio', 'nss', 'pendiente', 'del_destino', 'tipo_movimiento');
     const del_destinoVal = await Delegacion.existe({ id_delegacion: del_destino });
     console.log(del_destinoVal);
     if (!del_destinoVal.existe) {
@@ -84,4 +82,13 @@ export async function validarMovimientoTransferencia({ folio, nss, pendiente, de
     }
 }
 
-export default { validarMovimientoTransferencia };
+export async function existe(filtro) {
+    const movimientoTransferencia = await MovimientoTransferencia.findOne({
+        where: filtro
+    });
+
+    if (movimientoTransferencia) return {existe: true, movimientoTransferencia};
+    return {existe: false};
+}
+
+export default { validarMovimientoTransferencia, existe };

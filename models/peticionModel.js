@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
 import Movimiento from './movimientoModel.js';
-import { TIPO_PETICION } from '../utils/constants.js';
+import { ESTADO_PETICION, TIPO_PETICION } from '../utils/constants.js';
 
 export const Peticion = sequelize.define(
     'peticion',
@@ -39,7 +39,13 @@ export async function validarPeticion({ folio, estado, tipo }) {
         errores.push(new Error('Folio no existe'));
     }
 
-    if (typeof estado !== 'boolean') {
+    const peticionVal = await existe({ folio });
+    if (peticionVal.existe) {
+        valido = false;
+        errores.push(new Error('Ya existe una peticion para el expediente'));
+    }
+
+    if (!ESTADO_PETICION[estado]) {
         valido = false;
         errores.push(new Error('Estado no válido'));
     }

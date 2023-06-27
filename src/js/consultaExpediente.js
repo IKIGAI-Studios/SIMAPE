@@ -1,5 +1,4 @@
 import SnackBar from "./componentes/snackbar.js";
-import { ModalIngresarExpediente } from "./modals.js";
 
 import { buscarExpediente, extraerExpediente, ingresarExpediente } from "./actions/accionesExpediente.js";
 

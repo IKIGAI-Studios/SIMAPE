@@ -67,4 +67,13 @@ export async function validarMovimientoNormal({ folio, nss, pendiente, tipo_movi
     }
 }
 
-export default { validarMovimientoNormal };
+export async function existe(filtro) {
+    const movimientoNormal = await MovimientoNormal.findOne({
+        where: filtro
+    });
+
+    if (movimientoNormal) return {existe: true, movimientoNormal};
+    return {existe: false};
+}
+
+export default { validarMovimientoNormal, existe };

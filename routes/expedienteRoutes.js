@@ -4,7 +4,7 @@ import Expediente, { Expediente as ExpedienteModel } from '../models/expedienteM
 import Movimiento, { Movimiento as MovimientoModel } from '../models/movimientoModel.js';
 import MovimientoNormal, { MovimientoNormal as MovimientoNormalModel } from '../models/movimientoNormalModel.js';
 import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransferenciaModel } from '../models/movimientoTransferenciaModel.js';
-import { Peticion as PeticionModel } from '../models/peticionModel.js';
+import Peticion, {Peticion as PeticionModel } from '../models/peticionModel.js';
 import { fn, col } from 'sequelize';
 import { ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
 import sequelize from '../utils/DBconnection.js';
@@ -283,6 +283,12 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
             folio, 
@@ -291,12 +297,6 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
             fecha: new Date(),
             tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.BAJA
         };
-        
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
 
         const nuevoMovimientoBaja = {
             folio,
@@ -336,6 +336,15 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
 
         // Si el usuario es operativo, realizar la petición
         if (usuarioVal.usuario.tipo_usuario === TIPO_USUARIO.OPERATIVO) {
+            const peticionVal = await Peticion.validarPeticion(nuevaPeticion);
+
+            if (!peticionVal.valido) {
+                await movimientoCreado.destroy();
+                await movimientoBajaCreado.destroy();
+
+                return res.status(400).json(peticionVal.errores.join(' '));
+            }
+            
             const peticionCreada = await PeticionModel.create(nuevaPeticion);
             console.log('Peticion creada: \n',peticionCreada);
             // Devolver respuesta
@@ -362,7 +371,12 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
     try {
         const { matricula } = req.session.user;
         const { nss, del_destino, motivo } = req.body;
-        console.log('DELEGACION: ', del_destino);
+        
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
 
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
@@ -376,9 +390,15 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
         const nuevoMovimientoTransferencia = {
             folio,
             nss,
-            pendiente: false, // TODO: CAMBIAR DESPUÉS
+            pendiente: usuarioVal.usuario.tipo_usuario === TIPO_USUARIO.OPERATIVO,
             del_destino,
             tipo_movimiento: TIPO_MOVIMIENTO.TRANSFERENCIA,
+        }
+
+        const nuevaPeticion = {
+            folio,
+            estado: ESTADO_PETICION.PENDIENTE,
+            tipo: TIPO_PETICION.TRANSFERENCIA
         }
 
         // * Validar movimiento
@@ -398,10 +418,27 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
             await movimientoCreado.destroy();
             return res.status(400).json(movimientoTransferenciaVal.errores.join(' '));
         }
-        console.log('antes de crear');
+
         // Crear movimientoTransferencia
         const movimientoTransferenciaCreado = await MovimientoTransferenciaModel.create(nuevoMovimientoTransferencia);
         console.log('Movimiento transferencia creado: \n',movimientoTransferenciaCreado);
+
+        // Si el usuario es operativo, realizar la petición
+        if (usuarioVal.usuario.tipo_usuario === TIPO_USUARIO.OPERATIVO) {
+            const peticionVal = await Peticion.validarPeticion(nuevaPeticion);
+
+            if (!peticionVal.valido) {
+                await movimientoCreado.destroy();
+                await movimientoTransferenciaCreado.destroy();
+
+                return res.status(400).json(peticionVal.errores.join(' '));
+            }
+            
+            const peticionCreada = await PeticionModel.create(nuevaPeticion);
+            console.log('Peticion creada: \n',peticionCreada);
+            // Devolver respuesta
+            return res.status(201).json('Petición de transferencia realizada con éxito');
+        }
 
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;
