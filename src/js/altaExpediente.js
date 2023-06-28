@@ -8,7 +8,7 @@ const snackbar = new SnackBar(document.getElementById('snackbar'));
 
 const formAltaExpediente = document.getElementById('formAltaExpediente');
 
-const anos = document.querySelector('#añoAltaExpediente');
+const años = document.querySelector('#añoAltaExpediente');
 
 formAltaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -36,15 +36,16 @@ async function listDelegacionesFill() {
     });
 }
 
-function llenarAnosXD(){
-    var i=1900;
-    for (i=1900; i<=2024; i++){
+function añosFill(){
+    const fechaActual = new Date();
+
+    for (let i=fechaActual.getFullYear(); i>=fechaActual.getFullYear() - 100; i--){
         const option = document.createElement('option');
         option.value = i;
         option.innerHTML = i;
-        anos.appendChild(option);
+        años.appendChild(option);
     }
 }
 
 listDelegacionesFill();
-llenarAnosXD();
+añosFill();

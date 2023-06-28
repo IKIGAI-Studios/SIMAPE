@@ -4113,6 +4113,7 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
+  font-size: 15px;
 }
 
 main {
@@ -4607,7 +4608,7 @@ th {
 
 td {
   font-family: "Montserrat-Regular";
-  font-size: 13px;
+  font-size: 15px;
   text-align: center;
   margin: 0;
   padding: 0;
