@@ -604,3 +604,10 @@ td {
     visibility: visible;
     animation: appear 0.6s, disappear 0.6s 2.5s;
 }
+
+svg{
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    display:inline-block;
+  }

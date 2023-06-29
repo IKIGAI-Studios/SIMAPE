@@ -15,6 +15,7 @@ const observacionesBusquedaExpediente = document.querySelector('#observacionesBu
 
 const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
 const btnExtraerExpediente = document.querySelector('#btnExtraerExpediente');
+const btnPrestarExpediente = document.querySelector('#btnPrestarExpediente');
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 

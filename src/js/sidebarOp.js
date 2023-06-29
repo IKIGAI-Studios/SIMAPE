@@ -19,7 +19,7 @@ const titulos = [
   'CONTROL DE EXPEDIENTE - ALTA', 
   'CONTROL DE EXPEDIENTE - BAJA', 
   'CONTROL DE EXPEDIENTE - TRANSFERENCIA', 
-  'PETICIONES PENDIENTES',
+  'SOLICITUDES DE MOVIMIENTOS',
 ];
 
 const sidebar = new Sidebar(hint, DropdownCtrlExp);
