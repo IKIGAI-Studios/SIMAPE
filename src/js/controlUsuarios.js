@@ -130,7 +130,7 @@ async function handleBajaUsuario(matricula) {
 
     const response = await bajaUsuario(form);
 
-    if ((typeof response) === Error) {
+    if (response instanceof Error) {
         snackbar.showError(response.message);
         return;
     }
@@ -145,9 +145,8 @@ async function handleRecuperarUsuario(matricula) {
 
     const response = await recuperarUsuario(form);
     
-    if ((typeof response) === Error) {
-        snackbar.showError(response.message);
-        return;
+    if (response instanceof Error) {
+        return snackbar.showError(response.message);
     }
 
     snackbar.showMessage(response);
