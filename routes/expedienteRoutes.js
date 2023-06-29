@@ -4,8 +4,9 @@ import Expediente, { Expediente as ExpedienteModel } from '../models/expedienteM
 import Movimiento, { Movimiento as MovimientoModel } from '../models/movimientoModel.js';
 import MovimientoNormal, { MovimientoNormal as MovimientoNormalModel } from '../models/movimientoNormalModel.js';
 import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransferenciaModel } from '../models/movimientoTransferenciaModel.js';
+import MovimientoSupervision, { MovimientoSupervision as MovimientoSupervisionModel } from '../models/movimientoSupervisionModel.js';
 import Peticion, {Peticion as PeticionModel } from '../models/peticionModel.js';
-import { fn, col } from 'sequelize';
+import { fn, col, where } from 'sequelize';
 import { ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
 import sequelize from '../utils/DBconnection.js';
 
@@ -18,6 +19,13 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
         // Obtener datos
         const { nss, nombre, categoria, delegacion, ubicacion, observaciones, año } = req.body;
         const { matricula } = req.session.user;
+
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
 
         const nuevoExpediente = {
             nss,
@@ -59,7 +67,6 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
 
         // Crear el expediente
         const expedienteCreado = await ExpedienteModel.create(nuevoExpediente);
-        console.log('Expediente creado: \n', expedienteCreado);
 
         // * Validar movimiento
         const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
@@ -71,7 +78,6 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
 
         // Crear el movimiento
         const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
-        console.log('Movimiento creado: \n',movimientoCreado);
 
         // * Validar movimientoAlta
         const movimientoAltaVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoAlta);
@@ -83,7 +89,6 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
 
         // Crear movimientoAlta
         const movimientoAltaCreado = await MovimientoNormalModel.create(nuevoMovimientoAlta);
-        console.log('Movimiento alta creado: \n',movimientoAltaCreado);
 
         // Devolver respuesta
         res.status(201).json(nuevoExpediente);
@@ -94,37 +99,18 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
     }
 })
 
-// * Baja expediente
-expedienteRoutes.post('/bajaExpediente', async (req, res) => {
-    // TODO: Comprobar el tipo de usuario para realizar la petición en caso de ser operativo
-    try {
-        const { nss } = req.params;
-
-        // Comprobar que existe el expediente
-        const resExpediente = await Expediente.existe({ nss });
-        if (!resExpediente.existe) {
-            return res.status(404).json('')
-        }
-
-        resExpediente.expediente.update({
-            fecha_baja: new Date(),
-            estatus: false
-        });
-
-        res.statusMessage = 'Expediente dado de baja correctamente';
-        return res.json(resExpediente.expediente);
-    } 
-    catch (e) {
-        res.statusCode = 400;
-        res.statusMessage = e.message;
-        res.end();
-    }
-});
-
 // * Buscar un expediente por su nss
 expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
     try {
+        const { matricula } = req.session.user;
         const { nss } = req.params;
+
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
 
         // Buscar el expediente
         const expedienteBD = await Expediente.existe({ nss });
@@ -134,7 +120,6 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
         }
 
         // Buscar los movimientos del expediente
-        //TODO: Hacer esto con el ORM
         const movimientosNormales = await sequelize.query(
             `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss = ${nss} && movimientoNormal.pendiente != true ORDER BY movimiento.fecha DESC LIMIT 5`,
             { type: sequelize.QueryTypes.SELECT }
@@ -166,6 +151,13 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
             folio, 
@@ -191,7 +183,6 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
 
         // Crear el movimiento
         const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
-        console.log('Movimiento creado: \n',movimientoCreado);
 
         // * Validar movimientoIngreso
         const movimientoIngresoVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoIngreso);
@@ -202,7 +193,6 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
 
         // Crear movimientoAlta
         const movimientoIngresoCreado = await MovimientoNormalModel.create(nuevoMovimientoIngreso);
-        console.log('Movimiento ingreso creado: \n',movimientoIngresoCreado);
 
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;
@@ -224,6 +214,13 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
     try {
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
+
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
 
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
@@ -250,7 +247,6 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
 
         // Crear el movimiento
         const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
-        console.log('Movimiento creado: \n',movimientoCreado);
 
         // * Validar movimientoExtraccion
         const movimientoExtraccionVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoExtraccion);
@@ -261,7 +257,6 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
 
         // Crear movimientoAlta
         const movimientoExtraccionCreado = await MovimientoNormalModel.create(nuevoMovimientoExtraccion);
-        console.log('Movimiento extracción creado: \n',movimientoExtraccionCreado);
 
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;
@@ -283,6 +278,7 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
+        // Validar usuario
         const usuarioVal = await Usuario.existe({ matricula });
 
         if (!usuarioVal.existe) {
@@ -320,7 +316,6 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
 
         // Crear el movimiento
         const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
-        console.log('Movimiento creado: \n',movimientoCreado);
 
         // * Validar movimientoBaja
         const movimientoBajaVal = await MovimientoNormal.validarMovimientoNormal(nuevoMovimientoBaja);
@@ -331,7 +326,6 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
 
         // Crear movimientoBaja
         const movimientoBajaCreado = await MovimientoNormalModel.create(nuevoMovimientoBaja);
-        console.log('Movimiento baja creado: \n',movimientoBajaCreado);
 
 
         // Si el usuario es operativo, realizar la petición
@@ -346,7 +340,6 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
             }
             
             const peticionCreada = await PeticionModel.create(nuevaPeticion);
-            console.log('Peticion creada: \n',peticionCreada);
             // Devolver respuesta
             return res.status(201).json('Petición de baja realizada con éxito');
         }
@@ -372,6 +365,7 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
         const { matricula } = req.session.user;
         const { nss, del_destino, motivo } = req.body;
         
+        // Validar usuario
         const usuarioVal = await Usuario.existe({ matricula });
 
         if (!usuarioVal.existe) {
@@ -410,7 +404,6 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
 
         // Crear el movimiento
         const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
-        console.log('Movimiento creado: \n',movimientoCreado);
 
         // * Validar movimientoTransferencia
         const movimientoTransferenciaVal = await MovimientoTransferencia.validarMovimientoTransferencia(nuevoMovimientoTransferencia);
@@ -421,7 +414,6 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
 
         // Crear movimientoTransferencia
         const movimientoTransferenciaCreado = await MovimientoTransferenciaModel.create(nuevoMovimientoTransferencia);
-        console.log('Movimiento transferencia creado: \n',movimientoTransferenciaCreado);
 
         // Si el usuario es operativo, realizar la petición
         if (usuarioVal.usuario.tipo_usuario === TIPO_USUARIO.OPERATIVO) {
@@ -435,7 +427,6 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
             }
             
             const peticionCreada = await PeticionModel.create(nuevaPeticion);
-            console.log('Peticion creada: \n',peticionCreada);
             // Devolver respuesta
             return res.status(201).json('Petición de transferencia realizada con éxito');
         }
@@ -450,6 +441,151 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
 
         // Devolver respuesta
         return res.status(201).json('Transferencia realizada con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
+// * SUPERVISIONES
+expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { supervisor, motivo } = req.body;
+        let { nssList } = req.body;
+
+        // Convertir la lista separada por comas en un array
+        nssList = nssList.split(',');
+        
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
+        const folio = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
+            folio, 
+            matricula, 
+            motivo, 
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.SUPERVISION
+        };
+
+        const nuevoMovimientoSupervision = {
+            folio,
+            nssList,
+            supervisor,
+            finalizada: false
+        }
+
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
+
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
+
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+
+        // * Validar movimientoSupervision
+        const movimientoSupervisionVal = await MovimientoSupervision.validarMovimientoSupervision(nuevoMovimientoSupervision);
+        if (!movimientoSupervisionVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoSupervisionVal.errores.join(' '));
+        }
+
+        // Crear movimientoSupervision
+        for (let i=0; i<nssList.length; i++) {
+            const nss = nssList[i];
+
+            const movimientoSupervisionCreado = await MovimientoSupervisionModel.create({
+                folio: nuevoMovimientoSupervision.folio,
+                nss,
+                supervisor: nuevoMovimientoSupervision.supervisor
+            });
+            console.log(`Supervision: ${nss}`);
+    
+            // Actualizar expediente
+            const expedienteBD = (await Expediente.existe({ nss })).expediente;
+            await expedienteBD.update({
+                extraido: true
+            });
+        }
+        
+        // Devolver respuesta
+        return res.status(201).json('Extracciones realizadas con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
+expedienteRoutes.post('/movimiento/ingresarSupervision', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { folio } = req.body;
+        
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
+        // Obtener supervision
+        const supervisiones = await MovimientoSupervisionModel.findAll({
+            where: {
+                folio
+            }
+        });
+
+        // Actualizar los expedientes
+        for (let i=0; i<supervisiones.length; i++) {
+            const supervision = supervisiones[i];
+
+            const expediente = await ExpedienteModel.findOne({
+                where: {
+                    nss: supervision.nss
+                }
+            });
+
+            // Actualizar expediente
+            await expediente.update({
+                extraido: false
+            });
+
+            // Actualizar supervision
+            await supervision.update({
+                finalizada: true
+            });
+        }
+
+        // Devolver respuesta
+        return res.status(201).json('Ingreso de expedientes realizado con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
+expedienteRoutes.get('/obtenerSupervisiones', async (req, res) => {
+    try {
+        const supervisiones = await sequelize.query(
+            `SELECT movimiento.folio, nss, supervisor, finalizada, fecha FROM movimientoSupervision INNER JOIN movimiento ON (movimientoSupervision.folio = movimiento.folio) WHERE finalizada = FALSE GROUP BY movimiento.folio ORDER BY fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        if (supervisiones) {
+            return res.status(200).json(supervisiones);
+        }
+
+        return res.status(200).json('No hay supervisiones activas');
     } 
     catch (e) {
         console.log(e);

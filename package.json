@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "5.1.0",
+    "bcrypt": "^5.0.1",
     "bootstrap": "5.3.0-alpha3",
     "cookie-parser": "1.4.6",
     "cors": "2.8.5",
@@ -30,12 +30,12 @@
     "multer": "1.4.5-lts.1",
     "mysql2": "3.2.4",
     "nocache": "3.0.4",
-    "nodemon": "2.0.22",
+    "nodemon": "^1.14.9",
     "sequelize": "6.31.1",
     "socket.io": "^4.6.2"
   },
   "devDependencies": {
-    "jest": "29.5.0",
+    "jest": "^25.0.0",
     "supertest": "6.3.3"
   }
 }

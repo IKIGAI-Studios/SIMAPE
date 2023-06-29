@@ -125,3 +125,63 @@ export async function transferenciaExpediente(form) {
         return e;
     }
 }
+
+export async function supervisionExpediente(form) {
+    const ENDPOINT = '/movimiento/supervision';
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT, {
+            method: 'POST',
+            body: new URLSearchParams(form)
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
+
+export async function ingresarSupervision(form) {
+    const ENDPOINT = '/movimiento/ingresarSupervision';
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT, {
+            method: 'POST',
+            body: new URLSearchParams(form)
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
+
+export async function obtenerSupervisionesActivas() {
+    const ENDPOINT = '/obtenerSupervisiones';
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
