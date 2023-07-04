@@ -1,6 +1,8 @@
 import SnackBar from "./componentes/snackbar.js";
 import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/accionesUsuario.js"
 import { ModalAgregarUsuario } from "./modals.js";
+import { ModalEditarUsuario } from "./modals.js";
+import { HTMLbtnOpen } from "./componentes/modal.js";
 
 const formAltaUsuario = document.getElementById('formAltaUsuario');
 const snackbar = new SnackBar(document.getElementById('snackbar'));
@@ -21,6 +23,7 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     formAltaUsuario.reset();
     actualizarUsuarios();
     ModalAgregarUsuario.disable();
+    ModalEditarUsuario.disable();
 });
 
 async function actualizarUsuarios() {
@@ -41,6 +44,7 @@ async function actualizarUsuarios() {
 
         const botonEditar = document.createElement('button');
         botonEditar.classList = 'btn-azul';
+        botonEditar.setAttribute("id", "btnEditarUsuario");
         botonEditar.innerHTML = '<img src="/icons/pen.png" alt="EDITAR" style="width: 1rem;">'   
         botones.appendChild(botonEditar);
 
@@ -61,6 +65,10 @@ async function actualizarUsuarios() {
 
         botonBaja.addEventListener('click', () => {
             handleBajaUsuario(usuario.matricula);
+        });
+
+        botonEditar.addEventListener('click', () => {
+            HTMLbtnOpen();
         });
 
         fila.appendChild(botones);

@@ -34,7 +34,7 @@ export const ModalPrestarExpediente = new Modal(
 export const ModalEditarUsuario = new Modal(
   document.getElementById('modalEditarUsuario'),
   document.getElementById('btnEditarUsuario'),
-  document.getElementById('modalEditarUsuario')
+  document.getElementById('modalEditarUsuarioClose')
 );
 
 // * Generar eventos para que al dar clic fuera se desactiven
