@@ -4,28 +4,38 @@
       <span class="close" id="modalEditarUsuarioClose">&times;</span>
       
       <div class="row">
-        <h5 class="dark-label mb-5">PARA CAMBIAR SU CONTRASEÑA LLENE LOS SIGUIENTES CAMPOS</h5>
+        <h5 class="dark-label mb-5">EDITAR DATOS DEL USUARIO</h5>
     
         <form id="formEditarUsuario">
-          <div class="col mb-4">
-            <label class="datos" style="text-align: center;" for="pass">INGRESE SU CONTRASEÑA ACTUAL</label>
-            <input type="password" class="text-input mt-3" id=""/>
+
+          <div class="row space-between mb-4" style="padding: 0; margin: 0 -0.8em;">
+            <div class="col-6">
+              <label class="datos" for="">NOMBRE(S)</label>
+              <input type="text" class="text-input mt-3" id="" name="nombre"/>
+            </div>
+            <div class="col-6">
+              <label class="datos" for="">APELLIDOS</label>
+              <input type="text" class="text-input mt-3" id="" name="apellidos"/>
+            </div>
           </div>
     
           <div class="col mb-4">
-            <label class="datos" for="pass">INGRESE SU NUEVA CONTRASEÑA</label>
-            <input type="password" class="text-input mt-3" id=""/>
+            <label class="datos" for="">USUARIO</label>
+            <input type="text" class="text-input mt-3" id=""/>
           </div>
           
           <div class="col mb-4">
-            <label class="datos" for="pass">CONFIRME SU NUEVA CONTRASEÑA</label>
-            <input type="password" class="text-input mt-3" id=""/>
+            <label class="datos" for="pass">CONTRASEÑA</label>
+            <input type="text" class="text-input mt-3" id=""/>
           </div>
-  
-          <div class="col" style="text-align: center;">
-            <button class="btn-verde" type="submit">CAMBIAR CONTRASEÑA</button>
+
+          <!--
+          <div class="col mb-4">
+            <label class="datos"  style="text-align: center;" for="">FOTO</label>
+            <input type="file" accept="image/*" class="text-input mt-3" id="" name="foto"/>
           </div>
-  
+          -->
+
         </form>
       </div>
     </div>
