@@ -11,7 +11,7 @@ routes.get('/', (req, res) => {
 
 // * Inicio administrador
 routes.get('/simape-ad', (req, res) => {
-    if (!req.session.user || req.session.user.tipo_usuario !== 'ADMINISTRADOR'){
+    if (!req.session.user || req.session.user.tipo_usuario !== 'ADMINISTRADOR' && req.session.user.status != true){
         res.redirect('/');
         return;
     } 
