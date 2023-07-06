@@ -1,6 +1,6 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
-import { Usuario } from '../models/usuarioModel.js';
+import Usuario, { Usuario as UsuarioModel } from '../models/usuarioModel.js';
 import { subirArchivo } from '../middlewares/subirArchivos.js';
 import multer  from 'multer';
 
@@ -19,7 +19,7 @@ usuarioRoutes.get('/obtenerMiMatricula', async (req, res) => {
 
 // * Obtener todos los usuarios
 usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
-    const usuarios = await Usuario.findAll({
+    const usuarios = await UsuarioModel.findAll({
         where: { 
             estatus: req.params.filter == 'activos' ? true : false 
         },
@@ -35,7 +35,7 @@ usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
 
 // * Buscar usuario por matricula
 usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
-    const usuarioEncontrado = await Usuario.findOne({
+    const usuarioEncontrado = await UsuarioModel.findOne({
         where: { 
             matricula: req.params.matricula 
         },
@@ -65,7 +65,7 @@ usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, 
         const foto = req.file.filename;
 
         // Validar que el usuario sea único
-        const usuarioRegistrado = await Usuario.findOne({ 
+        const usuarioRegistrado = await UsuarioModel.findOne({ 
             where: { 
                 usuario 
             },
@@ -77,7 +77,7 @@ usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, 
         }
 
         // Validar que la matricula sea único
-        const matriculaRegistrada = await Usuario.findOne({ 
+        const matriculaRegistrada = await UsuarioModel.findOne({ 
             where: { 
                 matricula 
             },
@@ -93,7 +93,7 @@ usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, 
         const hashedPass = await bcrypt.hash(pass, saltRounds);
 
 
-        const nuevoUsuario = await Usuario.create({
+        const nuevoUsuario = await UsuarioModel.create({
             matricula,
             nombre,
             apellidos,
@@ -122,7 +122,7 @@ usuarioRoutes.post('/bajaUsuario', async (req, res) => {
         const { matricula } = req.body;
 
         // Validar que el usuario exista
-        const usuarioRegistrado = await Usuario.findOne({ 
+        const usuarioRegistrado = await UsuarioModel.findOne({ 
             where: { 
                 matricula 
             },
@@ -154,7 +154,7 @@ usuarioRoutes.post('/recuperarUsuario', async (req, res) => {
         const {matricula} = req.body;
 
         // Validar que el usuario exista
-        const usuarioRegistrado = await Usuario.findOne({ 
+        const usuarioRegistrado = await UsuarioModel.findOne({ 
             where: { 
                 matricula 
             },
@@ -174,9 +174,48 @@ usuarioRoutes.post('/recuperarUsuario', async (req, res) => {
         res.json(`Usuario ${usuarioRegistrado.nombre} recuperado correctamente`);
     } 
     catch (e) {
-        res.statusCode = 420;
-        res.statusMessage = e.message;
-        res.end();
+        return res.status(400).json('Error en cambiar contraseña');
+    }
+});
+
+// * Cambiar contraseña de usuario
+usuarioRoutes.post('/cambiarPass', async (req, res) => {
+    try {
+        const { passActual, passNuevo } = req.body;
+        const { matricula } = req.session.user;
+    
+        const usuario = await Usuario.existe({ matricula });
+
+        if (!usuario.existe) {
+            return res.status(400).json('Error de validación');
+        }
+
+        // Comparar contraseña actual
+        const passActualVal = await bcrypt.compare(passActual, usuario.usuario.pass);
+        if (!passActualVal) {
+            return res.status(400).json('Contraseña incorrecta');
+        }
+
+        // Comparar contraseña actual con nueva
+        const passNuevoVal = await bcrypt.compare(passNuevo, usuario.usuario.pass);
+        if (passNuevoVal) {
+            return res.status(400).json('La contraseña nueva es igual a la actual');
+        }
+
+        // Encriptar nueva contraseña
+        const saltRounds = 10;
+        const passNuevoHash = await bcrypt.hash(passNuevo, saltRounds);
+
+        // Cambiar contraseña
+        await usuario.usuario.update({
+            pass: passNuevoHash
+        });
+
+        return res.status(200).json('El cambio se realizó correctamente');
+    }
+    catch(e) {
+        console.log(e);
+        return res.status(400).json('Error en cambiar contraseña');
     }
 });
 

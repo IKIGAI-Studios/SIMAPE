@@ -22,6 +22,26 @@ export async function obtenerMiMatricula() {
     }
 }
 
+export async function cambiarPass(form) {
+    const ENDPOINT = `/cambiarPass`;
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT, {
+            body: new URLSearchParams(form)
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const matricula = await response.json();
+        return matricula;
+    }
+    catch (e) {
+        return e;
+    }
+}
+
 /**
     Busca un usuario a partir de su matricula.
     @param matricula Matricula del usuario a buscar.

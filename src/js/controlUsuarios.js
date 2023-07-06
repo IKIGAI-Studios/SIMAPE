@@ -1,8 +1,7 @@
 import SnackBar from "./componentes/snackbar.js";
 import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/accionesUsuario.js"
-import { ModalAgregarUsuario } from "./modals.js";
-import { ModalEditarUsuario } from "./modals.js";
-import { HTMLbtnOpen } from "./componentes/modal.js";
+import { ModalAgregarUsuario } from "./modalsAd.js";
+import { ModalEditarUsuario } from "./modalsAd.js";
 
 const formAltaUsuario = document.getElementById('formAltaUsuario');
 const snackbar = new SnackBar(document.getElementById('snackbar'));
@@ -68,7 +67,7 @@ async function actualizarUsuarios() {
         });
 
         botonEditar.addEventListener('click', () => {
-            HTMLbtnOpen();
+            handleEditarUsuario(usuario);
         });
 
         fila.appendChild(botones);
@@ -130,6 +129,10 @@ function crearFilaDeUsuario(usuario) {
     fila.appendChild(fecha_registro);
 
     return fila;
+}
+
+function handleEditarUsuario(usuario) {
+    ModalEditarUsuario.enable();
 }
 
 async function handleBajaUsuario(matricula) {

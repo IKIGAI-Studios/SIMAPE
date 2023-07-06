@@ -6,6 +6,7 @@ import MovimientoNormal, { MovimientoNormal as MovimientoNormalModel } from '../
 import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransferenciaModel } from '../models/movimientoTransferenciaModel.js';
 import MovimientoSupervision, { MovimientoSupervision as MovimientoSupervisionModel } from '../models/movimientoSupervisionModel.js';
 import Peticion, {Peticion as PeticionModel } from '../models/peticionModel.js';
+import { imprimirTicket } from '../utils/print.js';
 import { fn, col, where } from 'sequelize';
 import { ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
 import sequelize from '../utils/DBconnection.js';
@@ -263,6 +264,17 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
         await expedienteBD.update({
             extraido: true
         });
+
+        // Imprimir ticket
+        await imprimirTicket({
+            movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
+            folio,
+            expediente: expedienteBD.nss,
+            nombreExpediente: expedienteBD.nombre,
+            matricula,
+            nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
+            fecha: movimientoCreado.fecha.toLocaleString()
+        })
 
         // Devolver respuesta
         return res.status(201).json('Extracción realizada con éxito');
