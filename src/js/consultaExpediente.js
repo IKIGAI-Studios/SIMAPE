@@ -17,6 +17,10 @@ const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
 const btnExtraerExpediente = document.querySelector('#btnExtraerExpediente');
 const btnPrestarExpediente = document.querySelector('#btnPrestarExpediente');
 
+const formExtraccionExpediente = document.querySelector('#formExtraccionExpediente');
+
+import { ModalIngresarExpediente, ModalExtraerExpediente, ModalPrestarExpediente } from "./modalsOp.js";
+
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 inputNSS.addEventListener('keydown', (e) => {
@@ -68,7 +72,37 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     snackbar.showMessage('Expediente encontrado');
 });
 
+btnIngresarExpediente.addEventListener('click', async () => {
+    ModalIngresarExpediente.enable();
+
+
+    // const form = new FormData();
+    // form.append('nss', inputNSS.value);
+    // form.append('motivo', 'prueba'); //TODO: Cambiar
+    
+    // const data = await ingresarExpediente(form);
+
+    // if (data instanceof Error) {
+    //     return snackbar.showError(data.message);
+    // }
+
+    // inputNSS.value = '';
+    // clearInputs();
+    // resetValues();
+    // snackbar.showMessage('Imprimiendo...');
+});
+
 btnExtraerExpediente.addEventListener('click', async () => {
+    ModalExtraerExpediente.enable();
+});
+
+btnPrestarExpediente.addEventListener('click', async () => {
+    ModalPrestarExpediente.enable();
+});
+
+formExtraccionExpediente.addEventListener('submit', async(e) => {
+    e.preventDefault();
+
     const form = new FormData();
     form.append('nss', inputNSS.value);
     form.append('motivo', 'prueba');
@@ -82,24 +116,8 @@ btnExtraerExpediente.addEventListener('click', async () => {
     inputNSS.value = '';
     clearInputs();
     resetValues();
-    snackbar.showMessage('Imprimiendo...');
-});
-
-btnIngresarExpediente.addEventListener('click', async () => {
-    const form = new FormData();
-    form.append('nss', inputNSS.value);
-    form.append('motivo', 'prueba'); //TODO: Cambiar
-    
-    const data = await ingresarExpediente(form);
-
-    if (data instanceof Error) {
-        return snackbar.showError(data.message);
-    }
-
-    inputNSS.value = '';
-    clearInputs();
-    resetValues();
-    snackbar.showMessage('Imprimiendo...');
+    ModalExtraerExpediente.disable();
+    snackbar.showMessage(data);
 });
 
 function resetValues() {
