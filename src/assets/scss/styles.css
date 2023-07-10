@@ -4653,4 +4653,28 @@ svg {
   height: 100px;
   margin: 20px;
   display: inline-block;
+}
+
+#PENDIENTE {
+  background-color: #003A5A;
+  border-radius: 10px;
+  padding: 1rem 0;
+  font-family: "Montserrat-Bold";
+  color: #fff;
+}
+
+#ACEPTADO {
+  background-color: #005A4E;
+  border-radius: 10px;
+  padding: 1rem 0;
+  font-family: "Montserrat-Bold";
+  color: white;
+}
+
+#RECHAZADO {
+  background-color: #5A0000;
+  border-radius: 10px;
+  padding: 1rem 0;
+  font-family: "Montserrat-Bold";
+  color: white;
 }/*# sourceMappingURL=styles.css.map */
