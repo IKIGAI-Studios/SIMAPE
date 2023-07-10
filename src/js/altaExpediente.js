@@ -10,17 +10,59 @@ const formAltaExpediente = document.getElementById('formAltaExpediente');
 
 const años = document.querySelector('#añoAltaExpediente');
 
+// Campos a validar
+
+const nss = document.getElementById('nssAltaExpediente');
+
+const nombre = document.getElementById('nombreAltaExpediente');
+
+// Expresión regular que admmite ñ y tildes
+const regexNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
+
+
+function validarCampos(){
+
+   if(nss.value.length < 11){
+    snackbar.showError('El NSS no puede ser menor a 11 caracteres');
+    return false;
+   }  
+
+   if(nss.value.length > 11){
+    snackbar.showError('El NSS no puede ser mayor a 11 caracteres');
+    return false;
+   }
+
+   const valorNombre = nombre.value.trim();
+
+   if(valorNombre.length>100){
+    snackbar.showError('Se rebasó el límite de caracteres para el nombre');
+    return false;
+   }
+
+   if(!regexNombre.test(valorNombre)) {
+       snackbar.showError('El nombre solo puede contener letras y espacios');
+       return false; 
+   }
+
+   return true;
+}
+
 formAltaExpediente.addEventListener('submit', async (e) => {
+
     e.preventDefault();
 
-    const form = new FormData(formAltaExpediente);
+    if (!validarCampos()) {
+        return; 
+    }
 
+    const form = new FormData(formAltaExpediente);
     const expedienteCreado = await altaExpediente(form);
 
     if (expedienteCreado instanceof Error) {
         return snackbar.showError(expedienteCreado.message);
     }
 
+    
     snackbar.showMessage('Expediente ingresado correctamente');
     formAltaExpediente.reset();
 });
@@ -46,6 +88,8 @@ function añosFill(){
         años.appendChild(option);
     }
 }
+
+
 
 listDelegacionesFill();
 añosFill();
