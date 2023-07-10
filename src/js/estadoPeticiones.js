@@ -22,7 +22,10 @@ async function cargarPeticiones() {
         fecha.innerHTML = peticion.fecha.substring(0,10);
 
         const estado = document.createElement('td');
-        estado.innerHTML = peticion.estado; 
+        const estadoTexto = document.createElement('p');
+        estadoTexto.id = peticion.estado; 
+        estadoTexto.innerText = peticion.estado;
+        estado.appendChild(estadoTexto); 
 
         fila.appendChild(movimiento);
         fila.appendChild(fecha);

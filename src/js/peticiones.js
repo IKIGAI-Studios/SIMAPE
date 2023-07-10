@@ -29,8 +29,9 @@ async function cargarPeticiones() {
 
         const botones = document.createElement('td');
 
-        const estado = document.createElement('td');
-        estado.innerHTML = peticion.estado;
+        const estado = document.createElement('p');
+        estado.id = peticion.estado; 
+        estado.innerText = peticion.estado;
 
         const btnAceptar = document.createElement('button');
         btnAceptar.classList.add('btn-azul');

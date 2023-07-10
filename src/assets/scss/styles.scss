@@ -6,6 +6,7 @@ $imss-gris: #D9D9D9;
 $rojo: #5A0000;
 $azul: #003A5A;
 $error: #943434;
+$amarillo: #e8d56c;
 
 // IMSS map
 $paleta-imss: (
@@ -610,4 +611,28 @@ svg{
     height: 100px;
     margin: 20px;
     display:inline-block;
+  }
+
+  #PENDIENTE{
+    background-color: $azul;
+    border-radius: 10px;
+    padding: 1rem 0;
+    font-family: 'Montserrat-Bold';
+    color: $white;
+  }
+
+  #ACEPTADO{
+    background-color: $imss-verde;
+    border-radius: 10px;
+    padding: 1rem 0;
+    font-family: 'Montserrat-Bold';
+    color: white;
+  }
+
+  #RECHAZADO{
+    background-color: $rojo;
+    border-radius: 10px;
+    padding: 1rem 0;
+    font-family: 'Montserrat-Bold';
+    color: white;
   }
