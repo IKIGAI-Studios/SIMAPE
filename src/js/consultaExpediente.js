@@ -1,6 +1,6 @@
 import SnackBar from "./componentes/snackbar.js";
 
-import { buscarExpediente, extraerExpediente, ingresarExpediente } from "./actions/accionesExpediente.js";
+import { buscarExpediente, extraerExpediente, ingresarExpediente, obtenerUltimoMovimiento } from "./actions/accionesExpediente.js";
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteConsulta');
 const inputNSS = document.querySelector('#nssBusquedaExpedienteConsulta');
@@ -17,7 +17,9 @@ const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
 const btnExtraerExpediente = document.querySelector('#btnExtraerExpediente');
 const btnPrestarExpediente = document.querySelector('#btnPrestarExpediente');
 
-const formExtraccionExpediente = document.querySelector('#formExtraccionExpediente');
+const formExtraerExpediente = document.querySelector('#formExtraerExpediente');
+const formIngresarExpediente = document.querySelector('#formIngresarExpediente');
+const formPrestarExpediente = document.querySelector('#formPrestarExpediente');
 
 import { ModalIngresarExpediente, ModalExtraerExpediente, ModalPrestarExpediente } from "./modalsOp.js";
 
@@ -63,6 +65,15 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
         expediente.extraido ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
     }
 
+    // Verificar si se debe activar el boton préstamo
+    if (expediente.extraido) {
+        const ultimoMovimiento = await obtenerUltimoMovimiento(expediente.nss);
+        const matricula = await 
+
+        
+        ultimoMovimiento.extraido ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
+    }
+
     // Escribir los movimientos
     const movimientosText = movimientos.map((movimiento) => {
         return `FOLIO: ${movimiento.folio} | TIPO: ${movimiento.tipo_movimiento} | FECHA: ${movimiento.fecha.slice(0,10)}`;
@@ -74,22 +85,6 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 
 btnIngresarExpediente.addEventListener('click', async () => {
     ModalIngresarExpediente.enable();
-
-
-    // const form = new FormData();
-    // form.append('nss', inputNSS.value);
-    // form.append('motivo', 'prueba'); //TODO: Cambiar
-    
-    // const data = await ingresarExpediente(form);
-
-    // if (data instanceof Error) {
-    //     return snackbar.showError(data.message);
-    // }
-
-    // inputNSS.value = '';
-    // clearInputs();
-    // resetValues();
-    // snackbar.showMessage('Imprimiendo...');
 });
 
 btnExtraerExpediente.addEventListener('click', async () => {
@@ -100,7 +95,7 @@ btnPrestarExpediente.addEventListener('click', async () => {
     ModalPrestarExpediente.enable();
 });
 
-formExtraccionExpediente.addEventListener('submit', async(e) => {
+formExtraerExpediente.addEventListener('submit', async(e) => {
     e.preventDefault();
 
     const form = new FormData();
@@ -117,6 +112,26 @@ formExtraccionExpediente.addEventListener('submit', async(e) => {
     clearInputs();
     resetValues();
     ModalExtraerExpediente.disable();
+    snackbar.showMessage(data);
+});
+
+formIngresarExpediente.addEventListener('submit', async(e) => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append('nss', inputNSS.value);
+    form.append('motivo', 'prueba'); //TODO: Cambiar
+    
+    const data = await ingresarExpediente(form);
+
+    if (data instanceof Error) {
+        return snackbar.showError(data.message);
+    }
+
+    inputNSS.value = '';
+    clearInputs();
+    resetValues();
+    ModalIngresarExpediente.disable();
     snackbar.showMessage(data);
 });
 
