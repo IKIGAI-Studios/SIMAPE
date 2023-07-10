@@ -146,6 +146,44 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
 });
 
 // * RUTAS DE MOVIMIENTOS
+// * OBTENER ÚLTIMO MOVIMIENTO
+expedienteRoutes.get('/ultimoMovimiento/:nss', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { nss } = req.params;
+
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
+        // Buscar el expediente
+        const expedienteBD = await Expediente.existe({ nss });
+
+        if (!expedienteBD.existe) {
+            return res.status(404).json('Expediente no encontrado');
+        }
+
+        // Obtener último movimiento del expediente
+        const ultimoMovimiento = await sequelize.query(
+            `SELECT movimiento.*, movimientoNormal.nss FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss=${nss} && movimiento.tipo_movimiento='EXTRACCION' ORDER BY fecha DESC LIMIT 1`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        
+        if (!ultimoMovimiento) {
+            return res.status(404).json('Movimiento no encontrado');
+        }
+
+        return res.status(200).json(ultimoMovimiento);
+    }
+    catch(e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
 // * INGRESO
 expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
     try {
@@ -192,13 +230,24 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
             return res.status(400).json(movimientoIngresoVal.errores.join(' '));
         }
 
-        // Crear movimientoAlta
+        // Crear movimientoIngreso
         const movimientoIngresoCreado = await MovimientoNormalModel.create(nuevoMovimientoIngreso);
 
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;
         await expedienteBD.update({
             extraido: false
+        });
+
+        // Imprimir ticket
+        await imprimirTicket({
+            movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
+            folio,
+            expediente: expedienteBD.nss,
+            nombreExpediente: expedienteBD.nombre,
+            matricula,
+            nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
+            fecha: movimientoCreado.fecha.toLocaleString()
         });
 
         // Devolver respuesta
@@ -274,7 +323,7 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
             matricula,
             nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
             fecha: movimientoCreado.fecha.toLocaleString()
-        })
+        });
 
         // Devolver respuesta
         return res.status(201).json('Extracción realizada con éxito');
@@ -490,7 +539,7 @@ expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
             folio,
             nssList,
             supervisor,
-            finalizada: false
+            pendiente: true
         }
 
         // * Validar movimiento
@@ -573,7 +622,8 @@ expedienteRoutes.post('/movimiento/ingresarSupervision', async (req, res) => {
 
             // Actualizar supervision
             await supervision.update({
-                finalizada: true
+                pendiente: false,
+                fecha_finalizacion: new Date()
             });
         }
 
@@ -589,7 +639,7 @@ expedienteRoutes.post('/movimiento/ingresarSupervision', async (req, res) => {
 expedienteRoutes.get('/obtenerSupervisiones', async (req, res) => {
     try {
         const supervisiones = await sequelize.query(
-            `SELECT movimiento.folio, nss, supervisor, finalizada, fecha FROM movimientoSupervision INNER JOIN movimiento ON (movimientoSupervision.folio = movimiento.folio) WHERE finalizada = FALSE GROUP BY movimiento.folio ORDER BY fecha DESC`,
+            `SELECT movimiento.folio, nss, supervisor, pendiente, fecha FROM movimientoSupervision INNER JOIN movimiento ON (movimientoSupervision.folio = movimiento.folio) WHERE pendiente = TRUE GROUP BY movimiento.folio ORDER BY fecha DESC`,
             { type: sequelize.QueryTypes.SELECT }
         );
 
@@ -604,6 +654,8 @@ expedienteRoutes.get('/obtenerSupervisiones', async (req, res) => {
         return res.status(400).json(e.message);
     }
 });
+
+// * PRÉSTAMOS
 
 async function obtenerNumeroFolio() {
     // Obtener numero de folio

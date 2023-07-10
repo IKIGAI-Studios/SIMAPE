@@ -34,7 +34,8 @@
     "nocache": "^3.0.4",
     "nodemon": "^1.14.9",
     "sequelize": "^6.31.1",
-    "socket.io": "^4.6.2"
+    "socket.io": "^4.6.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "jest": "^25.0.0",

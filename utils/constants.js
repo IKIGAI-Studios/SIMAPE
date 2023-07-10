@@ -42,7 +42,7 @@ export const CATEGORIA_EXPEDIENTE = {
     '73 - OR': '73 - OR',
     '73 - VI': '73 - VI',
     '73 - VO': '73 - VO',
-    '73 - IPN': '73 - IPN',
+    '73 - IPT': '73 - IPT',
     '73 - INV': '73 - INV',
     '73 - IG': '73 - IG'
 }

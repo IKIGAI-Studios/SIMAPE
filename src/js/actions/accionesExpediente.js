@@ -42,6 +42,24 @@ export async function buscarExpediente(nss) {
     }
 }
 
+export async function obtenerUltimoMovimiento(nss) {
+    const ENDPOINT = `/ultimoMovimiento/${nss}`;
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
+
 export async function ingresarExpediente(form) {
     const ENDPOINT = '/movimiento/ingreso';
 

@@ -36,9 +36,9 @@ export async function imprimirTicket({ movimiento, folio, expediente, nombreExpe
             .newLine()
             .text('FAVOR DE CONSERVAR ESTE TICKET COMO EVIDENCIA DE SU OPERACION.');
             if (movimiento === TIPO_MOVIMIENTO.NORMAL.EXTRACCION) {
-                printer.text(`
-                    USTED ES RESPONSABLE DE LA EXTRAVIO, MODIFICACION, DAÑO O CUALQUIER USO INDEBIDO DEL EXPEDIENTE MIENTRAS NO SE REGISTRE EL INGRESO.
-                `)
+                printer.text(
+                    `USTED ES RESPONSABLE DEL EXTRAVIO, MODIFICACION, DAÑO O CUALQUIER USO INDEBIDO DEL EXPEDIENTE MIENTRAS NO SE REGISTRE EL INGRESO.`
+                );
             }
         printer
             .cut()
