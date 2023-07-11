@@ -34,7 +34,7 @@ function validarCampos(){
 
    const valorNombre = nombre.value.trim();
 
-   if(valorNombre.length>100){
+   if(valorNombre.length>98){
     snackbar.showError('Se rebasó el límite de caracteres para el nombre');
     return false;
    }
