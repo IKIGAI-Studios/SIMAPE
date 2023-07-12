@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import Usuario, { Usuario as UsuarioModel } from '../models/usuarioModel.js';
 import { subirArchivo } from '../middlewares/subirArchivos.js';
 import multer  from 'multer';
+import sequelize from '../utils/DBconnection.js';
 
 const upload = multer({ dest: 'src/uploads/' });
 
@@ -19,12 +20,18 @@ usuarioRoutes.get('/obtenerMiMatricula', async (req, res) => {
 
 // * Obtener todos los usuarios
 usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
-    const usuarios = await UsuarioModel.findAll({
-        where: { 
-            estatus: req.params.filter == 'activos' ? true : false 
-        },
-        attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
-    });
+    const { matricula } = req.session.user;
+
+    const usuarios = await sequelize.query(
+        `SELECT matricula, nombre, apellidos, adscripcion, estatus, fecha_registro FROM Usuario WHERE estatus=${req.params.filter == 'activos' ? 'TRUE' : 'FALSE'} && matricula != '${matricula}'`,
+        { type: sequelize.QueryTypes.SELECT }
+    );
+    // const usuarios = await UsuarioModel.findAll({
+    //     where: { 
+    //         estatus: req.params.filter == 'activos' ? true : false
+    //     },
+    //     attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
+    // });
 
     if (usuarios)
     {

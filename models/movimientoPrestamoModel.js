@@ -27,7 +27,7 @@ export const MovimientoPrestamo = sequelize.define(
     }
 );
 
-export async function validarMovimientoPrestamo({ folio, nss, matricula_receptor, pendiente, fecha_finalizacion }) {
+export async function validarMovimientoPrestamo({ folio, nss, matricula_receptor, pendiente }) {
     let valido = true;
     let errores = [];
 
@@ -59,7 +59,7 @@ export async function validarMovimientoPrestamo({ folio, nss, matricula_receptor
         errores.push(new Error(`Matricula_receptor no válida`));
     }
 
-    const matricula_receptorVal = await Usuario.existe({ nss:matricula_receptor });
+    const matricula_receptorVal = await Usuario.existe({ matricula:matricula_receptor });
     if (!matricula_receptorVal.existe) {
         valido = false;
         errores.push(new Error(`Matricula_receptor no existe`));
@@ -68,11 +68,6 @@ export async function validarMovimientoPrestamo({ folio, nss, matricula_receptor
     if (typeof pendiente !== 'boolean') {
         valido = false;
         errores.push(new Error('Campo pendiente no es válido'));
-    }
-
-    if (!fecha_finalizacion || !(fecha_finalizacion instanceof Date)) {
-        valido = false;
-        errores.push(new Error('Fecha no es válida'));
     }
 
     return {

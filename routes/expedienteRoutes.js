@@ -5,6 +5,7 @@ import Movimiento, { Movimiento as MovimientoModel } from '../models/movimientoM
 import MovimientoNormal, { MovimientoNormal as MovimientoNormalModel } from '../models/movimientoNormalModel.js';
 import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransferenciaModel } from '../models/movimientoTransferenciaModel.js';
 import MovimientoSupervision, { MovimientoSupervision as MovimientoSupervisionModel } from '../models/movimientoSupervisionModel.js';
+import MovimientoPrestamo, {MovimientoPrestamo as MovimientoPrestamoModel} from '../models/movimientoPrestamoModel.js';
 import Peticion, {Peticion as PeticionModel } from '../models/peticionModel.js';
 import { imprimirTicket } from '../utils/print.js';
 import { fn, col, where } from 'sequelize';
@@ -168,15 +169,74 @@ expedienteRoutes.get('/ultimoMovimiento/:nss', async (req, res) => {
 
         // Obtener último movimiento del expediente
         const ultimoMovimiento = await sequelize.query(
-            `SELECT movimiento.*, movimientoNormal.nss FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss=${nss} && movimiento.tipo_movimiento='EXTRACCION' ORDER BY fecha DESC LIMIT 1`,
+            `SELECT movimiento.* FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss=${nss} && movimiento.tipo_movimiento='EXTRACCION' ORDER BY fecha DESC LIMIT 1`,
             { type: sequelize.QueryTypes.SELECT }
         );
-        
-        if (!ultimoMovimiento) {
-            return res.status(404).json('Movimiento no encontrado');
+
+        if (!ultimoMovimiento[0]) {
+            return res.status(200).json(false);
         }
 
-        return res.status(200).json(ultimoMovimiento);
+        return ultimoMovimiento[0].matricula === matricula
+            ?   res.status(200).json(true)
+            :   res.status(200).json(false);
+    }
+    catch(e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
+// * OBTENER ÚLTIMO PRÉSTAMO
+expedienteRoutes.get('/ultimoPrestamo/:nss', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { nss } = req.params;
+
+        let realizoPrestamo = false;
+
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
+        // Buscar el expediente
+        const expedienteBD = await Expediente.existe({ nss });
+
+        if (!expedienteBD.existe) {
+            return res.status(404).json('Expediente no encontrado');
+        }
+        if (!expedienteBD.expediente.prestado) {
+            return res.json({
+                realizoPrestamo
+            });
+        }
+
+        // Obtener último movimiento del expediente
+        const ultimoPrestamo = await sequelize.query(
+            `SELECT movimiento.*, movimientoPrestamo.matricula_receptor FROM movimiento INNER JOIN movimientoPrestamo ON (movimiento.folio = movimientoPrestamo.folio) WHERE movimientoPrestamo.nss=${nss} && movimiento.tipo_movimiento='PRESTAMO' && movimientoPrestamo.pendiente = TRUE ORDER BY fecha DESC LIMIT 1`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        if (!ultimoPrestamo[0]) {
+            return res.json({
+                realizoPrestamo
+            });
+        }
+
+        console.log(matricula);
+        console.log(ultimoPrestamo[0].matricula_receptor);
+
+        realizoPrestamo = ultimoPrestamo[0].matricula_receptor === matricula;
+        
+        const data = {
+            prestamo: ultimoPrestamo[0],
+            realizoPrestamo
+        }
+
+        return res.status(200).json(data);
     }
     catch(e) {
         console.log(e);
@@ -239,16 +299,21 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
             extraido: false
         });
 
-        // Imprimir ticket
-        await imprimirTicket({
-            movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
-            folio,
-            expediente: expedienteBD.nss,
-            nombreExpediente: expedienteBD.nombre,
-            matricula,
-            nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
-            fecha: movimientoCreado.fecha.toLocaleString()
-        });
+        try {
+            // Imprimir ticket
+            await imprimirTicket({
+                movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
+                folio,
+                expediente: expedienteBD.nss,
+                nombreExpediente: expedienteBD.nombre,
+                matricula,
+                nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
+                fecha: movimientoCreado.fecha.toLocaleString()
+            });
+        } 
+        catch (e) {
+            
+        }
 
         // Devolver respuesta
         return res.status(201).json('Ingreso realizado con éxito');
@@ -314,16 +379,21 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
             extraido: true
         });
 
-        // Imprimir ticket
-        await imprimirTicket({
-            movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
-            folio,
-            expediente: expedienteBD.nss,
-            nombreExpediente: expedienteBD.nombre,
-            matricula,
-            nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
-            fecha: movimientoCreado.fecha.toLocaleString()
-        });
+        try {     
+            // Imprimir ticket
+            await imprimirTicket({
+                movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
+                folio,
+                expediente: expedienteBD.nss,
+                nombreExpediente: expedienteBD.nombre,
+                matricula,
+                nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
+                fecha: movimientoCreado.fecha.toLocaleString()
+            });
+        } 
+        catch (e) {
+            
+        }
 
         // Devolver respuesta
         return res.status(201).json('Extracción realizada con éxito');
@@ -656,6 +726,113 @@ expedienteRoutes.get('/obtenerSupervisiones', async (req, res) => {
 });
 
 // * PRÉSTAMOS
+expedienteRoutes.post('/movimiento/prestamo', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { nss, matricula_receptor, motivo } = req.body;
+        
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
+        const folio = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
+            folio, 
+            matricula, 
+            motivo, 
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.PRESTAMO
+        };
+
+        const nuevoMovimientoPrestamo = {
+            folio,
+            nss,
+            matricula_receptor,
+            pendiente: true
+        }
+
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
+
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
+
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+
+        // * Validar movimientoPrestamo
+        const movimientoPrestamoVal = await MovimientoPrestamo.validarMovimientoPrestamo(nuevoMovimientoPrestamo);
+        if (!movimientoPrestamoVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoPrestamoVal.errores.join(' '));
+        }
+
+        // Crear movimientoPrestamo
+        const movimientoPrestamoCreado = await MovimientoPrestamoModel.create(nuevoMovimientoPrestamo);
+
+        // Obtener expediente
+        const expediente = (await Expediente.existe({ nss })).expediente;
+
+        // Actualizar expediente
+        await expediente.update({
+           prestado: true
+        });
+
+        // Devolver respuesta
+        return res.status(201).json('Prestamo realizado con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
+expedienteRoutes.post('/movimiento/ingresarPrestamo', async (req, res) => {
+    try {
+        const { matricula } = req.session.user;
+        const { folio } = req.body;
+        
+        // Validar usuario
+        const usuarioVal = await Usuario.existe({ matricula });
+
+        if (!usuarioVal.existe) {
+            return res.status(400).json('Error de autenticación');
+        }
+
+        // Obtener prestamo
+        const prestamo = await MovimientoPrestamo.existe({ folio });
+
+        if (!prestamo.existe) {
+            return res.status(400).json('El préstamo no existe');
+        }
+
+        // Actualizar préstamo
+        await prestamo.movimientoPrestamo.update({
+            pendiente: false,
+            fecha_finalizacion: new Date()
+        });
+
+        // Obtener expediente
+        const expediente = (await Expediente.existe({ nss:prestamo.movimientoPrestamo.nss })).expediente;
+
+        // Actualizar expediente
+        await expediente.update({
+           prestado: false 
+        });
+        
+        // Devolver respuesta
+        return res.status(201).json('Devuelta realizada con éxito');
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e.message);
+    }
+});
+
 
 async function obtenerNumeroFolio() {
     // Obtener numero de folio

@@ -60,6 +60,24 @@ export async function obtenerUltimoMovimiento(nss) {
     }
 }
 
+export async function obtenerUltimoPrestamo(nss) {
+    const ENDPOINT = `/ultimoPrestamo/${nss}`;
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
+
 export async function ingresarExpediente(form) {
     const ENDPOINT = '/movimiento/ingreso';
 
@@ -191,6 +209,48 @@ export async function obtenerSupervisionesActivas() {
 
     try {
         const response = await fetch(URL_BASE + ENDPOINT);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
+
+export async function prestarExpediente(form) {
+    const ENDPOINT = '/movimiento/prestamo';
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT, {
+            method: 'POST',
+            body: new URLSearchParams(form)
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const expedienteData = await response.json();
+        return expedienteData;
+    } 
+    catch (e) {
+        return e;
+    }
+}
+
+export async function ingresarPrestamo(form) {
+    const ENDPOINT = '/movimiento/ingresarPrestamo';
+
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT, {
+            method: 'POST',
+            body: new URLSearchParams(form)
+        });
 
         if (!response.ok) {
             throw new Error(await response.json());

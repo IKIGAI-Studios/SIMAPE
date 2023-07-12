@@ -1,6 +1,6 @@
 import SnackBar from "./componentes/snackbar.js";
-
-import { buscarExpediente, extraerExpediente, ingresarExpediente, obtenerUltimoMovimiento } from "./actions/accionesExpediente.js";
+import { buscarExpediente, extraerExpediente, ingresarExpediente, obtenerUltimoMovimiento, prestarExpediente, obtenerUltimoPrestamo, ingresarPrestamo } from "./actions/accionesExpediente.js";
+import { obtenerUsuarios } from "./actions/accionesUsuario.js";
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteConsulta');
 const inputNSS = document.querySelector('#nssBusquedaExpedienteConsulta');
@@ -16,10 +16,13 @@ const observacionesBusquedaExpediente = document.querySelector('#observacionesBu
 const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
 const btnExtraerExpediente = document.querySelector('#btnExtraerExpediente');
 const btnPrestarExpediente = document.querySelector('#btnPrestarExpediente');
+const btnDevolverExpediente = document.querySelector('#btnDevolverExpediente');
 
 const formExtraerExpediente = document.querySelector('#formExtraerExpediente');
 const formIngresarExpediente = document.querySelector('#formIngresarExpediente');
 const formPrestarExpediente = document.querySelector('#formPrestarExpediente');
+
+const usuariosPrestarExpediente = document.querySelector('#usuariosPrestarExpediente');
 
 import { ModalIngresarExpediente, ModalExtraerExpediente, ModalPrestarExpediente } from "./modalsOp.js";
 
@@ -60,19 +63,41 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 
     if (expediente.estatus) {
         inputEstatus.value = 'Activo';
+        console.log(expediente);
 
-        // Activar/Desactivar los botones
-        expediente.extraido ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
+        // Verificar si se debe activar el boton préstamo
+        if (expediente.extraido) {
+            const ultimoMovimiento = await obtenerUltimoMovimiento(expediente.nss);
+            console.log(ultimoMovimiento);
+            const ultimoPrestamo = await obtenerUltimoPrestamo(expediente.nss);
+            console.log('a', ultimoPrestamo);
+            
+            if (ultimoMovimiento && !expediente.prestado) {
+                console.log('extraido por mi');
+                btnPrestarExpediente.style.display = "block";
+                btnIngresarExpediente.removeAttribute('disabled');
+            }
+            else if (ultimoMovimiento && !ultimoPrestamo.realizoPrestamo) {
+                console.log('lo presté yo');
+                resetValues();
+            }
+            else if (ultimoPrestamo.realizoPrestamo) {
+                console.log('me lo prestaron a mi');
+                btnDevolverExpediente.style.display = "block";
+            }
+            else {
+                console.log('lo sacó alguien más');
+                resetValues();
+            }
+        }
+        else {
+            console.log('está en almacen');
+            // Activar/Desactivar los botones de ingresar/extraer
+            btnExtraerExpediente.removeAttribute('disabled');
+        }
     }
 
-    // Verificar si se debe activar el boton préstamo
-    if (expediente.extraido) {
-        const ultimoMovimiento = await obtenerUltimoMovimiento(expediente.nss);
-        const matricula = await 
-
-        
-        ultimoMovimiento.extraido ? btnIngresarExpediente.removeAttribute('disabled') : btnExtraerExpediente.removeAttribute('disabled');
-    }
+    
 
     // Escribir los movimientos
     const movimientosText = movimientos.map((movimiento) => {
@@ -135,10 +160,65 @@ formIngresarExpediente.addEventListener('submit', async(e) => {
     snackbar.showMessage(data);
 });
 
+formPrestarExpediente.addEventListener('submit', async(e) => {
+    e.preventDefault();
+
+    const form = new FormData();
+    form.append('nss', inputNSS.value);
+    form.append('motivo', 'prueba'); //TODO: Cambiar
+    form.append('matricula_receptor', usuariosPrestarExpediente.value);
+    
+    const data = await prestarExpediente(form);
+
+    if (data instanceof Error) {
+        return snackbar.showError(data.message);
+    }
+
+    inputNSS.value = '';
+    clearInputs();
+    resetValues();
+    ModalPrestarExpediente.disable();
+    snackbar.showMessage(data);
+});
+
+btnDevolverExpediente.addEventListener('click', async(e) => {
+    console.log('aslkjdnasjbndlaskj');
+    const ultimoPrestamo = await obtenerUltimoPrestamo(inputNSS.value);
+
+    const form = new FormData();
+    form.append('folio', ultimoPrestamo.prestamo.folio);
+
+    const data = await ingresarPrestamo(form);
+
+    if (data instanceof Error) {
+        return snackbar.showError(data.message);
+    }
+
+    inputNSS.value = '';
+    clearInputs();
+    resetValues();
+    snackbar.showMessage(data);
+});
+
 function resetValues() {
     btnIngresarExpediente.setAttribute('disabled', '');
     btnExtraerExpediente.setAttribute('disabled', '');
+    btnPrestarExpediente.style.display = "none";
+    btnDevolverExpediente.style.display = "none";
 }
+
+async function fillUsers() {
+    const usuarios = await obtenerUsuarios();
+
+    usuarios.forEach(usuario => {
+        const option = document.createElement('option');
+        option.innerText = `${usuario.nombre} ${usuario.apellidos}`;
+        option.setAttribute('value', usuario.matricula);
+        usuariosPrestarExpediente.appendChild(option);
+    });
+}
+
+fillUsers();
 
 function clearInputs() {
     inputNombre.value = '';
