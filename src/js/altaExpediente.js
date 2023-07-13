@@ -34,7 +34,7 @@ function validarCampos(){
 
    const valorNombre = nombre.value.trim();
 
-   if(valorNombre.length>98){
+   if(valorNombre.length>=98){
     snackbar.showError('Se rebasó el límite de caracteres para el nombre');
     return false;
    }
@@ -62,7 +62,6 @@ formAltaExpediente.addEventListener('submit', async (e) => {
         return snackbar.showError(expedienteCreado.message);
     }
 
-    
     snackbar.showMessage('Expediente ingresado correctamente');
     formAltaExpediente.reset();
 });
@@ -88,7 +87,6 @@ function añosFill(){
         años.appendChild(option);
     }
 }
-
 
 
 listDelegacionesFill();
