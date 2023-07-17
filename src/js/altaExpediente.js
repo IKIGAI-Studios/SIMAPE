@@ -22,15 +22,10 @@ const regexNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
 
 function validarCampos(){
 
-   if(nss.value.length < 11){
-    snackbar.showError('El NSS no puede ser menor a 11 caracteres');
+   if(nss.value.length != 11){
+    snackbar.showError('El NSS debe ser de 11 caracteres');
     return false;
    }  
-
-   if(nss.value.length > 11){
-    snackbar.showError('El NSS no puede ser mayor a 11 caracteres');
-    return false;
-   }
 
    const valorNombre = nombre.value.trim();
 

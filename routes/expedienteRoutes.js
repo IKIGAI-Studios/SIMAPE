@@ -266,7 +266,7 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
         });
 
         // Imprimir ticket
-        await imprimirTicket({
+       /* await imprimirTicket({
             movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
             folio,
             expediente: expedienteBD.nss,
@@ -274,7 +274,7 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
             matricula,
             nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
             fecha: movimientoCreado.fecha.toLocaleString()
-        })
+        })*/
 
         // Devolver respuesta
         return res.status(201).json('Extracción realizada con éxito');
