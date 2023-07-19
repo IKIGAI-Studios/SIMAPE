@@ -509,10 +509,26 @@ input[type=checkbox]:checked{
     padding: 4rem;
     border-radius: 15px;
     max-height: 70vh;
+    width: 40%;
     align-self: center;
     vertical-align: middle;
-    width: 30%;
-    }
+}
+
+.modal-reportes {
+    width: 80%;
+}
+
+.contenido-modal h1,  .contenido-modal h2 {
+    margin-top: 2em;
+    color: $imss-verde;
+    text-align: left;
+    font-family: 'Montserrat-Bold';
+}
+
+.contenido-modal p {
+    color: $imss-verde;
+    font-family: 'Montserrat-Regular';
+}
   
 .close {
     position: absolute;

@@ -122,17 +122,14 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
         }
 
         // Buscar los movimientos del expediente
-        const movimientosNormales = await sequelize.query(
-            `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss = ${nss} && movimientoNormal.pendiente != true ORDER BY movimiento.fecha DESC LIMIT 5`,
+        const movimientos = await sequelize.query(
+            `SELECT movimiento.*, usuario.nombre, usuario.apellidos FROM movimiento INNER JOIN usuario ON (movimiento.matricula = usuario.matricula) WHERE 
+            folio IN(SELECT folio FROM movimientonormal WHERE nss = ${nss}) || 
+            folio IN(SELECT folio FROM movimientoprestamo WHERE nss = ${nss}) ||
+            folio IN(SELECT folio FROM movimientosupervision WHERE nss = ${nss}) || 
+            folio IN (SELECT folio FROM movimientotransferencia WHERE nss = ${nss}) ORDER BY fecha DESC LIMIT 5`,
             { type: sequelize.QueryTypes.SELECT }
         );
-
-        const transferencia = await sequelize.query(
-            `SELECT movimiento.folio, matricula, motivo, fecha, tipo_movimiento FROM movimiento INNER JOIN movimientoTransferencia ON (movimiento.folio = movimientoTransferencia.folio) WHERE movimientoTransferencia.nss = ${nss} && movimientoTransferencia.pendiente != true ORDER BY movimiento.fecha DESC LIMIT 5;`,
-            { type: sequelize.QueryTypes.SELECT }
-        );
-
-        const movimientos = transferencia.concat(movimientosNormales);
 
         // Regresar todos los datos
         return res.json({

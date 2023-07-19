@@ -10,7 +10,7 @@ const inputTipoPension = document.querySelector('#tipoPensionBusquedaExpedienteC
 const inputAño = document.querySelector('#añoBusquedaExpedienteConsulta');
 const inputEstatus = document.querySelector('#estatusBusquedaExpedienteConsulta')
 const inputUbicacion = document.querySelector('#ubicacionBusquedaExpedienteConsulta');
-const movimientosBusquedaExpediente = document.querySelector('#movimientosBusquedaExpedienteConsulta');
+const movimientosBusquedaExpediente = document.querySelector('#movimientosBusquedaExpediente');
 const observacionesBusquedaExpediente = document.querySelector('#observacionesBusquedaExpedienteConsulta');
 
 const btnIngresarExpediente = document.querySelector('#btnIngresarExpediente');
@@ -51,6 +51,8 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 
     const { expediente, movimientos } = expedienteData;
 
+    movimientosBusquedaExpediente.innerHTML = '';
+
     // Escribir los datos
     inputNombre.value = expediente.nombre;
     inputTipoPension.value = expediente.categoria;
@@ -70,7 +72,6 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
             const ultimoMovimiento = await obtenerUltimoMovimiento(expediente.nss);
             console.log(ultimoMovimiento);
             const ultimoPrestamo = await obtenerUltimoPrestamo(expediente.nss);
-            console.log('a', ultimoPrestamo);
             
             if (ultimoMovimiento && !expediente.prestado) {
                 console.log('extraido por mi');
@@ -97,14 +98,31 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
         }
     }
 
-    
-
     // Escribir los movimientos
-    const movimientosText = movimientos.map((movimiento) => {
-        return `FOLIO: ${movimiento.folio} | TIPO: ${movimiento.tipo_movimiento} | FECHA: ${movimiento.fecha.slice(0,10)}`;
-    }).join('\n');
+    movimientos.forEach(movimiento => {
+        const fila = document.createElement('tr');
 
-    movimientosBusquedaExpediente.value = movimientosText;
+        const folio = document.createElement('td');
+        folio.innerText = movimiento.folio;
+        
+        const tipo_movimiento = document.createElement('td');
+        tipo_movimiento.innerText = movimiento.tipo_movimiento;
+
+        const fechaCell = document.createElement('td');
+        const fecha = new Date(movimiento.fecha);
+        fechaCell.innerText = fecha.toLocaleString();
+
+        const nombre = document.createElement('td');
+        nombre.innerText = `${movimiento.nombre} ${movimiento.apellidos}`;
+
+        fila.appendChild(folio);
+        fila.appendChild(tipo_movimiento);
+        fila.appendChild(fechaCell);
+        fila.appendChild(nombre);
+
+        movimientosBusquedaExpediente.appendChild(fila)
+    });
+
     snackbar.showMessage('Expediente encontrado');
 });
 

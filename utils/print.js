@@ -5,7 +5,10 @@ import { TIPO_MOVIMIENTO } from './constants.js';
 // * CAMBIAR CON CADA IMPRESORA
 const device = new Device(10473, 649);
 
-export async function imprimirTicket({ movimiento, folio, expediente, nombreExpediente, matricula, nombreUsuario, fecha}) {
+
+
+
+export async function imprimirTicket({ movimiento, folio, expedientes, nombreExpediente, matricula, nombreUsuario, fecha }) {
     await device.setDevice();
 
     const printer = new escpos.Printer(device);
