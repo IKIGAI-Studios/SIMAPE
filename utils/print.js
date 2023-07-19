@@ -5,7 +5,10 @@ import { TIPO_MOVIMIENTO } from './constants.js';
 // * CAMBIAR CON CADA IMPRESORA
 const device = new Device(10473, 649);
 
-export async function imprimirTicket({ movimiento, folio, expediente, nombreExpediente, matricula, nombreUsuario, fecha}) {
+
+
+
+export async function imprimirTicket({ movimiento, folio, expedientes, nombreExpediente, matricula, nombreUsuario, fecha }) {
     await device.setDevice();
 
     const printer = new escpos.Printer(device);
@@ -36,9 +39,9 @@ export async function imprimirTicket({ movimiento, folio, expediente, nombreExpe
             .newLine()
             .text('FAVOR DE CONSERVAR ESTE TICKET COMO EVIDENCIA DE SU OPERACION.');
             if (movimiento === TIPO_MOVIMIENTO.NORMAL.EXTRACCION) {
-                printer.text(`
-                    USTED ES RESPONSABLE DE LA EXTRAVIO, MODIFICACION, DAÑO O CUALQUIER USO INDEBIDO DEL EXPEDIENTE MIENTRAS NO SE REGISTRE EL INGRESO.
-                `)
+                printer.text(
+                    `USTED ES RESPONSABLE DEL EXTRAVIO, MODIFICACION, DAÑO O CUALQUIER USO INDEBIDO DEL EXPEDIENTE MIENTRAS NO SE REGISTRE EL INGRESO.`
+                );
             }
         printer
             .cut()

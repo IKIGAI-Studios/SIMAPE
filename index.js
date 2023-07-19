@@ -45,7 +45,7 @@ app.use(session({
   secret: process.env.SECRET_KEY_SESSION,
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 60 * 8 }, 
+  cookie: { maxAge: 1000 * 60 * 60 * 8 }
 }));
 
 
@@ -69,6 +69,7 @@ app.use("/icons", express.static(join(__dirname, 'src/icons')));
 app.use("/fonts", express.static(join(__dirname, 'src/fonts')));
 app.use("/js", express.static(join(__dirname, 'src/js')));
 app.use("/uploads", express.static(join(__dirname, 'src/uploads')));
+app.use("/dist", express.static(join(__dirname, 'dist')));
 
 app.use((req, res, next) => {
   res.status(404).send('404'); //TODO: Hacer una pag de 404 xd

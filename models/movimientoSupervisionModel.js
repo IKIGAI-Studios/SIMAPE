@@ -17,7 +17,8 @@ export const MovimientoSupervision = sequelize.define(
         },
         nss: DataTypes.STRING(15),
         supervisor: DataTypes.STRING(80),
-        finalizada: DataTypes.BOOLEAN
+        pendiente: DataTypes.BOOLEAN,
+        fecha_finalizacion: DataTypes.DATE
     },
     {
         tableName: "movimientoSupervision",
@@ -25,7 +26,7 @@ export const MovimientoSupervision = sequelize.define(
     }
 );
 
-export async function validarMovimientoSupervision({ folio, nssList, supervisor, finalizada }) {
+export async function validarMovimientoSupervision({ folio, nssList, supervisor, pendiente, fecha_finalizacion }) {
     let valido = true;
     let errores = [];
 
@@ -41,7 +42,9 @@ export async function validarMovimientoSupervision({ folio, nssList, supervisor,
         errores.push(new Error('Folio no existe'));
     }
 
-    nssList.forEach( async nss => {
+    for (let i=0; i<nssList.length; i++) {
+        const nss = nssList[i];
+
         if (!nss || typeof nss !== 'string') {
             valido = false;
             errores.push(new Error(`Nss "${nss}" no válido`));
@@ -58,16 +61,21 @@ export async function validarMovimientoSupervision({ folio, nssList, supervisor,
             valido = false;
             errores.push(new Error('Nss registrado anteriormente'));
         }
-    });
+    }
 
     if (!supervisor || typeof supervisor !== 'string') {
         valido = false;
         errores.push(new Error('Supervisor no válido'));
     }
 
-    if (typeof finalizada !== 'boolean') {
+    if (typeof pendiente !== 'boolean') {
         valido = false;
-        errores.push(new Error('Campo finalizada no es válido'));
+        errores.push(new Error('Campo pendiente no es válido'));
+    }
+
+    if (!fecha_finalizacion || !(fecha_finalizacion instanceof Date)) {
+        valido = false;
+        errores.push(new Error('Fecha no es válida'));
     }
 
     return {

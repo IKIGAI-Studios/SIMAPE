@@ -4547,9 +4547,25 @@ input[type=checkbox]:checked {
   padding: 4rem;
   border-radius: 15px;
   max-height: 70vh;
+  width: 40%;
   align-self: center;
   vertical-align: middle;
-  width: 30%;
+}
+
+.modal-reportes {
+  width: 80%;
+}
+
+.contenido-modal h1, .contenido-modal h2 {
+  margin-top: 2em;
+  color: #005A4E;
+  text-align: left;
+  font-family: "Montserrat-Bold";
+}
+
+.contenido-modal p {
+  color: #005A4E;
+  font-family: "Montserrat-Regular";
 }
 
 .close {

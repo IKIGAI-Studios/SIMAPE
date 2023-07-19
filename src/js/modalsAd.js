@@ -13,6 +13,12 @@ export const ModalEditarUsuario = new Modal(
   document.querySelector('#modalEditarUsuarioClose')
 );
 
+export const ModalReporte = new Modal(
+  document.querySelector('#modalReporte'),
+  //document.getElementById('btnEditarUsuario'),
+  document.querySelector('#modalReporteClose')
+);
+
 // * Generar eventos para que al dar clic fuera se desactiven
 window.onclick = function(event) {
   if (event.target === ModalAgregarUsuario.HTMLmodal || event.target === ModalEditarUsuario.HTMLmodal) {

@@ -20,7 +20,8 @@ export const Expediente = sequelize.define(
         año: DataTypes.INTEGER,
         matricula: DataTypes.STRING(15),
         observaciones: DataTypes.STRING(100),
-        extraido: DataTypes.BOOLEAN
+        extraido: DataTypes.BOOLEAN,
+        prestado: DataTypes.BOOLEAN,
     },
     {
         tableName: "expediente",
