@@ -4,6 +4,7 @@ import { ModalAgregarUsuario } from "./modalsAd.js";
 import { ModalEditarUsuario } from "./modalsAd.js";
 
 const formAltaUsuario = document.getElementById('formAltaUsuario');
+const formEditarUsuario = document.getElementById('formEditarUsuario');
 const snackbar = new SnackBar(document.getElementById('snackbar'));
 
 // Campos a validar para dar de alta a un usuario
@@ -14,12 +15,15 @@ const usuario = document.getElementById('usuarioAltaUsuario');
 const pass = document.getElementById('passAltaUsuario');
 
 // Campos a validar para editar a un usuario
-
+const nombreE = document.getElementById('nombreEditarUsuario');
+const apellidosE  = document.getElementById('apellidosEditarUsuario');
+const usuarioE = document.getElementById('usuarioEditarUsuario');
+const passE = document.getElementById('passEditarUsuario');
 
 // Expresión regular que admmite ñ y tildes
 const regexNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
 
-function validarCampos(){
+function validarCamposAgregar(){
 
     if(matricula.value.length != 8){
         snackbar.showError('La matrícula debe ser de 8 caracteres');
@@ -50,7 +54,7 @@ function validarCampos(){
         }
 
         if(usuario.value.length < 5){
-            snackbar.showError('El usuario debe ser mmayor a 5 caracteres');
+            snackbar.showError('El usuario debe ser mayor a 5 caracteres');
             return false; 
         }
         
@@ -67,10 +71,53 @@ function validarCampos(){
        return true;
 }
 
+function validarCamposEditar(){
+
+       const valorNombreE = nombreE.value.trim();
+       const valorApellidosE = apellidosE.value.trim();
+    
+       if(valorNombreE.length>=48){
+            snackbar.showError('Se rebasó el límite de caracteres para el nombre');
+            return false;
+       }
+
+       if(valorApellidosE.length>=48){
+            snackbar.showError('Se rebasó el límite de caracteres para los apellidos');
+            return false;
+       }
+    
+       if(!regexNombre.test(valorNombreE)) {
+           snackbar.showError('El nombre solo puede contener letras y espacios');
+           return false; 
+       }
+
+       if(!regexNombre.test(valorApellidosE)) {
+            snackbar.showError('Los apellidos solo pueden contener letras y espacios');
+            return false; 
+        }
+
+        if(usuarioE.value.length < 5){
+            snackbar.showError('El usuario debe ser mayor a 5 caracteres');
+            return false; 
+        }
+        
+        if(passE.value.length < 8){
+            snackbar.showError('La contraseña debe ser mayor a 8 caracteres');
+            return false; 
+        }
+
+        if(passE.value.length > 30){
+            snackbar.showError('La contraseña no debe ser mayor a 30 caracteres');
+            return false;     
+        }
+    
+       return true;
+}
+
 formAltaUsuario.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    if (!validarCampos()) {
+    if (!validarCamposAgregar()) {
         return; 
     }
 
@@ -198,6 +245,26 @@ function crearFilaDeUsuario(usuario) {
 function handleEditarUsuario(usuario) {
     ModalEditarUsuario.enable();
 }
+
+
+formEditarUsuario.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (!validarCamposEditar()) {
+        return; 
+    }
+
+    if ((typeof response) === Error) {
+        snackbar.showError(response.message);
+        return;
+    }
+
+    snackbar.showMessage(response);
+    formEditarUsuario.reset();
+    actualizarUsuarios();
+    ModalAgregarUsuario.disable();
+    ModalEditarUsuario.disable();
+});
 
 async function handleBajaUsuario(matricula) {
     const form  = new FormData();
