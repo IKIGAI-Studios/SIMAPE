@@ -4477,8 +4477,10 @@ input[type=checkbox]:checked {
   padding: 2rem;
   display: block;
   background-color: #D9D9D9;
-  min-height: 65vh;
+  height: 65vh;
   border-radius: 0 20px 20px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #snackbar {
