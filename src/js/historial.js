@@ -1,12 +1,15 @@
 import SnackBar from "./componentes/snackbar.js";
-import { obtenerMisMovimientos } from './actions/accionesMovimiento.js'
+import { buscarPorFolio, obtenerMisMovimientos } from './actions/accionesMovimiento.js'
+import Button from "./componentes/button.js";
+import { imprimir, testPrinter } from "./actions/accionesImpresion.js";
+import { generarReportePDF } from "./utilities/generarReportePDF.js"
+
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 const tablaMovimientos = document.querySelector('#tablaMovimientosHistorial');
 
 async function cargarMovimientos() {
     const movimientos = await obtenerMisMovimientos();
-    console.log(movimientos);
     
     if (movimientos instanceof Error) {
         return snackbar.showError(movimientos.message);
@@ -25,20 +28,24 @@ async function cargarMovimientos() {
         nss.innerHTML = movimiento.nss;
         
         const fecha = document.createElement('td')
-        fecha.innerHTML = movimiento.fecha.substring(0,10);
+        fecha.innerHTML = new Date(movimiento.fecha).toLocaleString();
 
         const boton = document.createElement('td');
 
-        const btnReactivar = document.createElement('button');
-        btnReactivar.classList.add('btn-verde');
-        btnReactivar.style.padding = '0 2rem';
-        btnReactivar.innerHTML = 'REIMPRIMIR';
+        const btnReimprimirElement = document.createElement('button');
+        btnReimprimirElement.classList.add('btn-verde');
+        btnReimprimirElement.style.padding = '0 2rem';
 
-        btnReactivar.addEventListener('click', (e) => {
-            handleReactivar(movimiento.folio);
+        const btnReimprimir = new Button(
+            btnReimprimirElement,
+            'REIMPRIMIR'
+        )
+
+        btnReimprimir.HTMLelement.addEventListener('click', (e) => {
+            handleReimprimir(btnReimprimir, movimiento.folio);
         });
 
-        boton.appendChild(btnReactivar);
+        boton.appendChild(btnReimprimirElement);
 
         fila.appendChild(folio);
         fila.appendChild(tipoMovimiento);
@@ -52,7 +59,89 @@ async function cargarMovimientos() {
 
 cargarMovimientos();
 
-function handleReactivar(folio) {
-    // Reimprimir xd
-    snackbar.showMessage('Reimprimiendo ticket ' + folio + '...');
+/**
+ * 
+ * @param {Button} btnReimprimir 
+ * @param {Number} folio 
+ */
+async function handleReimprimir(btnReimprimir, folio) {
+    
+    btnReimprimir.setState('LOADING');
+
+    // Buscar el movimiento
+    const movimiento = await buscarPorFolio(folio);
+    console.log(movimiento);
+
+    // Si es reimpresión de supervisión, generar el pdf
+    if (movimiento.tipo_movimiento === 'SUPERVISION_SALIDA') {
+        const expedientes = movimiento.movimientosSupervision.map((movimiento) => {
+            return {nss: movimiento.nss, nombre: movimiento.nombre};
+        });
+
+        generarReportePDF(
+            movimiento.folio, 
+            `${movimiento.nombre} ${movimiento.apellidos}`,
+            movimiento.movimientosSupervision[0].supervisor,
+            new Date(movimiento.fecha),
+            expedientes
+        );
+
+        btnReimprimir.setState('NORMAL');
+        snackbar.showMessage('Documento generado con éxito');
+        return;
+    }
+
+    const ticketBase = {
+        tipo: movimiento.tipo_movimiento, 
+        folio: movimiento.folio,
+        matricula: movimiento.matricula, 
+        nombreUsuario: `${movimiento.nombre} ${movimiento.apellidos}`, 
+        fecha: new Date(movimiento.fecha),
+    }
+
+    let ticketExtra = {};
+
+    if (movimiento.tipo_movimiento === 'INGRESO' || movimiento.tipo_movimiento === 'EXTRACCION') {
+        ticketExtra = {
+            expedientes: [
+                {nss: movimiento.movimientoNormal.nss, nombre: movimiento.movimientoNormal.nombre}
+            ]
+        }
+    }
+    else if (movimiento.tipo_movimiento === 'PRESTAMO') {
+        ticketExtra = {
+            expedientes: [
+                {nss: movimiento.movimientoPrestamo.nss, nombre: movimiento.movimientoPrestamo.nombre}
+            ],
+            matriculaReceptor: movimiento.movimientoPrestamo.matricula_receptor,
+            nombreReceptor: `${movimiento.movimientoPrestamo.nombre_receptor} ${movimiento.movimientoPrestamo.apellidos_receptor}`
+        }
+    }
+    else if (movimiento.tipo_movimiento === 'SUPERVISION') {
+        ticketBase.tipo = 'SUPERVISION_ENTRADA';
+        ticketExtra = {
+            expedientes: [
+                {nss: movimiento.movimientoSupervision.nss, nombre: movimiento.movimientoSupervision.nombre}
+            ],
+            supervisor: movimiento.movimientoSupervision.supervisor,
+        }
+    }
+
+    const ticket = {
+        ...ticketBase,
+        ...ticketExtra
+    }
+
+    console.log(ticket);
+
+    const test = await testPrinter();
+    if (test instanceof Error) {
+        btnReimprimir.setState('NORMAL');
+        return snackbar.showError(test);
+    }
+
+    const resImprimir = await imprimir(ticket);
+
+    btnReimprimir.setState('NORMAL');
+    snackbar.showMessage(resImprimir);
 }

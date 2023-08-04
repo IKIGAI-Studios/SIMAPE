@@ -1,7 +1,8 @@
 import SnackBar from "./componentes/snackbar.js";
 import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/accionesUsuario.js"
-import { ModalAgregarUsuario } from "./modalsAd.js";
-import { ModalEditarUsuario } from "./modalsAd.js";
+import { ModalAgregarUsuario, ModalEditarUsuario } from "./modalsAd.js";
+
+const btnAgregarUsuario = document.querySelector('#btnAgregarUsuario');
 
 const formAltaUsuario = document.getElementById('formAltaUsuario');
 const snackbar = new SnackBar(document.getElementById('snackbar'));
@@ -22,7 +23,6 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     formAltaUsuario.reset();
     actualizarUsuarios();
     ModalAgregarUsuario.disable();
-    ModalEditarUsuario.disable();
 });
 
 async function actualizarUsuarios() {
@@ -165,3 +165,7 @@ async function handleRecuperarUsuario(matricula) {
 }
 
 actualizarUsuarios();
+
+btnAgregarUsuario.addEventListener('click', () => {
+    ModalAgregarUsuario.enable();
+});

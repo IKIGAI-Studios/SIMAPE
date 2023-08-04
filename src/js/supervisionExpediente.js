@@ -30,12 +30,12 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     const { expediente } = expedienteData;
     
     // Si el expediente no se encuentra disponible
-    if (expediente.extraido) {
-        return snackbar.showError('El expediente ya ha sido extraído');
-    }
-
     if (!expediente.estatus) {
         return snackbar.showError('El expediente está dado de baja');
+    }
+
+    if (expediente.estado === 'EXTRAIDO' || expediente.estado === 'PRESTADO' || expediente.estado === 'SUPERVISADO') {
+        return snackbar.showError('El expediente se encuentra extraído');
     }
 
     if (expedientes.includes(expediente.nss)) {
@@ -56,7 +56,6 @@ btnFinalizarSupervision.addEventListener('click', async (e) => {
     form.append('nssList', expedientes.join(','));
     form.append('motivo', 'Supervision');
     form.append('supervisor', supervisorSupervision.value);
-    
 
     const supervision = await supervisionExpediente(form);
 
@@ -79,8 +78,6 @@ async function cargarSupervisiones() {
     if (supervisiones instanceof Error) {
         return snackbar.showError(supervisiones.message);
     }
-
-    console.log(supervisiones);
 
     supervisiones.forEach(supervision => {
         const fila = document.createElement('tr');

@@ -3,14 +3,14 @@ import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
 import nocache from 'nocache'
-import { dirname, join } from 'path';
-import { fileURLToPath } from 'url';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import routes from './routes/routes.js';
 import usuarioRoutes from './routes/usuarioRoutes.js';
 import expedienteRoutes from './routes/expedienteRoutes.js';
 import dotenv from 'dotenv';
 import { Server } from 'socket.io';
-import http from 'http';
+import http from 'node:http';
 import { socketsUsuario } from './sockets/socketsUsuario.js';
 import delegacionRoutes from './routes/delegacionRoutes.js';
 import movimientoRoutes from './routes/movimientoRoutes.js';
@@ -45,7 +45,7 @@ app.use(session({
   secret: process.env.SECRET_KEY_SESSION,
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 1000 * 60 * 60 * 8 }
+  cookie: { maxAge: 1000 * 60 * 60 * 12 }
 }));
 
 
@@ -71,8 +71,8 @@ app.use("/js", express.static(join(__dirname, 'src/js')));
 app.use("/uploads", express.static(join(__dirname, 'src/uploads')));
 app.use("/dist", express.static(join(__dirname, 'dist')));
 
-app.use((req, res, next) => {
-  res.status(404).send('404'); //TODO: Hacer una pag de 404 xd
+app.use((req, res) => {
+  res.status(404).render('404'); //TODO: Hacer una pag de 404 xd
 });
 
 export { app, server };

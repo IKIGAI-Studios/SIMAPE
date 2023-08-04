@@ -4,6 +4,7 @@ import { Usuario } from '../models/usuarioModel.js';
 
 const routes = express.Router();
 
+// Rutas generales
 // * Inicio
 routes.get('/', (req, res) => {
     res.render('login');

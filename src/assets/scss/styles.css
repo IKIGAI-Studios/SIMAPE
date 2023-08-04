@@ -4284,6 +4284,10 @@ input[type=checkbox]:checked {
      object-position: 50% 20%;
 }
 
+button {
+  position: relative;
+}
+
 .btn-beige {
   background-color: #D9C9A8;
   border: none;
@@ -4693,4 +4697,26 @@ svg {
   padding: 1rem 0;
   font-family: "Montserrat-Bold";
   color: white;
+}
+
+.loader {
+  width: 1em;
+  height: 1em;
+  border: 3px solid #D9D9D9;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  position: absolute;
+  left: calc(50% - 0.5em);
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }/*# sourceMappingURL=styles.css.map */

@@ -68,32 +68,36 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
         console.log(expediente);
 
         // Verificar si se debe activar el boton préstamo
-        if (expediente.extraido) {
-            const ultimoMovimiento = await obtenerUltimoMovimiento(expediente.nss);
-            console.log(ultimoMovimiento);
-            const ultimoPrestamo = await obtenerUltimoPrestamo(expediente.nss);
-            
-            if (ultimoMovimiento && !expediente.prestado) {
+
+        if (expediente.estado === 'EXTRAIDO') {
+            const ultimoMovimiento = await obtenerUltimoMovimiento('EXTRACCION', expediente.nss);
+
+            if (ultimoMovimiento) {
                 console.log('extraido por mi');
                 btnPrestarExpediente.style.display = "block";
                 btnIngresarExpediente.removeAttribute('disabled');
             }
-            else if (ultimoMovimiento && !ultimoPrestamo.realizoPrestamo) {
-                console.log('lo presté yo');
-                resetValues();
+            else {
+                console.log('lo sacó alguien más');
             }
-            else if (ultimoPrestamo.realizoPrestamo) {
+        }
+        else if (expediente.estado === 'PRESTADO') {
+            const ultimoPrestamo = await obtenerUltimoPrestamo(expediente.nss);
+            const ultimoMovimiento = await obtenerUltimoMovimiento('EXTRACCION', expediente.nss);
+
+            if (ultimoPrestamo.recibioPrestamo) {
                 console.log('me lo prestaron a mi');
                 btnDevolverExpediente.style.display = "block";
             }
-            else {
-                console.log('lo sacó alguien más');
-                resetValues();
+            else if (ultimoMovimiento && !ultimoPrestamo.recibioPrestamo) {
+                console.log('lo presté yo');
             }
+        }
+        else if (expediente.estado === 'SUPERVISADO') {
+            console.log('está siendo supervisado');
         }
         else {
             console.log('está en almacen');
-            // Activar/Desactivar los botones de ingresar/extraer
             btnExtraerExpediente.removeAttribute('disabled');
         }
     }
@@ -246,4 +250,5 @@ function clearInputs() {
     inputUbicacion.value = '';
     movimientosBusquedaExpediente.value = '';
     observacionesBusquedaExpediente.value = '';
+    movimientosBusquedaExpediente.innerHTML = '';
 }

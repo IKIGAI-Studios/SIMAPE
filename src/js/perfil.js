@@ -1,9 +1,9 @@
-import { obtenerMiMatricula, buscarUsuario, cambiarPass } from "./actions/accionesUsuario.js";
+import { cambiarPass } from "./actions/accionesUsuario.js";
+import { obtenerMisDatos } from "./bannerUsuario.js"
 import { ModalCambiarPass } from "./modalsOp.js";
-
-const nombreBanner = document.querySelector('#nombreBanner');
-const apellidoBanner = document.querySelector('#apellidoBanner');
-const tipoUsuarioBanner = document.querySelector('#tipoUsuarioBanner');
+import Button from "./componentes/button.js";
+import SnackBar from "./componentes/snackbar.js";
+import { testPrinter, testPrint } from "./actions/accionesImpresion.js" 
 
 const fotoPerfil = document.querySelector('#fotoPerfil');
 const matriculaPerfil = document.querySelector('#matriculaPerfil');
@@ -17,21 +17,37 @@ const passActualCambio = document.querySelector('#passActualCambio');
 const passNuevaCambio = document.querySelector('#passNuevaCambio');
 const passNuevaConfCambio = document.querySelector('#passNuevaConfCambio');
 
-async function obtenerMisDatos() {
-    const matricula = await obtenerMiMatricula();
-    return await buscarUsuario(matricula);
-}
+const snackbar = new SnackBar(document.querySelector('#snackbar'));
+
+const btnProbarImpresora = new Button(
+    document.querySelector('#btnProbarImpresora'), 
+    'PROBAR IMPRESORA'
+);
+
+const btnImprimirPrueba = new Button(
+    document.querySelector('#btnImprimirPrueba'), 
+    'IMPRIMIR PRUEBA'
+);
 
 async function rellenarDatos() {
     const usuario = await obtenerMisDatos();
 
-    nombreBanner.innerHTML = usuario.nombre;
-    apellidoBanner.innerHTML = usuario.apellidos;
-    tipoUsuarioBanner.innerHTML = usuario.tipo_usuario;
-
     if (usuario.foto) {
-        fotoPerfil.src = `/uploads/${usuario.foto}`;
+        const fotoPath = `/uploads/${usuario.foto}`;
+
+        try {
+            const foto = await fetch(fotoPath);
+
+            if (!foto.ok) {
+                throw new Error();
+            }
+            fotoPerfil.src = `/uploads/${usuario.foto}`;
+        }
+        catch (error) {
+            snackbar.showError('La foto del usuario no existe');
+        }
     }
+
     matriculaPerfil.innerHTML = usuario.matricula;
     nombrePerfil.innerHTML = `${usuario.nombre} ${usuario.apellidos}`;
     fechaRegistroPerfil.innerHTML = usuario.fecha_registro;
@@ -60,3 +76,21 @@ formCambioPass.addEventListener('submit', async (e) => {
 })
 
 rellenarDatos();
+
+btnProbarImpresora.HTMLelement.addEventListener('click', async () => {
+    btnProbarImpresora.setState('LOADING');
+
+    const printerRes = await testPrinter();
+    
+    snackbar.showMessage(printerRes);
+    btnProbarImpresora.setState('NORMAL');
+});
+
+btnImprimirPrueba.HTMLelement.addEventListener('click', async () => {
+    btnImprimirPrueba.setState('LOADING');
+
+    const printerRes = await testPrint();
+    
+    snackbar.showMessage(printerRes);
+    btnImprimirPrueba.setState('NORMAL');
+});

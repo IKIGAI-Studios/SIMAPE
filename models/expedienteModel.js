@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
-import { CATEGORIA_EXPEDIENTE } from '../utils/constants.js';
+import { CATEGORIA_EXPEDIENTE, ESTADO_EXPEDIENTE } from '../utils/constants.js';
 
 export const Expediente = sequelize.define(
     'expediente',
@@ -20,8 +20,7 @@ export const Expediente = sequelize.define(
         año: DataTypes.INTEGER,
         matricula: DataTypes.STRING(15),
         observaciones: DataTypes.STRING(100),
-        extraido: DataTypes.BOOLEAN,
-        prestado: DataTypes.BOOLEAN,
+        estado: DataTypes.STRING(20)
     },
     {
         tableName: "expediente",
@@ -29,7 +28,7 @@ export const Expediente = sequelize.define(
     }
 );
 
-export async function validarExpediente({ nss, nombre, categoria, fecha_alta, fecha_baja, delegacion, ubicacion, estatus, año, matricula, observaciones, extraido }) {
+export async function validarExpediente({ nss, nombre, categoria, fecha_alta, fecha_baja, delegacion, ubicacion, estatus, año, matricula, observaciones, estado }) {
     // Variables a retornar
     let valido = true;
     let errores = [];
@@ -45,12 +44,25 @@ export async function validarExpediente({ nss, nombre, categoria, fecha_alta, fe
         errores.push(new Error('Nss ya existe'));
     }
 
+    if (!nombre || typeof nombre !== 'string' || nombre.length > 100) {
+        valido = false;
+        errores.push(new Error('Nombre no válido'));
+    }
+
+    if (!fecha_alta || !(fecha_alta instanceof Date)) {
+        valido = false;
+        errores.push(new Error('Fecha_alta no válida'));
+    }
+
     if (!categoria || !CATEGORIA_EXPEDIENTE[categoria]) {
         valido = false;
         errores.push(new Error('Categoría no válida'));
     }
-    
-    //TODO Realizar validaciones XD
+
+    if (!ESTADO_EXPEDIENTE[estado]) {
+        valido = false;
+        errores.push(new Error('Estado no válido'));
+    }
 
     return {
         valido,

@@ -53,6 +53,9 @@ export async function validarMovimiento({ folio, matricula, motivo, fecha, tipo_
         errores.push(new Error('Movimiento no válido'));
     }
 
+    // if (fecha instanceof 'Date') {
+
+    // }
     //TODO: Terminar las validaciones
 
     return {

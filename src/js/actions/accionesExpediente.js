@@ -42,8 +42,14 @@ export async function buscarExpediente(nss) {
     }
 }
 
-export async function obtenerUltimoMovimiento(nss) {
-    const ENDPOINT = `/ultimoMovimiento/${nss}`;
+/**
+ * Función que hace una petición a la API para obtener si el usuario realizó el último movimiento del tipo dado o no.
+ * @param {'EXTRACCION' | 'INGRESO'} tipoMovimiento Tipo de movimiento
+ * @param {String} nss NSS del expediente
+ * @returns {Promise<Boolean | Error>} Retorna si el último movimiento del tipo dado lo realizó el usuario.
+ */
+export async function obtenerUltimoMovimiento(tipoMovimiento, nss) {
+    const ENDPOINT = `/ultimoMovimiento/${tipoMovimiento}/${nss}`;
 
     try {
         const response = await fetch(URL_BASE + ENDPOINT);
@@ -60,6 +66,11 @@ export async function obtenerUltimoMovimiento(nss) {
     }
 }
 
+/**
+ * Función que hace una petición a la API para obtener si el usuario ha sido el último en recibir un préstamo del expediente.
+ * @param {String} nss NSS del expediente
+ * @returns {Promise<Object | Error>} Objeto con el valor recibioPrestamo y prestamo, que contienen un bool y el préstamo.
+ */
 export async function obtenerUltimoPrestamo(nss) {
     const ENDPOINT = `/ultimoPrestamo/${nss}`;
 

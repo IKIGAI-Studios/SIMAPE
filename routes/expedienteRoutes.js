@@ -9,26 +9,42 @@ import MovimientoPrestamo, {MovimientoPrestamo as MovimientoPrestamoModel} from 
 import Peticion, {Peticion as PeticionModel } from '../models/peticionModel.js';
 import { imprimirTicket } from '../utils/print.js';
 import { fn, col, where } from 'sequelize';
-import { ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
+import { ESTADO_EXPEDIENTE, ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
 import sequelize from '../utils/DBconnection.js';
-
+import { validarUsuario } from './validarUsuario.js';
 
 const expedienteRoutes = express.Router();
+
+// Middleware para validar usuario
+expedienteRoutes.use('/*', async (req, res, next) => {
+    // Comprobar si existe una sesión de usuario
+    if (!req.session.user) {
+        return res.redirect('/');
+    }
+
+    // Extraer las constantes necesarias
+    const { matricula } = req.session.user;
+
+    // Validar usuario
+    const esValido = await validarUsuario(matricula);
+    
+    // Si no es válido, retornar el error
+    if (!esValido) {
+        return res.status(400).json('Error de autenticación');
+    }
+
+    // Si todo salió bien, pasar a la función de la ruta
+    next();
+});
 
 // * Dar de alta un expediente
 expedienteRoutes.post('/altaExpediente', async (req, res) => {
     try {
-        // Obtener datos
+        // Extraer las constantes necesarias
         const { nss, nombre, categoria, delegacion, ubicacion, observaciones, año } = req.body;
         const { matricula } = req.session.user;
 
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
-
+        // Declarar el expediente y los movimientos
         const nuevoExpediente = {
             nss,
             nombre,
@@ -41,7 +57,7 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
             año,
             matricula,
             observaciones,
-            extraido: false
+            estado: ESTADO_EXPEDIENTE.INGRESADO
         };
 
         const folio = await obtenerNumeroFolio() + 1;
@@ -56,7 +72,7 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
         const nuevoMovimientoAlta = {
             folio,
             nss,
-            pendiente: false, //TODO: Cambiar dependiendo del sujeto
+            pendiente: false,
             tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.ALTA,
         }
 
@@ -104,15 +120,9 @@ expedienteRoutes.post('/altaExpediente', async (req, res) => {
 // * Buscar un expediente por su nss
 expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss } = req.params;
-
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
 
         // Buscar el expediente
         const expedienteBD = await Expediente.existe({ nss });
@@ -144,18 +154,12 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
 });
 
 // * RUTAS DE MOVIMIENTOS
-// * OBTENER ÚLTIMO MOVIMIENTO
-expedienteRoutes.get('/ultimoMovimiento/:nss', async (req, res) => {
+// * RUTA PARA OBTENER SI EL ÚLTIMO MOVIMIENTO DE EXTRACCIÓN LO REALIZÓ EL USUARIO
+expedienteRoutes.get('/ultimoMovimiento/:tipoMovimiento/:nss', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
-        const { nss } = req.params;
-
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
+        const { tipoMovimiento, nss } = req.params;
 
         // Buscar el expediente
         const expedienteBD = await Expediente.existe({ nss });
@@ -166,14 +170,16 @@ expedienteRoutes.get('/ultimoMovimiento/:nss', async (req, res) => {
 
         // Obtener último movimiento del expediente
         const ultimoMovimiento = await sequelize.query(
-            `SELECT movimiento.* FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss=${nss} && movimiento.tipo_movimiento='EXTRACCION' ORDER BY fecha DESC LIMIT 1`,
+            `SELECT movimiento.* FROM movimiento INNER JOIN movimientoNormal ON (movimiento.folio = movimientoNormal.folio) WHERE movimientoNormal.nss=${nss} && movimiento.tipo_movimiento='${tipoMovimiento}' ORDER BY fecha DESC LIMIT 1`,
             { type: sequelize.QueryTypes.SELECT }
         );
 
+        // Si no existe, retornamos false
         if (!ultimoMovimiento[0]) {
             return res.status(200).json(false);
         }
 
+        // Comparar si la matricula del último movimiento es la del usuario
         return ultimoMovimiento[0].matricula === matricula
             ?   res.status(200).json(true)
             :   res.status(200).json(false);
@@ -184,20 +190,14 @@ expedienteRoutes.get('/ultimoMovimiento/:nss', async (req, res) => {
     }
 });
 
-// * OBTENER ÚLTIMO PRÉSTAMO
+// * OBTENER ÚLTIMO PRÉSTAMO Y SI LO RECIBIÓ EL USUARIO O NO
 expedienteRoutes.get('/ultimoPrestamo/:nss', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss } = req.params;
 
-        let realizoPrestamo = false;
-
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
+        let recibioPrestamo = false;
 
         // Buscar el expediente
         const expedienteBD = await Expediente.existe({ nss });
@@ -205,9 +205,11 @@ expedienteRoutes.get('/ultimoPrestamo/:nss', async (req, res) => {
         if (!expedienteBD.existe) {
             return res.status(404).json('Expediente no encontrado');
         }
-        if (!expedienteBD.expediente.prestado) {
+
+        // Si no está prestamo, retornar false
+        if (expedienteBD.expediente.estado !== ESTADO_EXPEDIENTE.PRESTADO) {
             return res.json({
-                realizoPrestamo
+                recibioPrestamo
             });
         }
 
@@ -216,24 +218,22 @@ expedienteRoutes.get('/ultimoPrestamo/:nss', async (req, res) => {
             `SELECT movimiento.*, movimientoPrestamo.matricula_receptor FROM movimiento INNER JOIN movimientoPrestamo ON (movimiento.folio = movimientoPrestamo.folio) WHERE movimientoPrestamo.nss=${nss} && movimiento.tipo_movimiento='PRESTAMO' && movimientoPrestamo.pendiente = TRUE ORDER BY fecha DESC LIMIT 1`,
             { type: sequelize.QueryTypes.SELECT }
         );
-
+        
+        // Verificar si existe el movimiento préstamo
         if (!ultimoPrestamo[0]) {
             return res.json({
-                realizoPrestamo
+                recibioPrestamo
             });
         }
 
-        console.log(matricula);
-        console.log(ultimoPrestamo[0].matricula_receptor);
-
-        realizoPrestamo = ultimoPrestamo[0].matricula_receptor === matricula;
+        // Comprobar si el último préstamo lo recibió el usuario
+        recibioPrestamo = ultimoPrestamo[0].matricula_receptor === matricula;
         
-        const data = {
+        // Devolver el último préstamo y si lo recibió el usuario
+        return res.status(200).json({
             prestamo: ultimoPrestamo[0],
-            realizoPrestamo
-        }
-
-        return res.status(200).json(data);
+            recibioPrestamo
+        });
     }
     catch(e) {
         console.log(e);
@@ -244,16 +244,11 @@ expedienteRoutes.get('/ultimoPrestamo/:nss', async (req, res) => {
 // * INGRESO
 expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
-
+        // Declarar los movimientos
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
             folio, 
@@ -266,7 +261,7 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
         const nuevoMovimientoIngreso = {
             folio,
             nss,
-            pendiente: false, //TODO: Cambiar dependiendo del sujeto
+            pendiente: false,
             tipo_movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
         }
 
@@ -293,24 +288,25 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;
         await expedienteBD.update({
-            extraido: false
+            estado: ESTADO_EXPEDIENTE.INGRESADO
         });
 
-        try {
-            // Imprimir ticket
-            await imprimirTicket({
-                movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
-                folio,
-                expediente: expedienteBD.nss,
-                nombreExpediente: expedienteBD.nombre,
-                matricula,
-                nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
-                fecha: movimientoCreado.fecha.toLocaleString()
-            });
-        } 
-        catch (e) {
+        // try {
+
+        //     // Imprimir ticket
+        //     await imprimirTicket({
+        //         movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
+        //         folio,
+        //         expediente: expedienteBD.nss,
+        //         nombreExpediente: expedienteBD.nombre,
+        //         matricula,
+        //         nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
+        //         fecha: movimientoCreado.fecha.toLocaleString()
+        //     });
+        // } 
+        // catch (e) {
             
-        }
+        // }
 
         // Devolver respuesta
         return res.status(201).json('Ingreso realizado con éxito');
@@ -324,16 +320,11 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
 // * EXTRACCION
 expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
-
+        // Inicializar los movimientos
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
             folio, 
@@ -373,24 +364,24 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
         // Actualizar expediente
         const expedienteBD = (await Expediente.existe({ nss })).expediente;
         await expedienteBD.update({
-            extraido: true
+            estado: ESTADO_EXPEDIENTE.EXTRAIDO
         });
 
-        try {     
-            // Imprimir ticket
-            await imprimirTicket({
-                movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
-                folio,
-                expediente: expedienteBD.nss,
-                nombreExpediente: expedienteBD.nombre,
-                matricula,
-                nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
-                fecha: movimientoCreado.fecha.toLocaleString()
-            });
-        } 
-        catch (e) {
+        // try {     
+        //     // Imprimir ticket
+        //     await imprimirTicket({
+        //         movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
+        //         folio,
+        //         expediente: expedienteBD.nss,
+        //         nombreExpediente: expedienteBD.nombre,
+        //         matricula,
+        //         nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
+        //         fecha: movimientoCreado.fecha.toLocaleString()
+        //     });
+        // } 
+        // catch (e) {
             
-        }
+        // }
 
         // Devolver respuesta
         return res.status(201).json('Extracción realizada con éxito');
@@ -403,14 +394,18 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
 // * BAJA
 expedienteRoutes.post('/movimiento/baja', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss, motivo } = req.body;
 
-        // Validar usuario
+        // Obtener usuario
         const usuarioVal = await Usuario.existe({ matricula });
 
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
+        // Obtener expediente
+        const expedienteBD = (await Expediente.existe({ nss })).expediente;
+
+        if (expedienteBD.estado !== ESTADO_EXPEDIENTE.INGRESADO) {
+            return res.status(400).json('El expediente no ha sido ingresado');
         }
 
         const folio = await obtenerNumeroFolio() + 1;
@@ -473,7 +468,6 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
         }
 
         // Actualizar expediente
-        const expedienteBD = (await Expediente.existe({ nss })).expediente;
         await expedienteBD.update({
             estatus: false
         });
@@ -490,16 +484,21 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
 // * TRANSFERENCIA
 expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss, del_destino, motivo } = req.body;
         
-        // Validar usuario
+        // Obtener usuario
         const usuarioVal = await Usuario.existe({ matricula });
 
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
+        // Obtener expediente
+        const expedienteBD = (await Expediente.existe({ nss })).expediente;
+
+        if (expedienteBD.estado !== ESTADO_EXPEDIENTE.INGRESADO) {
+            return res.status(400).json('El expediente no ha sido ingresado');
         }
 
+        // Inicializar los movimientos
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
             folio, 
@@ -560,7 +559,6 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
         }
 
         // Actualizar expediente
-        const expedienteBD = (await Expediente.existe({ nss })).expediente;
         await expedienteBD.update({
             delegacion: del_destino,
             estatus: false,
@@ -579,19 +577,13 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
 // * SUPERVISIONES
 expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { supervisor, motivo } = req.body;
         let { nssList } = req.body;
 
         // Convertir la lista separada por comas en un array
         nssList = nssList.split(',');
-        
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
 
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
@@ -599,7 +591,7 @@ expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
             matricula, 
             motivo, 
             fecha: new Date(),
-            tipo_movimiento: TIPO_MOVIMIENTO.SUPERVISION
+            tipo_movimiento: TIPO_MOVIMIENTO.SUPERVISION_SALIDA
         };
 
         const nuevoMovimientoSupervision = {
@@ -618,6 +610,7 @@ expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
 
         // Crear el movimiento
         const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+        
 
         // * Validar movimientoSupervision
         const movimientoSupervisionVal = await MovimientoSupervision.validarMovimientoSupervision(nuevoMovimientoSupervision);
@@ -633,14 +626,14 @@ expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
             const movimientoSupervisionCreado = await MovimientoSupervisionModel.create({
                 folio: nuevoMovimientoSupervision.folio,
                 nss,
-                supervisor: nuevoMovimientoSupervision.supervisor
+                supervisor: nuevoMovimientoSupervision.supervisor,
+                pendiente: true
             });
-            console.log(`Supervision: ${nss}`);
     
             // Actualizar expediente
             const expedienteBD = (await Expediente.existe({ nss })).expediente;
             await expedienteBD.update({
-                extraido: true
+                estado: ESTADO_EXPEDIENTE.SUPERVISADO
             });
         }
         
@@ -655,15 +648,9 @@ expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
 
 expedienteRoutes.post('/movimiento/ingresarSupervision', async (req, res) => {
     try {
+        // Inicializar las constantes necesarias
         const { matricula } = req.session.user;
         const { folio } = req.body;
-        
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
 
         // Obtener supervision
         const supervisiones = await MovimientoSupervisionModel.findAll({
@@ -684,7 +671,7 @@ expedienteRoutes.post('/movimiento/ingresarSupervision', async (req, res) => {
 
             // Actualizar expediente
             await expediente.update({
-                extraido: false
+                estado: ESTADO_EXPEDIENTE.INGRESADO
             });
 
             // Actualizar supervision
@@ -725,16 +712,11 @@ expedienteRoutes.get('/obtenerSupervisiones', async (req, res) => {
 // * PRÉSTAMOS
 expedienteRoutes.post('/movimiento/prestamo', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { nss, matricula_receptor, motivo } = req.body;
-        
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
 
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
-
+        // Inicializar los movimientos
         const folio = await obtenerNumeroFolio() + 1;
         const nuevoMovimiento = {
             folio, 
@@ -747,6 +729,7 @@ expedienteRoutes.post('/movimiento/prestamo', async (req, res) => {
         const nuevoMovimientoPrestamo = {
             folio,
             nss,
+            matricula_emisor: matricula,
             matricula_receptor,
             pendiente: true
         }
@@ -776,7 +759,7 @@ expedienteRoutes.post('/movimiento/prestamo', async (req, res) => {
 
         // Actualizar expediente
         await expediente.update({
-           prestado: true
+           estado: ESTADO_EXPEDIENTE.PRESTADO
         });
 
         // Devolver respuesta
@@ -790,22 +773,59 @@ expedienteRoutes.post('/movimiento/prestamo', async (req, res) => {
 
 expedienteRoutes.post('/movimiento/ingresarPrestamo', async (req, res) => {
     try {
+        // Extraer las constantes necesarias
         const { matricula } = req.session.user;
         const { folio } = req.body;
-        
-        // Validar usuario
-        const usuarioVal = await Usuario.existe({ matricula });
-
-        if (!usuarioVal.existe) {
-            return res.status(400).json('Error de autenticación');
-        }
 
         // Obtener prestamo
         const prestamo = await MovimientoPrestamo.existe({ folio });
 
+        
         if (!prestamo.existe) {
             return res.status(400).json('El préstamo no existe');
         }
+
+        // Obtener expediente
+        const expediente = (await Expediente.existe({ nss:prestamo.movimientoPrestamo.nss })).expediente;
+
+        // Inicializar los movimientos
+        const folioNuevo = await obtenerNumeroFolio() + 1;
+        const nuevoMovimiento = {
+            folio: folioNuevo, 
+            matricula, 
+            motivo: 'Devolución de expediente', 
+            fecha: new Date(),
+            tipo_movimiento: TIPO_MOVIMIENTO.DEVOLUCION
+        };
+
+        // Obtener usuario emisor del expediente
+
+        const nuevoMovimientoPrestamo = {
+            folio: folioNuevo,
+            nss: expediente.nss,
+            matricula_emisor: matricula,
+            matricula_receptor: prestamo.movimientoPrestamo.matricula_emisor
+        }
+
+        // * Validar movimiento
+        const movimientoVal = await Movimiento.validarMovimiento(nuevoMovimiento);
+
+        if (!movimientoVal.valido) {
+            return res.status(400).json(movimientoVal.errores.join(' '));
+        }
+
+        // Crear el movimiento
+        const movimientoCreado = await MovimientoModel.create(nuevoMovimiento);
+
+        // * Validar movimientoPrestamo
+        const movimientoPrestamoVal = await MovimientoPrestamo.validarMovimientoPrestamo(nuevoMovimientoPrestamo);
+        if (!movimientoPrestamoVal.valido) {
+            await movimientoCreado.destroy();
+            return res.status(400).json(movimientoPrestamoVal.errores.join(' '));
+        }
+
+        // Crear movimientoPrestamo
+        const movimientoPrestamoCreado = await MovimientoPrestamoModel.create(nuevoMovimientoPrestamo);
 
         // Actualizar préstamo
         await prestamo.movimientoPrestamo.update({
@@ -813,12 +833,9 @@ expedienteRoutes.post('/movimiento/ingresarPrestamo', async (req, res) => {
             fecha_finalizacion: new Date()
         });
 
-        // Obtener expediente
-        const expediente = (await Expediente.existe({ nss:prestamo.movimientoPrestamo.nss })).expediente;
-
         // Actualizar expediente
         await expediente.update({
-           prestado: false 
+           estado: ESTADO_EXPEDIENTE.EXTRAIDO
         });
         
         // Devolver respuesta
@@ -830,7 +847,11 @@ expedienteRoutes.post('/movimiento/ingresarPrestamo', async (req, res) => {
     }
 });
 
-
+/**
+ * Función para obtener el último folio registrado en la base de datos referente
+ * a los movimientos.
+ * @returns {Promise<Number>} Folio actual de los movimientos
+ */
 async function obtenerNumeroFolio() {
     // Obtener numero de folio
     const numFolios = await MovimientoModel.findAll({

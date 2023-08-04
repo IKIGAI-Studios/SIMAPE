@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>SIMAPE | 404 </title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="/imgs/imss-logo.png">
+    <link href="/scss/styles.css" rel="stylesheet" type="text/css" loading="lazy" rel="preload"/>
+
+    <script src="/js/bannerUsuario.js" type="module" loading="lazy" rel="preload"></script>
+</head>
+<body>
+    
+    <%- include('templates/banner')%>
+    
+    <div class="container">
+        <div class="row space-around">
+            <div class="col-lg-5 col-md-5 col-sm-5">
+                <div class="row justify-content-start align-items-center">
+                    <div class="col-lg-2 col-md-12 col-sm-12">
+                        <img src="/icons/pfp.png" alt="Fotografia del usuario" loading="lazy">
+                    </div>
+                    <div class="col-lg-10 col-md-12 col-sm-12">
+                        <div class="row"><span class="nombre-usuario" id="nombreBanner"></span></div>
+                        <div class="row"><span class="nombre-usuario" id="apellidoBanner"></span></div>
+                        <div class="row"><p class="tipo-usuario" id="tipoUsuarioBanner"></p></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7">
+            </div>
+        </div>
+    </div>
+    <div class="container" style="text-align: center; height: 100%;">
+        <h1>404 No se encontró el recurso solicitado</h1>
+    </div>
+</body>
+
+<%- include('templates/footer-pleca')%>
