@@ -1,42 +1,48 @@
 <div id="modalEditarUsuario" class="modal">
-
-    <div class="contenido-modal">
-      <span class="close" id="modalEditarUsuarioClose">&times;</span>
-      
-      <div class="row">
-        <h5 class="dark-label mb-5">EDITAR DATOS DEL USUARIO</h5>
+  <div class="contenido-modal">
+    <span class="close" id="modalEditarUsuarioClose">&times;</span>
     
-        <form id="formEditarUsuario">
+    <div class="row">
+      <h5 class="dark-label mb-5">EDITAR DATOS DEL USUARIO</h5>
+  
+      <form id="formEditarUsuario">
+        <div class="row space-between mb-4" style="padding: 0; margin: 0 -0.8em;">
+          <div class="col-6">
+            <label class="datos" for="nombreEditarUsuario">NOMBRE(S)</label>
+            <input type="text" class="text-input mt-3" id="nombreEditarUsuario" name="nombre"/>
+          </div>
+          <div class="col-6">
+            <label class="datos" for="apellidosEditarUsuario">APELLIDOS</label>
+            <input type="text" class="text-input mt-3" id="apellidosEditarUsuario" name="apellidos"/>
+          </div>
+        </div>
 
-          <div class="row space-between mb-4" style="padding: 0; margin: 0 -0.8em;">
-            <div class="col-6">
-              <label class="datos" for="">NOMBRE(S)</label>
-              <input type="text" class="text-input mt-3" id="" name="nombre"/>
-            </div>
-            <div class="col-6">
-              <label class="datos" for="">APELLIDOS</label>
-              <input type="text" class="text-input mt-3" id="" name="apellidos"/>
-            </div>
-          </div>
-    
-          <div class="col mb-4">
-            <label class="datos" for="">USUARIO</label>
-            <input type="text" class="text-input mt-3" id=""/>
-          </div>
-          
-          <div class="col mb-4">
-            <label class="datos" for="pass">CONTRASEÑA</label>
-            <input type="text" class="text-input mt-3" id=""/>
-          </div>
+        <div class="col mb-4">
+          <label class="datos" for="usuarioEditarUsuario">USUARIO</label>
+          <input type="text" class="text-input mt-3" id="usuarioEditarUsuario"/>
+        </div>
 
-          <!--
-          <div class="col mb-4">
-            <label class="datos"  style="text-align: center;" for="">FOTO</label>
-            <input type="file" accept="image/*" class="text-input mt-3" id="" name="foto"/>
-          </div>
-          -->
+        <div class="col mb-4">
+          <label class="datos" for="passEditarUsuario">CONTRASEÑA</label>
+          <input type="text" class="text-input mt-3" id="passEditarUsuario"/>
+        </div>
 
-        </form>
-      </div>
+        <div class="col justify-content-center align-items-center"> 
+          <label class="datos"  style="text-align: center;" for="fotoAltaUsuario">FOTO</label>
+        </div> 
+
+        <div  id="fotoUsuario" class="d-flex justify-content-center">
+          <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario col-sm-10 col-md-10 col-lg-10" id="" loading="lazy"> 
+        </div>
+
+        <div class="row mb-4">
+          <input type="file" accept="image/*" class="text-input mt-3 col" id="fotoAltaUsuario" name="foto"/>
+        </div>
+
+        <div class="col" style="text-align: center;">
+          <button class="btn-verde" type="submit">GUARDAR CAMBIOS</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>

@@ -22,24 +22,19 @@ const regexNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
 
 function validarCampos(){
 
-   if(nss.value.length < 11){
-    snackbar.showError('El NSS no puede ser menor a 11 caracteres');
-    return false;
-   }  
-
-   if(nss.value.length > 11){
-    snackbar.showError('El NSS no puede ser mayor a 11 caracteres');
-    return false;
-   }
+    if (nss.value.length != 11){
+        snackbar.showError('El NSS debe ser de 11 caracteres');
+        return false;
+    }
 
    const valorNombre = nombre.value.trim();
 
-   if(valorNombre.length>100){
+   if (valorNombre.length >= 98){
     snackbar.showError('Se rebasó el límite de caracteres para el nombre');
     return false;
    }
 
-   if(!regexNombre.test(valorNombre)) {
+   if (!regexNombre.test(valorNombre)) {
        snackbar.showError('El nombre solo puede contener letras y espacios');
        return false; 
    }
