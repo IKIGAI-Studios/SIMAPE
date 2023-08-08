@@ -1,6 +1,7 @@
 import SnackBar from "./componentes/snackbar.js";
 import { buscarExpediente, extraerExpediente, ingresarExpediente, obtenerUltimoMovimiento, prestarExpediente, obtenerUltimoPrestamo, ingresarPrestamo } from "./actions/accionesExpediente.js";
 import { obtenerUsuarios } from "./actions/accionesUsuario.js";
+import { cargarMovimientos, imprimirTicket } from "./historial.js"
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteConsulta');
 const inputNSS = document.querySelector('#nssBusquedaExpedienteConsulta');
@@ -131,7 +132,25 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 });
 
 btnIngresarExpediente.addEventListener('click', async () => {
-    ModalIngresarExpediente.enable();
+    const form = new FormData();
+    form.append('nss', inputNSS.value);
+    form.append('motivo', 'Ingreso de expediente'); // TODO: <--- CAMBIAR
+    
+    const data = await ingresarExpediente(form);
+
+    if (data instanceof Error) {
+        return snackbar.showError(data.message);
+    }
+
+    inputNSS.value = '';
+    clearInputs();
+    resetValues();
+    ModalIngresarExpediente.disable();
+    snackbar.showMessage(data.message);
+
+    await imprimirTicket(data.folio);
+
+    await cargarMovimientos();
 });
 
 btnExtraerExpediente.addEventListener('click', async () => {
@@ -147,7 +166,7 @@ formExtraerExpediente.addEventListener('submit', async(e) => {
 
     const form = new FormData();
     form.append('nss', inputNSS.value);
-    form.append('motivo', 'prueba');
+    form.append('motivo', '');      // TODO: <--- CAMBIAR
     
     const data = await extraerExpediente(form);
 
@@ -159,27 +178,10 @@ formExtraerExpediente.addEventListener('submit', async(e) => {
     clearInputs();
     resetValues();
     ModalExtraerExpediente.disable();
-    snackbar.showMessage(data);
-});
+    snackbar.showMessage(data.message);
 
-formIngresarExpediente.addEventListener('submit', async(e) => {
-    e.preventDefault();
-
-    const form = new FormData();
-    form.append('nss', inputNSS.value);
-    form.append('motivo', 'prueba'); //TODO: Cambiar
-    
-    const data = await ingresarExpediente(form);
-
-    if (data instanceof Error) {
-        return snackbar.showError(data.message);
-    }
-
-    inputNSS.value = '';
-    clearInputs();
-    resetValues();
-    ModalIngresarExpediente.disable();
-    snackbar.showMessage(data);
+    await imprimirTicket(data.folio);
+    await cargarMovimientos();
 });
 
 formPrestarExpediente.addEventListener('submit', async(e) => {
@@ -200,15 +202,18 @@ formPrestarExpediente.addEventListener('submit', async(e) => {
     clearInputs();
     resetValues();
     ModalPrestarExpediente.disable();
-    snackbar.showMessage(data);
+    snackbar.showMessage(data.message);
+
+    await imprimirTicket(data.folio);
+    await cargarMovimientos();
 });
 
 btnDevolverExpediente.addEventListener('click', async(e) => {
-    console.log('aslkjdnasjbndlaskj');
     const ultimoPrestamo = await obtenerUltimoPrestamo(inputNSS.value);
 
     const form = new FormData();
     form.append('folio', ultimoPrestamo.prestamo.folio);
+    form.append('motivo', 'Devolución');
 
     const data = await ingresarPrestamo(form);
 
@@ -219,7 +224,10 @@ btnDevolverExpediente.addEventListener('click', async(e) => {
     inputNSS.value = '';
     clearInputs();
     resetValues();
-    snackbar.showMessage(data);
+    snackbar.showMessage(data.message);
+
+    await imprimirTicket(data.folio);
+    await cargarMovimientos();
 });
 
 function resetValues() {

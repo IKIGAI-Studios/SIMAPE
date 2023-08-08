@@ -1,5 +1,6 @@
 import SnackBar from "./componentes/snackbar.js";
 import { buscarExpediente, obtenerSupervisionesActivas, supervisionExpediente, ingresarSupervision } from "./actions/accionesExpediente.js";
+import { cargarMovimientos, imprimirTicket } from "./historial.js";
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteSupervision');
 const inputNSS = document.querySelector('#nssBusquedaExpedienteSupervision');
@@ -52,6 +53,10 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
 });
 
 btnFinalizarSupervision.addEventListener('click', async (e) => {
+    if (supervisorSupervision.value == '') {
+        return snackbar.showError('Introzuca un supervisor');
+    }
+
     const form = new FormData();
     form.append('nssList', expedientes.join(','));
     form.append('motivo', 'Supervision');
@@ -68,7 +73,10 @@ btnFinalizarSupervision.addEventListener('click', async (e) => {
     btnFinalizarSupervision.setAttribute('disabled', '');
     cargarSupervisiones();
     expedientes = [];
-    return snackbar.showMessage(supervision);
+    cargarMovimientos();
+    snackbar.showMessage(supervision.message);
+
+    await imprimirTicket(supervision.folio);
 });
 
 async function cargarSupervisiones() {
@@ -97,7 +105,6 @@ async function cargarSupervisiones() {
         btnIngresarExpedientes.classList.add('img-btn');
         btnIngresarExpedientes.innerHTML = `<img src="/icons/folder_azul.png" alt="BAJA" style="width: 2rem">
         <span class="tooltiptext">INGRESAR EXPEDIENTES</span>`;
-        
 
         btnIngresarExpedientes.addEventListener('click', () => {
             handleIngresarExpedientes(supervision.folio);

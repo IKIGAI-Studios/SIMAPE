@@ -1,5 +1,5 @@
 import SnackBar from "./componentes/snackbar.js";
-import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario } from "./actions/accionesUsuario.js"
+import { obtenerUsuarios, altaUsuario, bajaUsuario, recuperarUsuario, editarUsuario } from "./actions/accionesUsuario.js"
 import { ModalAgregarUsuario, ModalEditarUsuario } from "./modalsAd.js";
 
 const btnAgregarUsuario = document.querySelector('#btnAgregarUsuario');
@@ -257,6 +257,8 @@ function crearFilaDeUsuario(usuario) {
 }
 
 function handleEditarUsuario(usuario) {
+    document.querySelector('#matriculaEditarUsuario').value = usuario.matricula;
+    console.log(usuario);
     ModalEditarUsuario.enable();
 }
 
@@ -267,7 +269,11 @@ formEditarUsuario.addEventListener('submit', async (e) => {
         return; 
     }
 
-    if ((typeof response) === Error) {
+    const form = new FormData(formEditarUsuario);
+
+    const response = await editarUsuario(form);
+
+    if (response instanceof Error) {
         snackbar.showError(response.message);
         return;
     }
@@ -275,7 +281,6 @@ formEditarUsuario.addEventListener('submit', async (e) => {
     snackbar.showMessage(response);
     formEditarUsuario.reset();
     actualizarUsuarios();
-    ModalAgregarUsuario.disable();
     ModalEditarUsuario.disable();
 });
 

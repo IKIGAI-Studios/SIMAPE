@@ -16,8 +16,7 @@ export async function altaExpediente(form) {
             throw new Error(await response.json());
         }
     
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -34,8 +33,7 @@ export async function buscarExpediente(nss) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         console.log(e);
@@ -59,8 +57,7 @@ export async function obtenerUltimoMovimiento(tipoMovimiento, nss) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -82,8 +79,7 @@ export async function obtenerUltimoPrestamo(nss) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -103,8 +99,7 @@ export async function ingresarExpediente(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -124,8 +119,7 @@ export async function extraerExpediente(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -145,8 +139,7 @@ export async function bajaExpediente(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -166,8 +159,7 @@ export async function transferenciaExpediente(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -187,8 +179,7 @@ export async function supervisionExpediente(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -208,8 +199,7 @@ export async function ingresarSupervision(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -226,8 +216,7 @@ export async function obtenerSupervisionesActivas() {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -247,8 +236,7 @@ export async function prestarExpediente(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;
@@ -268,8 +256,7 @@ export async function ingresarPrestamo(form) {
             throw new Error(await response.json());
         }
 
-        const expedienteData = await response.json();
-        return expedienteData;
+        return response.json();
     } 
     catch (e) {
         return e;

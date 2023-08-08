@@ -1,5 +1,6 @@
 import SnackBar from "./componentes/snackbar.js";
 import { buscarExpediente, bajaExpediente } from "./actions/accionesExpediente.js";
+import { obtenerMisDatos } from "./bannerUsuario.js"
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteBaja');
 const inputNSS = document.querySelector('#nssBusquedaExpedienteBaja');
@@ -74,6 +75,15 @@ btnBajaUsuario.addEventListener('click', async (e) => {
 
     snackbar.showMessage(expedienteEliminado);
     
+    const usuario = await obtenerMisDatos();
+
+    if (usuario.tipo_usuario === 'OPERATIVO') {
+        const { cargarPeticiones } = await import("./estadoPeticiones.js");
+        await cargarPeticiones();
+        let s = io();
+        s.emit('server:actualizarPeticionesAdministrador');
+    }
+
     clearInputs();
     resetValues();
 });

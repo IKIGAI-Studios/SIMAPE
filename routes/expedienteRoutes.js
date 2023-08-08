@@ -134,10 +134,10 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
         // Buscar los movimientos del expediente
         const movimientos = await sequelize.query(
             `SELECT movimiento.*, usuario.nombre, usuario.apellidos FROM movimiento INNER JOIN usuario ON (movimiento.matricula = usuario.matricula) WHERE 
-            folio IN(SELECT folio FROM movimientonormal WHERE nss = ${nss}) || 
+            folio IN(SELECT folio FROM movimientonormal WHERE nss = ${nss} AND movimientonormal.pendiente = FALSE) || 
             folio IN(SELECT folio FROM movimientoprestamo WHERE nss = ${nss}) ||
             folio IN(SELECT folio FROM movimientosupervision WHERE nss = ${nss}) || 
-            folio IN (SELECT folio FROM movimientotransferencia WHERE nss = ${nss}) ORDER BY fecha DESC LIMIT 5`,
+            folio IN (SELECT folio FROM movimientotransferencia WHERE nss = ${nss} AND movimientotransferencia.pendiente = FALSE) ORDER BY fecha DESC LIMIT 5`,
             { type: sequelize.QueryTypes.SELECT }
         );
 
@@ -291,25 +291,11 @@ expedienteRoutes.post('/movimiento/ingreso', async (req, res) => {
             estado: ESTADO_EXPEDIENTE.INGRESADO
         });
 
-        // try {
-
-        //     // Imprimir ticket
-        //     await imprimirTicket({
-        //         movimiento: TIPO_MOVIMIENTO.NORMAL.INGRESO,
-        //         folio,
-        //         expediente: expedienteBD.nss,
-        //         nombreExpediente: expedienteBD.nombre,
-        //         matricula,
-        //         nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
-        //         fecha: movimientoCreado.fecha.toLocaleString()
-        //     });
-        // } 
-        // catch (e) {
-            
-        // }
-
         // Devolver respuesta
-        return res.status(201).json('Ingreso realizado con éxito');
+        return res.json({
+            message: 'Ingreso realizado con éxito',
+            folio
+        });
     } 
     catch (e) {
         console.log(e);
@@ -367,24 +353,12 @@ expedienteRoutes.post('/movimiento/extraccion', async (req, res) => {
             estado: ESTADO_EXPEDIENTE.EXTRAIDO
         });
 
-        // try {     
-        //     // Imprimir ticket
-        //     await imprimirTicket({
-        //         movimiento: TIPO_MOVIMIENTO.NORMAL.EXTRACCION,
-        //         folio,
-        //         expediente: expedienteBD.nss,
-        //         nombreExpediente: expedienteBD.nombre,
-        //         matricula,
-        //         nombreUsuario: `${usuarioVal.usuario.nombre} ${usuarioVal.usuario.apellidos}`,
-        //         fecha: movimientoCreado.fecha.toLocaleString()
-        //     });
-        // } 
-        // catch (e) {
-            
-        // }
-
         // Devolver respuesta
-        return res.status(201).json('Extracción realizada con éxito');
+        return res.json({
+            message: 'Extracción realizada con éxito',
+            folio
+        });
+
     } 
     catch (e) {
         console.log(e);
@@ -640,7 +614,10 @@ expedienteRoutes.post('/movimiento/supervision', async (req, res) => {
         }
         
         // Devolver respuesta
-        return res.status(201).json('Extracciones realizadas con éxito');
+        return res.json({
+            message: 'Extracciones realizadas con éxito',
+            folio
+        });
     } 
     catch (e) {
         console.log(e);
@@ -765,7 +742,10 @@ expedienteRoutes.post('/movimiento/prestamo', async (req, res) => {
         });
 
         // Devolver respuesta
-        return res.status(201).json('Prestamo realizado con éxito');
+        return res.json({
+            message: 'Prestamo realizado con éxito',
+            folio
+        });
     } 
     catch (e) {
         console.log(e);
@@ -841,7 +821,10 @@ expedienteRoutes.post('/movimiento/ingresarPrestamo', async (req, res) => {
         });
         
         // Devolver respuesta
-        return res.status(201).json('Devuelta realizada con éxito');
+        return res.json({
+            message: 'Devuelta realizada con éxito',
+            folio
+        });
     } 
     catch (e) {
         console.log(e);

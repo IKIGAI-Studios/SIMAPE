@@ -3,7 +3,7 @@ import { obtenerMisDatos } from "./bannerUsuario.js"
 import { ModalCambiarPass } from "./modalsOp.js";
 import Button from "./componentes/button.js";
 import SnackBar from "./componentes/snackbar.js";
-import { testPrinter, testPrint } from "./actions/accionesImpresion.js" 
+import { testPrinter, testPrint } from "./actions/accionesImpresion.js"
 
 const fotoPerfil = document.querySelector('#fotoPerfil');
 const matriculaPerfil = document.querySelector('#matriculaPerfil');
@@ -62,8 +62,7 @@ formCambioPass.addEventListener('submit', async (e) => {
     e.preventDefault();
     
     if (passNuevaCambio.value !== passNuevaConfCambio.value) {
-        console.log('Las contraseñas no coinciden');
-        return;
+        return snackbar.showError('Las contraseñas no coinciden');
     }
 
     const form = new FormData();
@@ -72,7 +71,8 @@ formCambioPass.addEventListener('submit', async (e) => {
 
     const res = await cambiarPass(form);
 
-    console.log(res);
+    snackbar.showMessage(res);
+    ModalCambiarPass.disable();
 })
 
 rellenarDatos();

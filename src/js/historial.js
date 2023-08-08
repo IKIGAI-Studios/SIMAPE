@@ -8,12 +8,14 @@ const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 const tablaMovimientos = document.querySelector('#tablaMovimientosHistorial');
 
-async function cargarMovimientos() {
+export async function cargarMovimientos() {
     const movimientos = await obtenerMisMovimientos();
     
     if (movimientos instanceof Error) {
         return snackbar.showError(movimientos.message);
     }
+
+    tablaMovimientos.innerHTML = '';
 
     movimientos.forEach(movimiento => {
         const fila = document.createElement('tr');
@@ -67,7 +69,11 @@ cargarMovimientos();
 async function handleReimprimir(btnReimprimir, folio) {
     
     btnReimprimir.setState('LOADING');
+    await imprimirTicket(folio);
+    btnReimprimir.setState('NORMAL');
+}
 
+export async function imprimirTicket(folio) {
     // Buscar el movimiento
     const movimiento = await buscarPorFolio(folio);
     console.log(movimiento);
@@ -86,7 +92,6 @@ async function handleReimprimir(btnReimprimir, folio) {
             expedientes
         );
 
-        btnReimprimir.setState('NORMAL');
         snackbar.showMessage('Documento generado con éxito');
         return;
     }
@@ -125,16 +130,12 @@ async function handleReimprimir(btnReimprimir, folio) {
         ...ticketExtra
     }
 
-    console.log(ticket);
-
     const test = await testPrinter();
     if (test instanceof Error) {
-        btnReimprimir.setState('NORMAL');
         return snackbar.showError(test.message);
     }
 
     const resImprimir = await imprimir(ticket);
 
-    btnReimprimir.setState('NORMAL');
     snackbar.showMessage(resImprimir);
 }

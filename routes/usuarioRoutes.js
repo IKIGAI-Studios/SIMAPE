@@ -51,12 +51,6 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
     return res.json(usuarioEncontrado);
 });
 
-// * TEST UPLOAD
-usuarioRoutes.post('/upload', upload.single('file'), (req, res) => {
-    console.log('uploaded \n: ', req.file);
-    res.json('success');
-});
-
 // * Registrar usuario
 usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, res) => {
     
@@ -112,9 +106,7 @@ usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, 
         res.json('Usuario registrado')
     } 
     catch (e) {
-        res.statusCode = 420;
-        res.statusMessage = e.message;
-        res.end();
+        return res.status(400).json(e.message);
     }
 });
 
@@ -144,9 +136,7 @@ usuarioRoutes.post('/bajaUsuario', async (req, res) => {
         res.json(`Usuario ${usuarioRegistrado.nombre} dado de baja correctamente`);
     } 
     catch (e) {
-        res.statusCode = 420;
-        res.statusMessage = e.message;
-        res.end();
+        return res.status(400).json(e.message);
     }
 });
 
@@ -177,6 +167,36 @@ usuarioRoutes.post('/recuperarUsuario', async (req, res) => {
     } 
     catch (e) {
         return res.status(400).json('Error en cambiar contraseña');
+    }
+});
+
+// * Editar un usuario
+usuarioRoutes.post('/editarUsuario', async (req, res) => {
+    try {
+        const { matricula } = req.body;
+
+        // Validar que el usuario exista
+        const usuarioBD = await Usuario.existe({ matricula });
+
+        if (!usuarioBD.existe) {
+            return res.status(400).json('Error de validación');
+        }
+
+        // Encriptar contraseña
+        const saltRounds = 10;
+        const hashedPass = await bcrypt.hash(req.body.pass, saltRounds);
+
+        req.body.pass = hashedPass;
+        
+        // Actualizar el usuario
+        await usuarioBD.usuario.update({  
+            ...req.body
+        });
+
+        return res.json('Usuario actualizado');
+    } 
+    catch (e) {
+        return res.status(400).json(e.message);
     }
 });
 

@@ -11,21 +11,26 @@ const peticionRoutes = express.Router();
 
 peticionRoutes.get('/obtenerPeticiones', async (req, res) => {
     try {
-        const peticionesNormales = await sequelize.query(`
-            SELECT peticion.folio, peticion.estado, peticion.tipo, movimiento.matricula, movimiento.fecha, movimientonormal.nss, usuario.nombre, usuario.apellidos
-            FROM peticion INNER JOIN movimiento ON (peticion.folio = movimiento.folio) INNER JOIN usuario ON (movimiento.matricula = usuario.matricula) INNER JOIN 
-            movimientonormal ON (movimiento.folio = movimientonormal.folio) ORDER BY movimiento.fecha DESC
+
+        const peticiones = await sequelize.query(`
+            SELECT
+            peticion.*,
+            movimiento.fecha,
+            usuario.matricula,
+            usuario.nombre,
+            usuario.apellidos,
+            movimientotransferencia.del_destino,
+            delegacion.n_delegacion,
+            delegacion.nom_delegacion,
+            delegacion.n_subdelegacion,
+            delegacion.nom_subdelegacion
+            FROM peticion
+            INNER JOIN movimiento ON peticion.folio = movimiento.folio
+            INNER JOIN usuario ON movimiento.matricula = usuario.matricula
+            LEFT JOIN movimientotransferencia ON movimiento.folio = movimientotransferencia.folio
+            LEFT JOIN delegacion ON movimientotransferencia.del_destino = delegacion.id_delegacion ORDER BY movimiento.fecha DESC
         `, { type: sequelize.QueryTypes.SELECT }
         );
-
-        const peticionesTransferencia = await sequelize.query(`
-        SELECT peticion.folio, peticion.estado, peticion.tipo, movimiento.matricula, movimiento.fecha, movimientotransferencia.nss, movimientotransferencia.del_destino, delegacion.*, usuario.nombre, usuario.apellidos
-        FROM peticion INNER JOIN movimiento ON (peticion.folio = movimiento.folio) INNER JOIN usuario ON (movimiento.matricula = usuario.matricula) INNER JOIN 
-        movimientotransferencia ON (movimiento.folio = movimientotransferencia.folio) INNER JOIN delegacion ON (movimientotransferencia.del_destino = delegacion.id_delegacion) ORDER BY movimiento.fecha DESC
-        `, { type: sequelize.QueryTypes.SELECT }
-        );
-
-        const peticiones = peticionesTransferencia.concat(peticionesNormales);
 
         return res.status(200).json(peticiones);
     } 

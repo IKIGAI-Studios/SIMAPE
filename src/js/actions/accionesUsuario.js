@@ -27,6 +27,7 @@ export async function cambiarPass(form) {
 
     try {
         const response = await fetch(URL_BASE + ENDPOINT, {
+            method: 'POST',
             body: new URLSearchParams(form)
         });
 
@@ -167,4 +168,29 @@ export async function recuperarUsuario(form) {
     }
 }
 
+/**
+    Edita un usuario en base a su matricula
+    @param form Se requiere enviar un formulario con la matricula y los datos a cambiar.
+    @returns Datos del usuario que se ha actualizado.
+*/
+export async function editarUsuario(form) {
+    const ENDPOINT = `/editarUsuario`;
+    
+    try {
+        const response = await fetch( URL_BASE + ENDPOINT, { 
+            method: 'POST', 
+            body: new URLSearchParams(form)
+        });
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+
+        const usuarioData = await response.json();
+        return usuarioData;
+    }
+    catch (e) {
+        return e;
+    }
+}
 

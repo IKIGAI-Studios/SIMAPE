@@ -84,18 +84,7 @@ export async function validarUsuario({ matricula, nombre, apellidos, adscripcion
 
 export async function existe(filtro) {
     const usuario = await Usuario.findOne({
-        where: filtro,
-        attributes: [
-            'matricula', 
-            'nombre', 
-            'apellidos', 
-            'adscripcion', 
-            'tipo_usuario', 
-            'usuario', 
-            'estatus', 
-            'fecha_registro', 
-            'foto'
-        ]
+        where: filtro
     });
 
     if (usuario) return {existe: true, usuario};

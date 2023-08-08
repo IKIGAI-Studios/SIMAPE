@@ -1,11 +1,15 @@
-
 export function socketsUsuario(io) {
     io.on('connection', (socket) => {
         console.log(`client connected: ${socket.id}`);
-        //listaUsuarios.
+        socket.emit('cliente:conexion', `Hola cliente, tu id es: ${socket.id}`);
 
-        //io.to(socketId).emit()
+        socket.on('server:actualizarPeticionesOperativo', () => {
+            io.emit('cliente:actualizarPeticionesOperativo');
+        });
+
+        socket.on('server:actualizarPeticionesAdministrador', () => {
+            io.emit('cliente:actualizarPeticionesAdministrador');
+        });
         
-        socket.emit('server:conexion', `Hola cliente, tu id es: ${socket.id}`);
     });
 }

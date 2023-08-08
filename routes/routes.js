@@ -51,7 +51,6 @@ routes.post('/login', async (req, res) => {
 
 
         if (!passComparacion) {
-            console.log("Contraseña incorrecta");
             throw new Error('Contraseña incorrecta');
         }
 
@@ -63,21 +62,16 @@ routes.post('/login', async (req, res) => {
 
         // Redireccionar al tipo de usuario correspondiente
         if (usuarioEnBD.tipo_usuario == "ADMINISTRADOR") {
-            console.log(req.session.user);
             console.log("Accediendo a administrador");
             res.redirect('/simape-ad');
         } 
         else {
-            console.log(req.session.user);
             console.log("Accediendo a operativo");
             res.redirect('/simape-op');
         }
     } 
     catch (e) {
-        console.log(e);
-        res.statusCode = 420;
-        res.statusMessage = e.message;
-        res.end();
+        return res.status(400).json(e.message);
     }
 });
 
@@ -88,17 +82,6 @@ routes.get('/logout', (req, res) => {
         'Location': '/'
     });
     res.end();
-});
-
-// * Test
-routes.get('/test', async (req, res) => {
-    try {
-        const response = await Usuario.findAll();
-        res.json(response);
-    }
-    catch (e) {
-        res.json(`ERROR ${e}`);
-    }
 });
 
 export default routes;

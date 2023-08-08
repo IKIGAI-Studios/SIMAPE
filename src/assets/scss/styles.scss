@@ -253,6 +253,7 @@ button {
     padding: 10px;
     font-family: 'Montserrat-Bold';
     color: $imss-verde;
+    position: relative;
     @include shadow();
 }
 
@@ -266,6 +267,7 @@ button {
     margin: .5rem 1rem;
     font-family: 'Montserrat-Bold';
     color: $imss-gris;
+    position: relative;
     @include shadow();
 }
 
@@ -277,6 +279,7 @@ button {
     border-radius: 10px;
     padding: 3px;
     margin: .5rem 1rem .5rem 0;
+    position: relative;
     @include shadow();
 }
 
@@ -288,6 +291,7 @@ button {
     border-radius: 10px;
     padding: 3px;
     margin: .5rem 0;
+    position: relative;
     @include shadow();
 
 }
@@ -307,6 +311,7 @@ button {
     text-align: center;
     padding: 1rem;
     margin: 1rem 0;
+    position: relative;
     @include shadow();
 }
 .img-btn[disabled]{
@@ -610,7 +615,7 @@ td {
     padding: 10px;
     border-radius: 10px;
     position: absolute;
-    z-index: 1;  
+    z-index: 10;  
     pointer-events: none;
 }
   
@@ -624,10 +629,15 @@ td {
     to {opacity: 0;}
 }
 
-.btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext, .img-btn:hover .tooltiptext  {
+button:hover .tooltiptext {
     visibility: visible;
     animation: appear 0.6s, disappear 0.6s 2.5s;
 }
+
+// .btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext, .img-btn:hover .tooltiptext  {
+//     visibility: visible;
+//     animation: appear 0.6s, disappear 0.6s 2.5s;
+// }
 
 svg{
     width: 100px;

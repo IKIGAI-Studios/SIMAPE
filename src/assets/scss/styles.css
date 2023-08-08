@@ -4295,6 +4295,7 @@ button {
   padding: 10px;
   font-family: "Montserrat-Bold";
   color: #005A4E;
+  position: relative;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -4308,6 +4309,7 @@ button {
   margin: 0.5rem 1rem;
   font-family: "Montserrat-Bold";
   color: #D9D9D9;
+  position: relative;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -4319,6 +4321,7 @@ button {
   border-radius: 10px;
   padding: 3px;
   margin: 0.5rem 1rem 0.5rem 0;
+  position: relative;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -4330,6 +4333,7 @@ button {
   border-radius: 10px;
   padding: 3px;
   margin: 0.5rem 0;
+  position: relative;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -4348,6 +4352,7 @@ button {
   text-align: center;
   padding: 1rem;
   margin: 1rem 0;
+  position: relative;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 }
 
@@ -4646,7 +4651,7 @@ td {
   padding: 10px;
   border-radius: 10px;
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   pointer-events: none;
 }
 
@@ -4666,7 +4671,7 @@ td {
     opacity: 0;
   }
 }
-.btn-azul:hover .tooltiptext, .btn-rojo:hover .tooltiptext, .btn-verde:hover .tooltiptext, .img-btn:hover .tooltiptext {
+button:hover .tooltiptext {
   visibility: visible;
   animation: appear 0.6s, disappear 0.6s 2.5s;
 }

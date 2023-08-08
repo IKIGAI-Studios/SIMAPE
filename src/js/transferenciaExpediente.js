@@ -1,6 +1,7 @@
 import SnackBar from "./componentes/snackbar.js";
 import { buscarExpediente, transferenciaExpediente } from "./actions/accionesExpediente.js";
 import { obtenerDelegaciones } from "./actions/accionesDelegacion.js";
+import { obtenerMisDatos } from "./bannerUsuario.js"
 
 const formBusquedaExpediente = document.querySelector('#formBusquedaExpedienteTransferencia');
 const inputNSS = document.querySelector('#nssBusquedaExpedienteTransferencia');
@@ -77,6 +78,15 @@ btnTransferenciaExpediente.addEventListener('click', async (e) => {
     }
 
     snackbar.showMessage(expedienteTransferido);
+
+    const usuario = await obtenerMisDatos();
+
+    if (usuario.tipo_usuario === 'OPERATIVO') {
+        const { cargarPeticiones } = await import("./estadoPeticiones.js");
+        await cargarPeticiones();
+        let s = io();
+        s.emit('server:actualizarPeticionesAdministrador');
+    }
     
     clearInputs();
     resetValues();

@@ -6,6 +6,7 @@
       <h5 class="dark-label mb-5">EDITAR DATOS DEL USUARIO</h5>
   
       <form id="formEditarUsuario">
+        <input type="text" hidden name="matricula" id="matriculaEditarUsuario">
         <div class="row space-between mb-4" style="padding: 0; margin: 0 -0.8em;">
           <div class="col-6">
             <label class="datos" for="nombreEditarUsuario">NOMBRE(S)</label>
@@ -19,24 +20,12 @@
 
         <div class="col mb-4">
           <label class="datos" for="usuarioEditarUsuario">USUARIO</label>
-          <input type="text" class="text-input mt-3" id="usuarioEditarUsuario"/>
+          <input type="text" class="text-input mt-3" id="usuarioEditarUsuario" name="usuario"/>
         </div>
 
         <div class="col mb-4">
           <label class="datos" for="passEditarUsuario">CONTRASEÑA</label>
-          <input type="text" class="text-input mt-3" id="passEditarUsuario"/>
-        </div>
-
-        <div class="col justify-content-center align-items-center"> 
-          <label class="datos"  style="text-align: center;" for="fotoAltaUsuario">FOTO</label>
-        </div> 
-
-        <div  id="fotoUsuario" class="d-flex justify-content-center">
-          <img src="/imgs/foto.png" alt="ICONO DE FOTO" class="foto_usuario col-sm-10 col-md-10 col-lg-10" id="" loading="lazy"> 
-        </div>
-
-        <div class="row mb-4">
-          <input type="file" accept="image/*" class="text-input mt-3 col" id="fotoAltaUsuario" name="foto"/>
+          <input type="text" class="text-input mt-3" id="passEditarUsuario" name="pass"/>
         </div>
 
         <div class="col" style="text-align: center;">

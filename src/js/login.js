@@ -14,9 +14,9 @@ formLogin.addEventListener('submit', async (e) => {
             method: 'POST',
             body: new URLSearchParams(form)
         });
-
+        
         if (!response.ok) {
-            throw new Error(response.statusText);
+            throw new Error(await response.json());
         }
 
         formLogin.submit();

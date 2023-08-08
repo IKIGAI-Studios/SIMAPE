@@ -4,7 +4,7 @@ const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 const tablaPeticiones = document.querySelector('#tablaPeticiones');
 
-async function cargarPeticiones() {
+export async function cargarPeticiones() {
     tablaPeticiones.innerHTML = '';
     const peticiones = await obtenerMisPeticiones();
     
@@ -21,7 +21,7 @@ async function cargarPeticiones() {
         movimiento.innerHTML = `${peticion.tipo} del expediente ${peticion.nss}`;
         
         const fecha = document.createElement('td');
-        fecha.innerHTML = peticion.fecha.substring(0,10);
+        fecha.innerHTML = new Date(peticion.fecha).toLocaleString();
 
         const estado = document.createElement('td');
         const estadoTexto = document.createElement('p');
