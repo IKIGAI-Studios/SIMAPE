@@ -426,6 +426,7 @@ expedienteRoutes.post('/movimiento/baja', async (req, res) => {
 
         const nuevaPeticion = {
             folio,
+            nss,
             estado: ESTADO_PETICION.PENDIENTE,
             tipo: TIPO_PETICION.BAJA
         }
@@ -518,6 +519,7 @@ expedienteRoutes.post('/movimiento/transferencia', async (req, res) => {
 
         const nuevaPeticion = {
             folio,
+            nss,
             estado: ESTADO_PETICION.PENDIENTE,
             tipo: TIPO_PETICION.TRANSFERENCIA
         }

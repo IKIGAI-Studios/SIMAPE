@@ -76,7 +76,7 @@ btnTransferenciaExpediente.addEventListener('click', async (e) => {
         return snackbar.showError(expedienteTransferido.message);
     }
 
-    snackbar.showMessage('Expediente transferido correctamente');
+    snackbar.showMessage(expedienteTransferido);
     
     clearInputs();
     resetValues();

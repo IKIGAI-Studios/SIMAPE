@@ -8,6 +8,8 @@ async function cargarPeticiones() {
     tablaPeticiones.innerHTML = '';
     const peticiones = await obtenerMisPeticiones();
     
+    console.log(peticiones);
+
     if (peticiones instanceof Error) {
         return snackbar.showError(peticiones.message);
     }

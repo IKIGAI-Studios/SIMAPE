@@ -11,6 +11,7 @@ export const Peticion = sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
+        nss: DataTypes.STRING(15),
         folio: {
             type: DataTypes.INTEGER,
             allowNull: false
@@ -24,7 +25,7 @@ export const Peticion = sequelize.define(
     }
 );
 
-export async function validarPeticion({ folio, estado, tipo }) {
+export async function validarPeticion({ nss, folio, estado, tipo }) {
     let valido = true;
     let errores = [];
 

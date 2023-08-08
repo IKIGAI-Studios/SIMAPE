@@ -38,6 +38,7 @@ export async function buscarExpediente(nss) {
         return expedienteData;
     } 
     catch (e) {
+        console.log(e);
         return e;
     }
 }

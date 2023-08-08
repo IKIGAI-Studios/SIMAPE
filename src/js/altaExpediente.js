@@ -56,7 +56,6 @@ formAltaExpediente.addEventListener('submit', async (e) => {
     if (expedienteCreado instanceof Error) {
         return snackbar.showError(expedienteCreado.message);
     }
-
     
     snackbar.showMessage('Expediente ingresado correctamente');
     formAltaExpediente.reset();
@@ -83,8 +82,6 @@ function añosFill(){
         años.appendChild(option);
     }
 }
-
-
 
 listDelegacionesFill();
 añosFill();

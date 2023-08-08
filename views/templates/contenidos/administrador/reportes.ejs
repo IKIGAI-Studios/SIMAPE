@@ -3,18 +3,18 @@
         <p class="dark-label">- GENERACIÓN DE REPORTES POR FECHA -</p>
 
         <div class="row mt-4 align-items-center">
-            <label for="" class="dark-label col-lg-2 col-md-2 col-sm-2">DEL MES</label>
-            <input type="month" name="" id="" class="month-input col-lg-4 col-md-4 col-sm-4">
-            <label for="" class="dark-label col-lg-2 col-md-2 col-sm-2">AL MES</label>
-            <input type="month" name="" id="" class="month-input col-lg-4 col-md-4 col-sm-4">
+            <label for="fromMesReporte" class="dark-label col-lg-2 col-md-2 col-sm-2">DEL MES</label>
+            <input type="month" class="month-input col-lg-4 col-md-4 col-sm-4" id="fromMesReporte">
+            <label for="toMesReporte" class="dark-label col-lg-2 col-md-2 col-sm-2">AL MES</label>
+            <input type="month" class="month-input col-lg-4 col-md-4 col-sm-4" id="toMesReporte">
         </div>
 
         <div class="row mt-3 align-items-center">
             <div class="row mt-2">
-                    <label class="dark-label col-lg-5 col-md-5 col-sm-5" for="tipoPensionAltaExpediente">TIPO DE PENSIÓN</label>
+                    <label class="dark-label col-lg-5 col-md-5 col-sm-5" for="tipoPensionReporte">TIPO DE PENSIÓN</label>
                 <div class="col-lg-7 col-md-7 col-sm-7">
-                    <select class="opciones" id="tipoPensionAltaExpediente" name="categoria">
-                        <option value="separador">Selecciona una opción:</option>
+                    <select class="opciones" id="tipoPensionReporte" name="categoria">
+                        <option value="todas">Todas</option>
                         <option value="separador" disabled>────| 97 |────</option>
                         <option value="97 - CE">97 - CE</option>
                         <option value="97 - VE">97 - VE</option>
@@ -37,18 +37,18 @@
                         <option value="73 - IG">73 - IG</option>
                     </select>
                 </div>
-                <div class="row mt-3 align-items-center">
+                <div class="row mt-3 align-items-center" id="checkboxReporte">
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <label class="dark-label">TRANSFERENCIAS</label>
-                        <input type="checkbox">
+                        <input type="checkbox" value="TRANSFERENCIAS">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <label class="dark-label">ALTAS</label>
-                        <input type="checkbox">
+                        <input type="checkbox" value="ALTAS">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4">
                         <label class="dark-label">BAJAS</label>
-                        <input type="checkbox">
+                        <input type="checkbox" value="BAJAS">
                     </div>
                 </div>
             </div>
@@ -58,13 +58,13 @@
     <div class="col-lg-4 col-md-4 col-sm-4">
 
         <div class="vertical-center">
-            <button class="img-btn">
+            <button class="img-btn" id="btnGenerarReporteFecha">
                 <img src="/icons/HTML.png" alt="GENERAR REPORTE EN EXCEL">
-                <span class="tooltiptext">GENERAR REPORTE</span>
-            </button>
-            <button class="img-btn">
-                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
                 <span class="tooltiptext">VISUALIZAR</span>
+            </button>
+            <button class="img-btn" id="btnGenerarReporteFechaExcel">
+                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">GENERAR REPORTE</span>
             </button>
         </div>
 
@@ -84,14 +84,14 @@
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4">
-        <div class="row space-around    ">
+        <div class="row space-around">
             <button class="img-btn col-lg-4 col-md-4 col-sm-4" id="btnGenerarReporteExpediente">
                 <img src="/icons/HTML.png" alt="GENERAR REPORTE EN EXCEL">
-                <span class="tooltiptext">GENERAR REPORTE</span>
-            </button>
-            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
-                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
                 <span class="tooltiptext">VISUALIZAR</span>
+            </button>
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4" id="btnGenerarReporteExpedienteExcel">
+                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">GENERAR REPORTE</span>
             </button>
         </div>
     </div>
@@ -106,19 +106,19 @@
                 <label class="dark-label" for="matricula">MATRÍCULA</label>
             </div>
             <div class="col-lg-10 col-md-10 col-sm-10">
-                <input type="number" class="text-input" id="matricula" name="matricula"/>
+                <input type="number" class="text-input" id="matriculaReportes" name="matricula"/>
             </div>
         </div>
     </div>
     <div class="col-lg-4 col-md-4 col-sm-4">
         <div class="row space-around    ">
-            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4" id="btnGenerarReporteUsuario">
                 <img src="/icons/HTML.png" alt="GENERAR REPORTE EN EXCEL">
-                <span class="tooltiptext">GENERAR REPORTE</span>
-            </button>
-            <button class="img-btn col-lg-4 col-md-4 col-sm-4">
-                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
                 <span class="tooltiptext">VISUALIZAR</span>
+            </button>
+            <button class="img-btn col-lg-4 col-md-4 col-sm-4" id="btnGenerarReporteUsuarioExcel">
+                <img src="/icons/EXCEL.png" alt="GENERAR REPORTE EN EXCEL">
+                <span class="tooltiptext">GENERAR REPORTE</span>
             </button>
         </div>
     </div>

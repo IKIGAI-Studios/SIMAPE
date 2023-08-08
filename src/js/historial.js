@@ -96,34 +96,27 @@ async function handleReimprimir(btnReimprimir, folio) {
         folio: movimiento.folio,
         matricula: movimiento.matricula, 
         nombreUsuario: `${movimiento.nombre} ${movimiento.apellidos}`, 
-        fecha: new Date(movimiento.fecha),
+        fecha: new Date(movimiento.fecha)
     }
 
     let ticketExtra = {};
 
     if (movimiento.tipo_movimiento === 'INGRESO' || movimiento.tipo_movimiento === 'EXTRACCION') {
         ticketExtra = {
-            expedientes: [
-                {nss: movimiento.movimientoNormal.nss, nombre: movimiento.movimientoNormal.nombre}
-            ]
+            expediente: {
+                nss: movimiento.movimientoNormal.nss, 
+                nombre: movimiento.movimientoNormal.nombre
+            }
         }
     }
-    else if (movimiento.tipo_movimiento === 'PRESTAMO') {
+    else if (movimiento.tipo_movimiento === 'PRESTAMO' || movimiento.tipo_movimiento === 'DEVOLUCION') {
         ticketExtra = {
-            expedientes: [
-                {nss: movimiento.movimientoPrestamo.nss, nombre: movimiento.movimientoPrestamo.nombre}
-            ],
+            expediente: {
+                nss: movimiento.movimientoPrestamo.nss, 
+                nombre: movimiento.movimientoPrestamo.nombre
+            },
             matriculaReceptor: movimiento.movimientoPrestamo.matricula_receptor,
             nombreReceptor: `${movimiento.movimientoPrestamo.nombre_receptor} ${movimiento.movimientoPrestamo.apellidos_receptor}`
-        }
-    }
-    else if (movimiento.tipo_movimiento === 'SUPERVISION') {
-        ticketBase.tipo = 'SUPERVISION_ENTRADA';
-        ticketExtra = {
-            expedientes: [
-                {nss: movimiento.movimientoSupervision.nss, nombre: movimiento.movimientoSupervision.nombre}
-            ],
-            supervisor: movimiento.movimientoSupervision.supervisor,
         }
     }
 
@@ -137,7 +130,7 @@ async function handleReimprimir(btnReimprimir, folio) {
     const test = await testPrinter();
     if (test instanceof Error) {
         btnReimprimir.setState('NORMAL');
-        return snackbar.showError(test);
+        return snackbar.showError(test.message);
     }
 
     const resImprimir = await imprimir(ticket);

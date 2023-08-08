@@ -26,12 +26,6 @@ usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
         `SELECT matricula, nombre, apellidos, adscripcion, estatus, fecha_registro FROM Usuario WHERE estatus=${req.params.filter == 'activos' ? 'TRUE' : 'FALSE'} && matricula != '${matricula}'`,
         { type: sequelize.QueryTypes.SELECT }
     );
-    // const usuarios = await UsuarioModel.findAll({
-    //     where: { 
-    //         estatus: req.params.filter == 'activos' ? true : false
-    //     },
-    //     attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro']
-    // });
 
     if (usuarios)
     {
@@ -49,11 +43,12 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
         attributes: ['matricula', 'nombre', 'apellidos', 'adscripcion', 'estatus', 'fecha_registro', 'tipo_usuario', 'foto']
     });
 
-    if (usuarioEncontrado)
+    if (!usuarioEncontrado)
     {
-        return res.json(usuarioEncontrado);
+        return res.status(404).json('Usuario no encontrado');
     }
-    return res.json('Usuario no encontrado');
+
+    return res.json(usuarioEncontrado);
 });
 
 // * TEST UPLOAD

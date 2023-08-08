@@ -90,7 +90,7 @@ movimientoRoutes.get('/buscarPorFolio/:folio', async (req, res) => {
                 movimientoNormal
             });
         }
-        if (movimiento.tipo_movimiento === TIPO_MOVIMIENTO.PRESTAMO) {
+        if (movimiento.tipo_movimiento === TIPO_MOVIMIENTO.PRESTAMO || movimiento.tipo_movimiento === TIPO_MOVIMIENTO.DEVOLUCION) {
             const movimientosPrestamos = await sequelize.query(
                 `SELECT movimientoprestamo.*, expediente.nombre, usuario.nombre as nombre_receptor, usuario.apellidos as apellidos_receptor FROM movimientoprestamo INNER JOIN expediente ON (movimientoprestamo.nss = expediente.nss) INNER JOIN movimiento ON (movimientoprestamo.folio = movimiento.folio) INNER JOIN usuario ON (movimientoprestamo.matricula_receptor = usuario.matricula) WHERE movimiento.folio = ${folio}`,
                 { type: sequelize.QueryTypes.SELECT }
@@ -122,6 +122,51 @@ movimientoRoutes.get('/buscarPorFolio/:folio', async (req, res) => {
     }
 });
 
+// * OBTENER TODOS LOS MOVIMIENTOS POR FECHA
+movimientoRoutes.get('/obtenerMovimientosFecha', async (req, res) => {
+    try {
+        // Extraer las constantes
+        const { fechaInicio, fechaFin, categoria } = req.query;
+        let tipos = req.query.tipos;
+        tipos = tipos.split(',');
+
+        let movimientos = {};
+        // Buscar todos los movimientos
+        if (tipos.includes('ALTAS')) {
+            const movimientosAlta = await sequelize.query(
+                `SELECT movimientonormal.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula INNER JOIN expediente ON movimientonormal.nss = expediente.nss WHERE ${categoria !== 'todas' ? 'expediente.categoria = "'+ categoria +'" AND' : '' } movimiento.fecha > "${fechaInicio}" AND movimiento.fecha <= "${fechaFin}" AND movimiento.tipo_movimiento = 'ALTA' ORDER BY movimiento.fecha DESC`,
+                { type: sequelize.QueryTypes.SELECT }
+            );
+
+            movimientos.altas = movimientosAlta;
+        }
+
+        if (tipos.includes('BAJAS')) {
+            const movimientosBaja = await sequelize.query(
+                `SELECT movimientonormal.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula INNER JOIN expediente ON movimientonormal.nss = expediente.nss WHERE ${categoria !== 'todas' ? 'expediente.categoria = "'+ categoria +'" AND' : '' } movimiento.fecha > "${fechaInicio}" AND movimiento.fecha <= "${fechaFin}" AND movimiento.tipo_movimiento = 'BAJA' ORDER BY movimiento.fecha DESC`,
+                { type: sequelize.QueryTypes.SELECT }
+            );
+
+            movimientos.bajas = movimientosBaja;
+        }
+
+        if (tipos.includes('TRANSFERENCIAS')) {
+            const movimientosTransferencia = await sequelize.query(
+                `SELECT movimientotransferencia.*, movimiento.fecha, usuario.nombre, usuario.apellidos, delegacion.n_delegacion, delegacion.n_subdelegacion, delegacion.nom_delegacion, delegacion.nom_subdelegacion FROM movimientotransferencia INNER JOIN movimiento ON movimientotransferencia.folio = movimiento.folio INNER JOIN delegacion ON movimientotransferencia.del_destino = delegacion.id_delegacion INNER JOIN usuario ON movimiento.matricula = usuario.matricula INNER JOIN expediente ON movimientotransferencia.nss = expediente.nss  WHERE ${categoria !== 'todas' ? 'expediente.categoria = "'+ categoria +'" AND' : '' } movimiento.fecha > "${fechaInicio}" AND movimiento.fecha <= "${fechaFin}" AND movimiento.tipo_movimiento = 'TRANSFERENCIA' ORDER BY movimiento.fecha DESC`,
+                { type: sequelize.QueryTypes.SELECT }
+            );
+
+            movimientos.transferencias = movimientosTransferencia;
+        }
+
+        return res.json(movimientos);
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+
 // * OBTENER TODOS LOS MOVIMIENTOS DE UN USUARIO
 movimientoRoutes.get('/obtenerMovimientosUsuario/:matricula', async (req, res) => {
     try {
@@ -129,7 +174,113 @@ movimientoRoutes.get('/obtenerMovimientosUsuario/:matricula', async (req, res) =
         const { matricula } = req.params;
 
         // Buscar todos los movimientos
+        const movimientosAlta = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'ALTA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosBaja = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'BAJA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosTransferencia = await sequelize.query(
+            `SELECT movimientotransferencia.*, movimiento.fecha, delegacion.n_delegacion, delegacion.n_subdelegacion, delegacion.nom_delegacion, delegacion.nom_subdelegacion FROM movimientotransferencia INNER JOIN movimiento ON movimientotransferencia.folio = movimiento.folio INNER JOIN delegacion ON movimientotransferencia.del_destino = delegacion.id_delegacion WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'TRANSFERENCIA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
         
+        const movimientosExtraccion = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'EXTRACCION' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosIngreso = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'INGRESO' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosPrestamo = await sequelize.query(
+            `SELECT movimientoprestamo.*, movimiento.fecha, usuarioE.nombre, usuarioE.apellidos, usuarioR.nombre AS receptor_nombre, usuarioR.apellidos AS receptor_apellidos FROM movimientoprestamo INNER JOIN movimiento ON movimientoprestamo.folio = movimiento.folio INNER JOIN usuario AS usuarioE ON movimiento.matricula = usuarioE.matricula INNER JOIN usuario AS usuarioR ON movimientoprestamo.matricula_receptor = usuarioR.matricula WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'PRESTAMO'`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosSupervision= await sequelize.query(
+            `SELECT movimientosupervision.*, movimiento.fecha FROM movimientosupervision INNER JOIN movimiento ON movimientosupervision.folio = movimiento.folio WHERE movimiento.matricula = ${matricula} AND movimiento.tipo_movimiento = 'SUPERVISION_SALIDA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        // Retornar todos los movimientos
+        return res.status(200).json({
+            altas: movimientosAlta,
+            bajas: movimientosBaja,
+            transferencias: movimientosTransferencia,
+            extracciones: movimientosExtraccion,
+            ingresos: movimientosIngreso,
+            prestamos: movimientosPrestamo,
+            supervisiones: movimientosSupervision
+        });
+    } 
+    catch (e) {
+        console.log(e);
+        return res.status(400).json(e);
+    }
+});
+
+// * OBTENER TODOS LOS MOVIMIENTOS DE UN EXPEDIENTE
+movimientoRoutes.get('/obtenerMovimientosExpediente/:nss', async (req, res) => {
+    try {
+        // Extraer las constantes
+        const { nss } = req.params;
+
+        // Buscar todos los movimientos
+        let movimientoAlta = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE movimientonormal.nss = ${nss} AND movimiento.tipo_movimiento = 'ALTA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        movimientoAlta = movimientoAlta[0];
+
+        let movimientoBaja = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE movimientonormal.nss = ${nss} AND movimiento.tipo_movimiento = 'BAJA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        movimientoBaja = movimientoBaja[0];
+
+        let movimientoTransferencia = await sequelize.query(
+            `SELECT movimientotransferencia.*, movimiento.fecha, usuario.nombre, usuario.apellidos, delegacion.n_delegacion, delegacion.n_subdelegacion, delegacion.nom_delegacion, delegacion.nom_subdelegacion FROM movimientotransferencia INNER JOIN movimiento ON movimientotransferencia.folio = movimiento.folio INNER JOIN delegacion ON movimientotransferencia.del_destino = delegacion.id_delegacion INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE movimientotransferencia.nss = ${nss} AND movimiento.tipo_movimiento = 'TRANSFERENCIA' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+        movimientoTransferencia = movimientoTransferencia[0];
+        
+        const movimientosExtraccion = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE movimientonormal.nss = ${nss} AND movimiento.tipo_movimiento = 'EXTRACCION' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosIngreso = await sequelize.query(
+            `SELECT movimientonormal.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientonormal INNER JOIN movimiento ON movimientonormal.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE movimientonormal.nss = ${nss} AND movimiento.tipo_movimiento = 'INGRESO' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosPrestamo = await sequelize.query(
+            `SELECT movimientoprestamo.*, movimiento.fecha, usuarioE.nombre, usuarioE.apellidos, usuarioR.nombre AS receptor_nombre, usuarioR.apellidos AS receptor_apellidos FROM movimientoprestamo INNER JOIN movimiento ON movimientoprestamo.folio = movimiento.folio INNER JOIN usuario AS usuarioE ON movimiento.matricula = usuarioE.matricula INNER JOIN usuario AS usuarioR ON movimientoprestamo.matricula_receptor = usuarioR.matricula WHERE movimientoprestamo.nss = ${nss} AND movimiento.tipo_movimiento = 'PRESTAMO' ORDER BY movimiento.fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        const movimientosSupervision= await sequelize.query(
+            `SELECT movimientosupervision.*, movimiento.fecha, usuario.nombre, usuario.apellidos FROM movimientosupervision INNER JOIN movimiento ON movimientosupervision.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE movimientosupervision.nss = ${nss} AND movimiento.tipo_movimiento = 'SUPERVISION_SALIDA' ORDER BY fecha DESC`,
+            { type: sequelize.QueryTypes.SELECT }
+        );
+
+        // Retornar todos los movimientos
+        return res.status(200).json({
+            alta: movimientoAlta,
+            baja: movimientoBaja,
+            transferencia: movimientoTransferencia,
+            extracciones: movimientosExtraccion,
+            ingresos: movimientosIngreso,
+            prestamos: movimientosPrestamo,
+            supervisiones: movimientosSupervision
+        });
     } 
     catch (e) {
         console.log(e);

@@ -6,6 +6,8 @@ const btnAgregarUsuario = document.querySelector('#btnAgregarUsuario');
 const formEditarUsuario = document.getElementById('formEditarUsuario');
 
 const formAltaUsuario = document.getElementById('formAltaUsuario');
+const fotoAltaUsuario = document.getElementById('fotoAltaUsuario');
+const fotoAltaUsuarioVista = document.getElementById('fotoAltaUsuarioVista');
 const snackbar = new SnackBar(document.getElementById('snackbar'));
 
 // Campos a validar para dar de alta a un usuario
@@ -134,6 +136,18 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     formAltaUsuario.reset();
     actualizarUsuarios();
     ModalAgregarUsuario.disable();
+});
+
+fotoAltaUsuario.addEventListener('change', (e) => {
+    const selectedFile = e.target.files[0];
+
+    if (selectedFile) {
+        // Crear una URL local para la imagen seleccionada
+        const imageURL = URL.createObjectURL(selectedFile);
+        
+        // Actualizar el atributo src de la etiqueta <img> con la URL de la imagen
+        fotoAltaUsuarioVista.src = imageURL;
+    }
 });
 
 async function actualizarUsuarios() {

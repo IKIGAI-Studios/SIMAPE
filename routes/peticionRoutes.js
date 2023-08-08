@@ -39,9 +39,10 @@ peticionRoutes.get('/obtenerMisPeticiones', async (req, res) => {
         const { matricula } = req.session.user;
 
         const peticiones = await sequelize.query(`
-            SELECT peticion.folio, peticion.estado, peticion.tipo, movimiento.matricula, movimiento.fecha, movimientonormal.nss, usuario.nombre, usuario.apellidos
-            FROM peticion INNER JOIN movimiento ON (peticion.folio = movimiento.folio) INNER JOIN usuario ON (movimiento.matricula = usuario.matricula) INNER JOIN 
-            movimientonormal ON (movimiento.folio = movimientonormal.folio) WHERE usuario.matricula = ${matricula} ORDER BY movimiento.fecha DESC
+        SELECT peticion.*, usuario.nombre, usuario.apellidos, movimiento.fecha FROM peticion INNER JOIN movimiento ON peticion.folio = movimiento.folio INNER JOIN usuario ON movimiento.matricula = usuario.matricula WHERE 
+        usuario.matricula = ${matricula} AND (
+        peticion.folio IN (SELECT folio FROM movimientoNormal) OR 
+        peticion.folio IN (SELECT folio FROM movimientoTransferencia)) ORDER BY movimiento.fecha DESC
         `, { type: sequelize.QueryTypes.SELECT }
         );
 

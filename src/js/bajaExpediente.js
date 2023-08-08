@@ -72,7 +72,7 @@ btnBajaUsuario.addEventListener('click', async (e) => {
         return snackbar.showError(expedienteEliminado.message);
     }
 
-    snackbar.showMessage('Expediente dado de baja correctamente');
+    snackbar.showMessage(expedienteEliminado);
     
     clearInputs();
     resetValues();

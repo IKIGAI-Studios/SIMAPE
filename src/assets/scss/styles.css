@@ -4647,6 +4647,7 @@ td {
   border-radius: 10px;
   position: absolute;
   z-index: 1;
+  pointer-events: none;
 }
 
 @keyframes appear {
