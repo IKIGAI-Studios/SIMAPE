@@ -7,7 +7,7 @@ const routes = express.Router();
 // Rutas generales
 // * Inicio
 routes.get('/', (req, res) => {
-    res.render('login');
+    res.render('./login');
 });
 
 // * Inicio administrador
@@ -16,7 +16,7 @@ routes.get('/simape-ad', (req, res) => {
         res.redirect('/');
         return;
     } 
-    res.render('simape-ad', {session: req.session});
+    res.render('./simape-ad', {session: req.session});
 });
 
 // * Inicio operativo
@@ -25,7 +25,7 @@ routes.get('/simape-op', (req, res) => {
         res.redirect('/');
         return;
     } 
-    res.render('simape-op', {session: req.session});
+    res.render('./simape-op', {session: req.session});
 });
 
 // * Login

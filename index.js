@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import session from 'express-session';
 import nocache from 'nocache'
+import fs from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import routes from './routes/routes.js';
@@ -49,12 +50,18 @@ app.use(session({
 
 
 // Rutas
+app.set('views', join(__dirname, 'views'));
+
+console.log('Ruta de views:', join(__dirname, 'views'));
+console.log('Archivos en views:', fs.readdirSync(join(__dirname, 'views')));
+
 app.use('/', routes);
 app.use('/usuario', usuarioRoutes);
 app.use('/expediente', expedienteRoutes);
 app.use('/delegacion', delegacionRoutes);
 app.use('/movimiento', movimientoRoutes);
 app.use('/peticion', peticionRoutes);
+
 
 // Iniciar servidor
 const server = HTTPserver.listen(PORT, () => {

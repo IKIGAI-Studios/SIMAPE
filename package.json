@@ -11,6 +11,7 @@
   "scripts": {
     "server": "node index.js",
     "start": "node index.js",
+    "prodtest": "SET NODE_ENV=production & node index.js",
     "stop": "pm2 stop SIMAPE",
     "docs": "jsdoc -c jsdoc.json",
     "test": "set NODE_OPTIONS=--experimental-vm-modules NODE_ENV=test && jest --detectOpenHandles --verbose --silent"
