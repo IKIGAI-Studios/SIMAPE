@@ -1,8 +1,10 @@
 const URL_BASE = `/expediente`;
 
-/* *
-    
-*/
+/**
+ * Función que realiza una petición a la API para dar de alta un expediente
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function altaExpediente(form) {
     const ENDPOINT = '/altaExpediente';
     
@@ -23,6 +25,11 @@ export async function altaExpediente(form) {
     }
 }
 
+/**
+ * Función que hace una petición a la API para buscar un expediente por su NSS
+ * @param {String} nss NSS del expediente
+ * @returns {Promise<Object | Error>} Objeto con la información del expediente
+ */
 export async function buscarExpediente(nss) {
     const ENDPOINT = `/buscarPorNSS/${nss}`;
 
@@ -86,6 +93,11 @@ export async function obtenerUltimoPrestamo(nss) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para ingresar un expediente
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function ingresarExpediente(form) {
     const ENDPOINT = '/movimiento/ingreso';
 
@@ -106,6 +118,11 @@ export async function ingresarExpediente(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para realizar una extracción
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function extraerExpediente(form) {
     const ENDPOINT = '/movimiento/extraccion';
 
@@ -126,6 +143,11 @@ export async function extraerExpediente(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para realizar una baja
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function bajaExpediente(form) {
     const ENDPOINT = '/movimiento/baja';
 
@@ -146,6 +168,11 @@ export async function bajaExpediente(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para realizar una transferencia
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function transferenciaExpediente(form) {
     const ENDPOINT = '/movimiento/transferencia';
 
@@ -166,6 +193,11 @@ export async function transferenciaExpediente(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para realizar una supervisión
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function supervisionExpediente(form) {
     const ENDPOINT = '/movimiento/supervision';
 
@@ -186,6 +218,11 @@ export async function supervisionExpediente(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para ingresar una supervisión
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function ingresarSupervision(form) {
     const ENDPOINT = '/movimiento/ingresarSupervision';
 
@@ -206,6 +243,10 @@ export async function ingresarSupervision(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para obtener todas las supervisiones que se encuentren activas
+ * @returns {Promise<Array<Object> | Error>} Array con las supervisiones
+ */
 export async function obtenerSupervisionesActivas() {
     const ENDPOINT = '/obtenerSupervisiones';
 
@@ -223,6 +264,11 @@ export async function obtenerSupervisionesActivas() {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para realizar un préstamo
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function prestarExpediente(form) {
     const ENDPOINT = '/movimiento/prestamo';
 
@@ -243,6 +289,11 @@ export async function prestarExpediente(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para ingresar un préstamo
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function ingresarPrestamo(form) {
     const ENDPOINT = '/movimiento/ingresarPrestamo';
 

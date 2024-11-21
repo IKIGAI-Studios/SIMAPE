@@ -12,8 +12,12 @@ const tablaSupervisionesActivas = document.querySelector('#tablaSupervisionesAct
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
+// Variable para almacenar expedientes
 let expedientes = [];
 
+/**
+ * Evento que se ejecuta al buscar un expediente
+ */
 formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -52,6 +56,9 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     snackbar.showMessage('Expediente añadido');
 });
 
+/**
+ * Evento que se ejecuta al finalizar la búsqueda de expedientes
+ */
 btnFinalizarSupervision.addEventListener('click', async (e) => {
     if (supervisorSupervision.value == '') {
         return snackbar.showError('Introzuca un supervisor');
@@ -79,6 +86,9 @@ btnFinalizarSupervision.addEventListener('click', async (e) => {
     await imprimirTicket(supervision.folio);
 });
 
+/**
+ * Función que rellena la tabla de supervisiones activas
+ */
 async function cargarSupervisiones() {
     tablaSupervisionesActivas.innerHTML = '';
     const supervisiones = await obtenerSupervisionesActivas();
@@ -121,6 +131,10 @@ async function cargarSupervisiones() {
     });
 }
 
+/**
+ * Función que se ejecuta al ingresar una supervisión
+ * @param {String} folio Folio de la supervisión
+ */
 async function handleIngresarExpedientes(folio) {
     const form = new FormData();
     form.append('folio', folio);

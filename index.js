@@ -72,7 +72,7 @@ app.use("/uploads", express.static(join(__dirname, 'src/uploads')));
 app.use("/dist", express.static(join(__dirname, 'dist')));
 
 app.use((req, res) => {
-  res.status(404).render('404'); //TODO: Hacer una pag de 404 xd
+  res.status(404).render('404');
 });
 
 export { app, server };

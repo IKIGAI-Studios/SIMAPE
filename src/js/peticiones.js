@@ -4,6 +4,9 @@ const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 const tablaPeticiones = document.querySelector('#tablaPeticiones');
 
+/**
+ * Función para cargar las peticiones (solicitudes de movimiento)
+ */
 export async function cargarPeticiones() {
     tablaPeticiones.innerHTML = '';
     const peticiones = await obtenerPeticiones();
@@ -73,6 +76,11 @@ export async function cargarPeticiones() {
 
 cargarPeticiones();
 
+/**
+ * Función que se ejecuta al aceptar una petición
+ * @param {String} folio Folio de la petición
+ * @param {'BAJA' | 'TRANSFERENCIA'} tipo Tipo de petición
+ */
 async function handleAceptar(folio, tipo) {
     const form = new FormData();
     form.append('folio', folio);
@@ -90,13 +98,19 @@ async function handleAceptar(folio, tipo) {
         return snackbar.showError(confirmacion.message);
     }
 
+    // Actualizar tabla
     snackbar.showMessage(confirmacion);
     await cargarPeticiones();
 
+    // Mandar señal de sockets
     let s = io();
     s.emit('server:actualizarPeticionesOperativo');
 }
 
+/**
+ * Función que se ejecuta al rechazar una petición
+ * @param {String} folio Folio de la petición
+ */
 async function handleRechazar(folio) {
     const form = new FormData();
     form.append('folio', folio);
@@ -107,9 +121,11 @@ async function handleRechazar(folio) {
         return snackbar.showError(rechazo.message);
     }
 
+    // Actualizar tabla
     snackbar.showMessage(rechazo);
     await cargarPeticiones();
 
+    // Mandar señal de sockets
     let s = io();
     s.emit('server:actualizarPeticionesOperativo');
 }

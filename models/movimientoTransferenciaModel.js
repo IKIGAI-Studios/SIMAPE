@@ -5,6 +5,7 @@ import Expediente from './expedienteModel.js';
 import Delegacion from './delegacionModel.js';
 import { TIPO_MOVIMIENTO } from '../utils/constants.js';
 
+// Modelo
 export const MovimientoTransferencia = sequelize.define(
     'movimientoTransferencia',
     {
@@ -27,6 +28,16 @@ export const MovimientoTransferencia = sequelize.define(
     }
 );
 
+/**
+ * Validación para el movimiento de transferencia
+ * @param {Object} movimiento Objeto con los datos del movimientoTransferencia
+ * @param {Number} movimiento.folio Folio del movimiento
+ * @param {String} movimiento.nss NSS
+ * @param {Boolean} movimiento.pendiente Pendiente
+ * @param {Number} movimiento.del_destino Id de la delegación de destino
+ * @param {String} movimiento.tipo_movimiento Tipo de movimiento
+ * @returns {Object} Objeto con dos propiedades, valido (bool) y un array de errores en caso de haber
+ */
 export async function validarMovimientoTransferencia({ folio, nss, pendiente, del_destino, tipo_movimiento }) {
     let valido = true;
     let errores = [];
@@ -82,6 +93,11 @@ export async function validarMovimientoTransferencia({ folio, nss, pendiente, de
     }
 }
 
+/**
+ * Función para comprobar si existe un movimiento transferencia
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y movimientoTransferencia con los datos del mismo
+ */
 export async function existe(filtro) {
     const movimientoTransferencia = await MovimientoTransferencia.findOne({
         where: filtro

@@ -1,5 +1,9 @@
 const URL_BASE = `http://localhost:3001`;
 
+/**
+ * Función que realiza una petición a la API del servidor de impresión para determinar si se encuentra activo
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function testServer() {
     const ENDPOINT = '/testServer';
     
@@ -17,6 +21,10 @@ export async function testServer() {
     }
 }
 
+/**
+ * Función que realiza una petición a la API del servidor de impresión para determinar si se encuentra conectada la impresora
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function testPrinter() {
     const ENDPOINT = '/testPrinter';
     
@@ -42,6 +50,10 @@ export async function testPrinter() {
     }
 }
 
+/**
+ * Función que realiza una petición a la API del servidor de impresión para imprimir un ticket de prueba
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function testPrint() {
     const ENDPOINT = '/testPrint';
     
@@ -67,7 +79,11 @@ export async function testPrint() {
     }
 }
 
-
+/**
+ * Función que realiza una petición a la API del servidor de impresión para imprimir un ticket
+ * @param {Object} ticket Objeto con la información del ticket
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function imprimir(ticket) {
     const ENDPOINT = '/imprimir';
 

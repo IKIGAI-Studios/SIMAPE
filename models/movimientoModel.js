@@ -3,6 +3,7 @@ import sequelize from '../utils/DBconnection.js';
 import { TIPO_MOVIMIENTO } from '../utils/constants.js';
 import Usuario from './usuarioModel.js';
 
+// Modelo
 export const Movimiento = sequelize.define(
     'movimiento',
     {
@@ -22,6 +23,16 @@ export const Movimiento = sequelize.define(
     }
 );
 
+/**
+ * Función para validar un expediente
+ * @param {Object} movimiento Objeto con los datos del movimiento
+ * @param {String} movimiento.folio Folio
+ * @param {String} movimiento.matricula Matricula
+ * @param {String} movimiento.motivo Motivo
+ * @param {Date} movimiento.fecha Fecha
+ * @param {String} movimiento.tipo_movimiento Tipo de movimiento
+ * @returns 
+ */
 export async function validarMovimiento({ folio, matricula, motivo, fecha, tipo_movimiento }) {
     let valido = true;
     let errores = [];
@@ -53,17 +64,17 @@ export async function validarMovimiento({ folio, matricula, motivo, fecha, tipo_
         errores.push(new Error('Movimiento no válido'));
     }
 
-    // if (fecha instanceof 'Date') {
-
-    // }
-    //TODO: Terminar las validaciones
-
     return {
         valido,
         errores
     }
 }
 
+/**
+ * Función para comprobar si existe un movimiento
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y movimiento con los datos del mismo
+ */
 export async function existe(filtro) {
     const movimiento = await Movimiento.findOne({
         where: filtro

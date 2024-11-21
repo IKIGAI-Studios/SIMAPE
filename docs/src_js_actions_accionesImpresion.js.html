@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: src/js/actions/accionesImpresion.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: src/js/actions/accionesImpresion.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const URL_BASE = `http://localhost:3001`;
+
+/**
+ * Función que realiza una petición a la API del servidor de impresión para determinar si se encuentra activo
+ * @returns {Promise&lt;String | Error>} Respuesta del servidor
+ */
+export async function testServer() {
+    const ENDPOINT = '/testServer';
+    
+    try {
+        const response = await fetch(URL_BASE + ENDPOINT);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+     
+        return await response.json();
+    }
+    catch (e) {
+        return new Error("El servidor no se ha iniciado correctamente");
+    }
+}
+
+/**
+ * Función que realiza una petición a la API del servidor de impresión para determinar si se encuentra conectada la impresora
+ * @returns {Promise&lt;String | Error>} Respuesta del servidor
+ */
+export async function testPrinter() {
+    const ENDPOINT = '/testPrinter';
+    
+    try {
+        const testServerRes = await testServer();
+
+        if (testServerRes instanceof Error) {
+            throw testServerRes;
+        }
+
+        const response = await fetch(URL_BASE + ENDPOINT);
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+     
+        return await response.json();
+    }
+    catch (e) {
+        console.error(e);
+        return e;
+    }
+}
+
+/**
+ * Función que realiza una petición a la API del servidor de impresión para imprimir un ticket de prueba
+ * @returns {Promise&lt;String | Error>} Respuesta del servidor
+ */
+export async function testPrint() {
+    const ENDPOINT = '/testPrint';
+    
+    try {
+        const testServerRes = await testServer();
+
+        if (testServerRes instanceof Error) {
+            throw testServerRes;
+        }
+
+        const response = await fetch(URL_BASE + ENDPOINT);
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+     
+        return await response.json();
+    }
+    catch (e) {
+        console.error(e);
+        return e;
+    }
+}
+
+/**
+ * Función que realiza una petición a la API del servidor de impresión para imprimir un ticket
+ * @param {Object} ticket Objeto con la información del ticket
+ * @returns {Promise&lt;String | Error>} Respuesta del servidor
+ */
+export async function imprimir(ticket) {
+    const ENDPOINT = '/imprimir';
+
+    try {
+        const testServerRes = await testServer();
+
+        if (testServerRes instanceof Error) {
+            throw testServerRes;
+        }
+
+        console.log(ticket);
+
+        const response = await fetch(URL_BASE + ENDPOINT, {
+            body: JSON.stringify(ticket),
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    
+        if (!response.ok) {
+            throw new Error(await response.json());
+        }
+    
+        return await response.json();
+    } 
+    catch (e) {
+        return e;
+    }
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#altaExpediente">altaExpediente</a></li><li><a href="global.html#altaUsuario">altaUsuario</a></li><li><a href="global.html#bajaExpediente">bajaExpediente</a></li><li><a href="global.html#bajaUsuario">bajaUsuario</a></li><li><a href="global.html#buscarExpediente">buscarExpediente</a></li><li><a href="global.html#buscarPorFolio">buscarPorFolio</a></li><li><a href="global.html#buscarUsuario">buscarUsuario</a></li><li><a href="global.html#cambiarPass">cambiarPass</a></li><li><a href="global.html#confirmarPeticionBaja">confirmarPeticionBaja</a></li><li><a href="global.html#confirmarPeticionTransferencia">confirmarPeticionTransferencia</a></li><li><a href="global.html#editarUsuario">editarUsuario</a></li><li><a href="global.html#extraerExpediente">extraerExpediente</a></li><li><a href="global.html#generarReportePDF">generarReportePDF</a></li><li><a href="global.html#imprimir">imprimir</a></li><li><a href="global.html#ingresarExpediente">ingresarExpediente</a></li><li><a href="global.html#ingresarPrestamo">ingresarPrestamo</a></li><li><a href="global.html#ingresarSupervision">ingresarSupervision</a></li><li><a href="global.html#insertarFirmas">insertarFirmas</a></li><li><a href="global.html#insertarHeader">insertarHeader</a></li><li><a href="global.html#obtenerDelegaciones">obtenerDelegaciones</a></li><li><a href="global.html#obtenerMiMatricula">obtenerMiMatricula</a></li><li><a href="global.html#obtenerMisMovimientos">obtenerMisMovimientos</a></li><li><a href="global.html#obtenerMisPeticiones">obtenerMisPeticiones</a></li><li><a href="global.html#obtenerMovimientosExpediente">obtenerMovimientosExpediente</a></li><li><a href="global.html#obtenerMovimientosFecha">obtenerMovimientosFecha</a></li><li><a href="global.html#obtenerMovimientosUsuario">obtenerMovimientosUsuario</a></li><li><a href="global.html#obtenerNumeroFolio">obtenerNumeroFolio</a></li><li><a href="global.html#obtenerPeticiones">obtenerPeticiones</a></li><li><a href="global.html#obtenerSupervisionesActivas">obtenerSupervisionesActivas</a></li><li><a href="global.html#obtenerUltimoMovimiento">obtenerUltimoMovimiento</a></li><li><a href="global.html#obtenerUltimoPrestamo">obtenerUltimoPrestamo</a></li><li><a href="global.html#obtenerUsuarios">obtenerUsuarios</a></li><li><a href="global.html#prestarExpediente">prestarExpediente</a></li><li><a href="global.html#rechazarPeticion">rechazarPeticion</a></li><li><a href="global.html#recuperarUsuario">recuperarUsuario</a></li><li><a href="global.html#socketsUsuario">socketsUsuario</a></li><li><a href="global.html#subirArchivo">subirArchivo</a></li><li><a href="global.html#supervisionExpediente">supervisionExpediente</a></li><li><a href="global.html#testPrint">testPrint</a></li><li><a href="global.html#testPrinter">testPrinter</a></li><li><a href="global.html#testServer">testServer</a></li><li><a href="global.html#transferenciaExpediente">transferenciaExpediente</a></li><li><a href="global.html#validarUsuario">validarUsuario</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Aug 09 2023 19:25:59 GMT-0600 (hora estándar central)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

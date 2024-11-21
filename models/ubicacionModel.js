@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
 
+// Modelo
 const Ubicacion = sequelize.define(
     'ubicacion',
     {

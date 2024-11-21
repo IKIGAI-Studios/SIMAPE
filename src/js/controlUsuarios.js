@@ -26,6 +26,10 @@ const passE = document.getElementById('passEditarUsuario');
 // Expresión regular que admmite ñ y tildes
 const regexNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
 
+/**
+ * Función para validar campos de nuevo usuario
+ * @returns {Boolean} Representa si la validación fue exitosa
+ */
 function validarCamposAgregar(){
 
     if(matricula.value.length != 8){
@@ -74,6 +78,10 @@ function validarCamposAgregar(){
        return true;
 }
 
+/**
+ * Función para validar campos de edición de usuario
+ * @returns {Boolean} Representa si la validación fue exitosa
+ */
 function validarCamposEditar(){
 
     const valorNombreE = nombreE.value.trim();
@@ -117,6 +125,9 @@ function validarCamposEditar(){
     return true;
 }
 
+/**
+ * Evento para dar de alta a un usuario
+ */
 formAltaUsuario.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -138,6 +149,9 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     ModalAgregarUsuario.disable();
 });
 
+/**
+ * Evento para cambiar la foto del usuario que se dará de alta al escoger otra
+ */
 fotoAltaUsuario.addEventListener('change', (e) => {
     const selectedFile = e.target.files[0];
 
@@ -150,6 +164,9 @@ fotoAltaUsuario.addEventListener('change', (e) => {
     }
 });
 
+/**
+ * Función para rellenar las tablas de usuarios activos e inactivos
+ */
 async function actualizarUsuarios() {
     const tablaUsuariosActivos = document.getElementById('tablaUsuariosActivos');
     const tablaUsuariosInactivos = document.getElementById('tablaUsuariosInactivos');
@@ -232,6 +249,11 @@ async function actualizarUsuarios() {
     });
 }
 
+/**
+ * Función para crear una fila con datos del usuario
+ * @param {Object} usuario Objeto con los datos del usuario
+ * @returns {HTMLElement} Elemento de fila para agregar a la tabla
+ */
 function crearFilaDeUsuario(usuario) {
     // Crear la fila
     const fila = document.createElement('tr');
@@ -256,12 +278,18 @@ function crearFilaDeUsuario(usuario) {
     return fila;
 }
 
+/**
+ * Función que se ejecuta al editar un usuario
+ * @param {Object} usuario Objeto con los datos del usuario
+ */
 function handleEditarUsuario(usuario) {
     document.querySelector('#matriculaEditarUsuario').value = usuario.matricula;
-    console.log(usuario);
     ModalEditarUsuario.enable();
 }
 
+/**
+ * Evento de editar usuario
+ */
 formEditarUsuario.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -284,6 +312,10 @@ formEditarUsuario.addEventListener('submit', async (e) => {
     ModalEditarUsuario.disable();
 });
 
+/**
+ * Función que se ejecuta al dar de baja un usuario
+ * @param {String} matricula Matricula del usuario
+ */
 async function handleBajaUsuario(matricula) {
     const form  = new FormData();
     form.append('matricula', matricula);
@@ -299,6 +331,10 @@ async function handleBajaUsuario(matricula) {
     actualizarUsuarios();
 }
 
+/**
+ * Función que se ejecuta al recuperar un usuario
+ * @param {String} matricula Matricula del usuario
+ */
 async function handleRecuperarUsuario(matricula) {
     const form  = new FormData();
     form.append('matricula', matricula);
@@ -315,6 +351,9 @@ async function handleRecuperarUsuario(matricula) {
 
 actualizarUsuarios();
 
+/**
+ * Evento de clic al botón de agregar usuario
+ */
 btnAgregarUsuario.addEventListener('click', () => {
     ModalAgregarUsuario.enable();
 });

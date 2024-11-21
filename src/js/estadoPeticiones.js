@@ -4,6 +4,9 @@ const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 const tablaPeticiones = document.querySelector('#tablaPeticiones');
 
+/**
+ * Función para cargar las peticiones(solicitudes de movimiento) del usuario
+ */
 export async function cargarPeticiones() {
     tablaPeticiones.innerHTML = '';
     const peticiones = await obtenerMisPeticiones();

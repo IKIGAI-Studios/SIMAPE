@@ -1,6 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
 
+// Modelo
 export const Delegacion = sequelize.define(
     'delegacion',
     {
@@ -20,6 +21,11 @@ export const Delegacion = sequelize.define(
     }
 );
 
+/**
+ * Función para comprobar si existe una delegación
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y delegación con los datos de la misma
+ */
 export async function existe(filtro) {
     const delegacion = await Delegacion.findOne({
         where: filtro

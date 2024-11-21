@@ -1,5 +1,9 @@
 const URL_BASE = `/peticion`;
 
+/**
+ * Función que realiza una petición a la API para obtener todas las peticiones realizadas
+ * @returns {Promise<Array<Object> | Error>} Array de objetos con la información de las peticiones
+ */
 export async function obtenerPeticiones() {
     const ENDPOINT = '/obtenerPeticiones';
     
@@ -18,6 +22,10 @@ export async function obtenerPeticiones() {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para obtener todas las peticiones realizadas por el usuario
+ * @returns {Promise<Array<Object> | Error>} Array de objetos con la información de las peticiones
+ */
 export async function obtenerMisPeticiones() {
     const ENDPOINT = '/obtenerMisPeticiones';
     
@@ -36,6 +44,11 @@ export async function obtenerMisPeticiones() {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para confirmar una petición de tipo baja
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function confirmarPeticionBaja(form) {
     const ENDPOINT = '/confirmarPeticionBaja';
     
@@ -57,6 +70,11 @@ export async function confirmarPeticionBaja(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para confirmar una petición de tipo transferencia
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function confirmarPeticionTransferencia(form) {
     const ENDPOINT = '/confirmarPeticionTransferencia';
     
@@ -78,6 +96,11 @@ export async function confirmarPeticionTransferencia(form) {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para rechazar una petición
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function rechazarPeticion(form) {
     const ENDPOINT = '/rechazarPeticion';
     

@@ -1,5 +1,9 @@
 const URL_BASE = `/movimiento`;
 
+/**
+ * Función que realiza una petición a la API para obtener los movimientos disponibles para impresión del propio usuario
+ * @returns {Promise<Array<Object> | Error>} Array con los movimientos del usuario
+ */
 export async function obtenerMisMovimientos() {
     const ENDPOINT = '/obtenerMisMovimientos';
     
@@ -20,9 +24,9 @@ export async function obtenerMisMovimientos() {
 }
 
 /**
- * Función para búsqueda de movimiento por folio
+ * Función que realiza una petición a la API para búsqueda de movimiento por folio
  * @param {Number} folio Folio del movimiento a buscar
- * @returns {Object | Error} Objeto con la información del movimiento
+ * @returns {Promise<Object | Error>} Objeto con la información del movimiento
  */
 export async function buscarPorFolio(folio) {
     const ENDPOINT = `/buscarPorFolio/${folio}`;
@@ -44,9 +48,9 @@ export async function buscarPorFolio(folio) {
 }
 
 /**
- * Función para obtener TODOS los movimientos de un expediente
+ * Función que realiza una petición a la API para obtener TODOS los movimientos de un expediente
  * @param {Date} fechaInicio Nss del expediente buscar
- * @returns {Object | Error} Objeto con la información de todos los movimientos
+ * @returns {Promise<Object | Error} Objeto con la información de todos los movimientos
  */
 export async function obtenerMovimientosFecha(fechaInicio, fechaFin, categoria, tipos) {
     const ENDPOINT = `/obtenerMovimientosFecha`;
@@ -73,9 +77,9 @@ export async function obtenerMovimientosFecha(fechaInicio, fechaFin, categoria, 
 }
 
 /**
- * Función para obtener TODOS los movimientos de un expediente
+ *Función que realiza una petición a la API para obtener TODOS los movimientos de un expediente
  * @param {Number} nss Nss del expediente buscar
- * @returns {Object | Error} Objeto con la información de todos los movimientos
+ * @returns {Promise<Object | Error>} Objeto con la información de todos los movimientos
  */
 export async function obtenerMovimientosExpediente(nss) {
     const ENDPOINT = `/obtenerMovimientosExpediente/${nss}`;
@@ -97,9 +101,9 @@ export async function obtenerMovimientosExpediente(nss) {
 }
 
 /**
- * Función para obtener TODOS los movimientos de un usuario
+ * Función que realiza una petición a la API para obtener TODOS los movimientos de un usuario
  * @param {String} matricula Matricula del usuario
- * @returns {Object | Error} Objeto con la información de todos los movimientos
+ * @returns {Promise<Object | Error>} Objeto con la información de todos los movimientos
  */
 export async function obtenerMovimientosUsuario(matricula) {
     const ENDPOINT = `/obtenerMovimientosUsuario/${matricula}`;

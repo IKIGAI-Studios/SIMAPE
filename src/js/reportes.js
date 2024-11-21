@@ -24,24 +24,38 @@ const btnGenerarReporteUsuarioExcel = document.querySelector('#btnGenerarReporte
 
 const bodyModalReporte = document.querySelector('#modalReporte div.row');
 
+/**
+ * Contiene la defición de un reporte HTML
+ */
 class Reporte {
+    /**
+     * @param {HTMLElement} HTMLelement Elemento para escribir el reporte
+     */
     constructor(HTMLelement) {
         this.HTMLelement = HTMLelement;
     }
 
+    /**
+     * Función para agregar un título
+     * @param {String} title Título 
+     */
     addTitle(title) {
         this.HTMLelement.innerHTML += `<h2>${title}</h2>`;
     }
 
+    /**
+     * Función para agregar un texto
+     * @param {String} text Texto 
+     */
     addText(text) {
         this.HTMLelement.innerHTML += `<p>${text}</p>`;
     }
 
     /**
-     * 
-     * @param {String} id 
-     * @param {Array<String>} columns 
-     * @param {Array<Array<String>>} rows 
+     * Función para agregar una tabla
+     * @param {String} id Id de la tabla
+     * @param {Array<String>} columns Array de columnas
+     * @param {Array<Array<String>>} rows Matriz de filas
      */
     addTable(id, nombre, columns, rows) {
         this.HTMLelement.innerHTML += `
@@ -69,6 +83,9 @@ class Reporte {
     }
 }
 
+/**
+ * Evento que se ejecuta al dar clic en el botón de generar por fecha
+ */
 btnGenerarReporteFecha.addEventListener('click', async () => {
 
     const fechaInicio = new Date(fromMesReporte.value);
@@ -91,6 +108,9 @@ btnGenerarReporteFecha.addEventListener('click', async () => {
     await generarReporteFecha(fechaInicio, ultimoDiaMesActual, tipoPensionReporte.value, tipos);
 });
 
+/**
+ * Evento que se ejecuta al dar clic en el botón de generar por fecha en excel
+ */
 btnGenerarReporteFechaExcel.addEventListener('click', async () => {
     const fechaInicio = new Date(fromMesReporte.value);
     const fechaFin = new Date(toMesReporte.value);
@@ -113,6 +133,9 @@ btnGenerarReporteFechaExcel.addEventListener('click', async () => {
     generarExcel(bodyModalReporte);
 });
 
+/**
+ * Evento que se ejecuta al dar clic en el botón de generar reporte de expediente
+ */
 btnGenerarReporteExpediente.addEventListener('click', async () => {
     if (nssReportes.value == '') {
         snackbar.showError('Introduca un NSS de expediente');
@@ -122,6 +145,9 @@ btnGenerarReporteExpediente.addEventListener('click', async () => {
     await generarReporteExpediente(nssReportes.value);
 });
 
+/**
+ * Evento que se ejecuta al dar clic en el botón de generar reporte de expediente en excel
+ */
 btnGenerarReporteExpedienteExcel.addEventListener('click', async () => {
     if (nssReportes.value == '') {
         snackbar.showError('Introduca un NSS de expediente');
@@ -132,6 +158,9 @@ btnGenerarReporteExpedienteExcel.addEventListener('click', async () => {
     generarExcel(bodyModalReporte);
 });
 
+/**
+ * Evento que se ejecuta al dar clic en el botón de generar reporte de usuario
+ */
 btnGenerarReporteUsuario.addEventListener('click', async () => {
     if (matriculaReportes.value == '') {
         snackbar.showError('Introduca una matricula válida');
@@ -141,6 +170,9 @@ btnGenerarReporteUsuario.addEventListener('click', async () => {
     await generarReporteUsuario(matriculaReportes.value);
 });
 
+/**
+ * Evento que se ejecuta al dar clic en el botón de generar reporte de usuario en excel
+ */
 btnGenerarReporteUsuarioExcel.addEventListener('click', async () => {
     if (matriculaReportes.value == '') {
         snackbar.showError('Introduca una matricula válida');
@@ -151,6 +183,14 @@ btnGenerarReporteUsuarioExcel.addEventListener('click', async () => {
     generarExcel(bodyModalReporte);
 });
 
+/**
+ * Función que genera un reporte por fecha
+ * @param {Date} fechaInicio Fecha de inicio
+ * @param {Date} fechaFin Fecha de fin
+ * @param {String} categoria Categoria
+ * @param {Array<String>} tipos Filtros de movimiento
+ * @returns {Promise} Se generó el reporte
+ */
 async function generarReporteFecha(fechaInicio, fechaFin, categoria, tipos) {
     bodyModalReporte.innerHTML = '';
     
@@ -213,6 +253,11 @@ async function generarReporteFecha(fechaInicio, fechaFin, categoria, tipos) {
     }
 }
 
+/**
+ * Función que genera el reporte de un expediente
+ * @param {String} nss NSS del expediente
+ * @returns {Promise} Se generó el reporte
+ */
 async function generarReporteExpediente(nss) {
     bodyModalReporte.innerHTML = '';
     
@@ -321,6 +366,11 @@ async function generarReporteExpediente(nss) {
     }
 }
 
+/**
+ * Función que genera el reporte de un usuario
+ * @param {String} matricula Matricula del usuario
+ * @returns {Promise} Se generó el reporte
+ */
 async function generarReporteUsuario(matricula) {
     bodyModalReporte.innerHTML = '';
     

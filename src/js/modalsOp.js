@@ -1,27 +1,34 @@
 import Modal from "./componentes/modal.js";
 
-// * Exportar modals para usarlos en cualquier sitio
+/**
+ * Modal Cambiar Contraseña
+ */
 export const ModalCambiarPass = new Modal(
   document.querySelector('#modalPass'), 
-  //document.getElementById('btnPass'),
   document.querySelector('#modalPassClose')
 );
 
+/**
+ * Modal Ingresar Expediente
+ */
 export const ModalIngresarExpediente = new Modal(
   document.querySelector('#modalIngresarExpediente'),
-  //document.getElementById('btnIngresarExpediente'),
   document.querySelector('#modalIngresarExpedienteClose')
 );
 
+/**
+ * Modal Extraer Expediente
+ */
 export const ModalExtraerExpediente = new Modal(
   document.querySelector('#modalExtraerExpediente'),
-  //document.getElementById('btnExtraerExpediente'),
   document.querySelector('#modalExtraerExpedienteClose')
 );
 
+/**
+ * Modal Prestar Expediente
+ */
 export const ModalPrestarExpediente = new Modal(
   document.querySelector('#modalPrestarExpediente'),
-  //document.getElementById('btnPrestarExpediente'),
   document.querySelector('#modalPrestarExpedienteClose')
 );
 

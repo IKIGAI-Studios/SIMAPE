@@ -19,12 +19,17 @@ const btnTransferenciaExpedienteCancelar = document.querySelector('#btnTransfere
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
-
+/**
+ * Evento para limpiar al modificar el NSS
+ */
 inputNSS.addEventListener('keydown', (e) => {
     clearInputs();
     resetValues();
 });
 
+/**
+ * Evento que se ejecuta al buscar un expediente
+ */
 formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -65,6 +70,9 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     snackbar.showMessage('Expediente encontrado');
 });
 
+/**
+ * Evento que se ejecuta al transferir un expediente
+ */
 btnTransferenciaExpediente.addEventListener('click', async (e) => {
     const form = new FormData();
     form.append('nss', inputNSS.value);
@@ -92,11 +100,17 @@ btnTransferenciaExpediente.addEventListener('click', async (e) => {
     resetValues();
 });
 
+/**
+ * Evento que se ejecuta al cancelar una transferencia
+ */
 btnTransferenciaExpedienteCancelar.addEventListener('click', (e) => {
     clearInputs();
     resetValues();
 });
 
+/**
+ * Función para reiniciar los valores por defecto
+ */
 function resetValues() {
     btnTransferenciaExpediente.setAttribute('disabled', '');
     btnTransferenciaExpedienteCancelar.setAttribute('disabled', '');
@@ -104,6 +118,9 @@ function resetValues() {
     inputMotivo.setAttribute('readonly', '');
 }
 
+/**
+ * Función para limpiar los campos
+ */
 function clearInputs() {
     inputNombre.value = '';
     inputTipoPension.value = '';
@@ -112,6 +129,9 @@ function clearInputs() {
     inputMotivo.value = '';
 }
 
+/**
+ * Función para llenar la lista desplegable de delegaciones
+ */
 async function listDelegacionesFill() {
     const delegaciones = await obtenerDelegaciones();
     

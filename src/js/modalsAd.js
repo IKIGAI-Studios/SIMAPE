@@ -1,21 +1,26 @@
 import Modal from "./componentes/modal.js";
 
-// * Exportar modals para usarlos en cualquier sitio
+/**
+ * Modal Agregar Usuario
+ */
 export const ModalAgregarUsuario = new Modal(
   document.querySelector('#modalAgregarUsuario'),
-  //document.getElementById('btnAgregarUsuario'),
   document.querySelector('#modalAgregarUsuarioClose')
 );
 
+/**
+ * Modal Editar Usuario
+ */
 export const ModalEditarUsuario = new Modal(
   document.querySelector('#modalEditarUsuario'),
-  //document.getElementById('btnEditarUsuario'),
   document.querySelector('#modalEditarUsuarioClose')
 );
 
+/**
+ * Modal Reporte
+ */
 export const ModalReporte = new Modal(
   document.querySelector('#modalReporte'),
-  //document.getElementById('btnEditarUsuario'),
   document.querySelector('#modalReporteClose')
 );
 

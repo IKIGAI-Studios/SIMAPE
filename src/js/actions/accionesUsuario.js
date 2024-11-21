@@ -1,8 +1,8 @@
 const URL_BASE = `/usuario`;
 
 /**
-    Obtiene la matricula de la sesión iniciada.
-    @returns Matricula.
+    Función que realiza una petición a la API para obtener la matrícula del usuario con sesión iniciada
+    @returns {Promise<String | Error>} Matricula del usuario
 */
 export async function obtenerMiMatricula() {
     const ENDPOINT = `/obtenerMiMatricula`;
@@ -22,6 +22,11 @@ export async function obtenerMiMatricula() {
     }
 }
 
+/**
+ * Función que realiza una petición a la API para cambiar la contraseña del usuario con sesión actual
+ * @param {FormData} form Formulario con la información
+ * @returns {Promise<String | Error>} Respuesta del servidor
+ */
 export async function cambiarPass(form) {
     const ENDPOINT = `/cambiarPass`;
 
@@ -44,9 +49,9 @@ export async function cambiarPass(form) {
 }
 
 /**
-    Busca un usuario a partir de su matricula.
-    @param matricula Matricula del usuario a buscar.
-    @returns Un objeto con el usuario encontrado
+    Función que realiza una petición a la API para buscar un usuario a partir de su matricula.
+    @param {String} matricula Matricula del usuario a buscar.
+    @returns {Promise<Object | Error>} Objeto con la información del usuario
 */
 export async function buscarUsuario(matricula) {
     const ENDPOINT = `/busquedaUsuario/${matricula}`;
@@ -67,10 +72,10 @@ export async function buscarUsuario(matricula) {
 }
 
 /**
-    Busca todos los usuarios que cumplan la condición.
-    @param estatus Opción para definir usuarios activos o 
+    Función que realiza una petición a la API para buscar todos los usuarios que cumplan la condición.
+    @param {String} estatus Opción para definir usuarios activos o 
     inactivos, por defecto serán usuarios activos.
-    @returns Un arreglo con los usuarios.  
+    @returns {Promise<Array<Object> | Error>} Array con los usuarios.  
 */
 export async function obtenerUsuarios(estatus = 'activos') {
     const ENDPOINT = `/obtenerUsuarios/${estatus}`;
@@ -91,9 +96,9 @@ export async function obtenerUsuarios(estatus = 'activos') {
 }
 
 /**
-    Crea un nuevo usuario y lo introduce en la base de datos.
-    @param form Se requiere para enviar todos los datos del usuario. Su formato es **multipart/form-data**
-    @returns Datos del usuario que se ha introducido.
+    Función que realiza una petición a la API para crear un nuevo usuario y lo introduce en la base de datos.
+    @param {FormData} form Formulario con los datos del usuario. Su formato es **multipart/form-data**
+    @returns {Promise<String | Error>} Respuesta del servidor
 */
 export async function altaUsuario(form) {
     const ENDPOINT = `/altaUsuario`;
@@ -117,9 +122,9 @@ export async function altaUsuario(form) {
 }
 
 /**
-    Establece el estatus de un usuario como inactivo (false).
-    @param form Se requiere enviar un formulario con la matricula.
-    @returns Datos del usuario que se ha actualizado.
+    Función que realiza una petición a la API la cual establece el estatus de un usuario como inactivo (false).
+    @param {FormData} form Formulario con los datos
+    @returns {Promise<String | Error>} Respuesta del servidor
 */
 export async function bajaUsuario(form) {
     const ENDPOINT = `/bajaUsuario`;
@@ -143,9 +148,9 @@ export async function bajaUsuario(form) {
 }
 
 /**
-    Establece el estatus de un usuario como activo (true).
-    @param form Se requiere enviar un formulario con la matricula.
-    @returns Datos del usuario que se ha actualizado.
+    Función que realiza una petición a la API la cual establece el estatus de un usuario como activo (true).
+    @param {FormData} form Formulario con la información 
+    @returns {Promise<String | Error>} Respuesta del servidor
 */
 export async function recuperarUsuario(form) {
     const ENDPOINT = `/recuperarUsuario`;
@@ -169,9 +174,9 @@ export async function recuperarUsuario(form) {
 }
 
 /**
-    Edita un usuario en base a su matricula
-    @param form Se requiere enviar un formulario con la matricula y los datos a cambiar.
-    @returns Datos del usuario que se ha actualizado.
+    Función que realiza una petición a la API para editar un usuario en base a su matricula
+    @param {FormData} form Formulario con la información
+    @returns {Promise<String | Error>} Respuesta del servidor
 */
 export async function editarUsuario(form) {
     const ENDPOINT = `/editarUsuario`;
@@ -193,4 +198,3 @@ export async function editarUsuario(form) {
         return e;
     }
 }
-

@@ -1,3 +1,6 @@
+/**
+ * Constantes para tipos de movimientos
+ */
 export const TIPO_MOVIMIENTO = {
     NORMAL: {
         EXTRACCION: 'EXTRACCION',
@@ -12,29 +15,43 @@ export const TIPO_MOVIMIENTO = {
     DEVOLUCION: 'DEVOLUCION',
 }
 
+/**
+ * Constantes para tipos de usuario
+ */
 export const TIPO_USUARIO = {
     ADMINISTRADOR: 'ADMINISTRADOR',
     OPERATIVO: 'OPERATIVO'
 }
 
+/**
+ * Constantes para tipos de petición
+ */
 export const TIPO_PETICION = {
     BAJA: 'BAJA',
     TRANSFERENCIA: 'TRANSFERENCIA'
 }
 
+/**
+ * Constantes para tipos de estado de petición
+ */
 export const ESTADO_PETICION = {
     PENDIENTE: 'PENDIENTE',
     ACEPTADO: 'ACEPTADO',
     RECHAZADO: 'RECHAZADO'
 }
 
+/**
+ * Constantes para tipos de estado de un expediente
+ */
 export const ESTADO_EXPEDIENTE = {
     INGRESADO: 'INGRESADO',
     EXTRAIDO: 'EXTRAIDO',
     SUPERVISADO: 'SUPERVISADO',
     PRESTADO: 'PRESTADO'
 }
-
+{/**
+ * Constantes para categorias de expediente
+ */}
 export const CATEGORIA_EXPEDIENTE = {
     '97 - CE': '97 - CE',
     '97 - VE': '97 - VE',

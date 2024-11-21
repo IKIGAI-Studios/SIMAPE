@@ -11,15 +11,16 @@ const formAltaExpediente = document.getElementById('formAltaExpediente');
 const años = document.querySelector('#añoAltaExpediente');
 
 // Campos a validar
-
 const nss = document.getElementById('nssAltaExpediente');
-
 const nombre = document.getElementById('nombreAltaExpediente');
 
 // Expresión regular que admmite ñ y tildes
 const regexNombre = /^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/;
 
-
+/**
+ * Función para validar campos
+ * @returns {Boolean} Representa si fue exitosa la validación
+ */
 function validarCampos(){
 
     if (nss.value.length != 11){
@@ -42,8 +43,10 @@ function validarCampos(){
    return true;
 }
 
+/**
+ * Evento de formulario para alta de expediente
+ */
 formAltaExpediente.addEventListener('submit', async (e) => {
-
     e.preventDefault();
 
     if (!validarCampos()) {
@@ -61,6 +64,9 @@ formAltaExpediente.addEventListener('submit', async (e) => {
     formAltaExpediente.reset();
 });
 
+/**
+ * Función para rellenar la lista de delegaciones
+ */
 async function listDelegacionesFill() {
     const delegaciones = await obtenerDelegaciones();
     
@@ -72,6 +78,9 @@ async function listDelegacionesFill() {
     });
 }
 
+/**
+ * Función para rellenar los años
+ */
 function añosFill(){
     const fechaActual = new Date();
 

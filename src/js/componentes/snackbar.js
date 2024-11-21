@@ -1,18 +1,30 @@
+/**
+ * Definición de elemento para cargar notificaciones
+ */
 class SnackBar {
+    /**
+     * 
+     * @param {HTMLElement} HTMLelement Elemento Snackbar
+     */
     constructor(HTMLelement) {
         this.HTMLelement = HTMLelement;
         this.text;
         this.active = false;
         this.time = 3000;
     }
-
-    enable = function () {
+    /**
+     * Activar Snackbar
+     */
+    enable() {
         this.active = true;
         this.HTMLelement.classList.remove('invisible');
         this.HTMLelement.classList.add('show');
     };
 
-    disable = function () {
+    /**
+     * Desactivar Snackbar
+     */
+    disable() {
         this.active = false;
         this.HTMLelement.classList.remove('show'); 
         this.HTMLelement.classList.add('hide');
@@ -25,7 +37,11 @@ class SnackBar {
         });
     };
 
-    showMessage = function(message) {
+    /**
+     * Función para mostrar un mensaje
+     * @param {String} message Mensaje a mostrar
+     */
+    showMessage(message) {
         this.HTMLelement.innerText = message;
         this.enable();
         setTimeout(() => {
@@ -33,7 +49,11 @@ class SnackBar {
         }, this.time);
     }
 
-    showError = function(message) {
+    /**
+     * Función para mostrar un error
+     * @param {String} message Mensaje a mostrar
+     */
+    showError(message) {
         this.HTMLelement.classList.add('error');
         this.HTMLelement.innerText = message;
         this.enable();

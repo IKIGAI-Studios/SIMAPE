@@ -10,6 +10,9 @@
   },
   "scripts": {
     "server": "nodemon index --ignore src",
+    "start": "pm2 start node index.js --name \"SIMAPE\"",
+    "stop": "pm2 stop SIMAPE",
+    "docs": "jsdoc -c jsdoc.json",
     "test": "set NODE_OPTIONS=--experimental-vm-modules NODE_ENV=test && jest --detectOpenHandles --verbose --silent"
   },
   "homepage": "https://github.com/IKIGAI-Studios/SIMAPE#readme",
@@ -35,11 +38,13 @@
     "mysql2": "^3.2.4",
     "nocache": "^3.0.4",
     "nodemon": "^3.0.1",
+    "pm2": "^5.3.0",
     "sequelize": "^6.31.1",
     "socket.io": "^4.6.2"
   },
   "devDependencies": {
     "jest": "^25.0.0",
+    "jsdoc": "^4.0.2",
     "supertest": "6.3.3"
   }
 }

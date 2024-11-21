@@ -1,5 +1,8 @@
 const URL_BASE = `/delegacion`;
-
+/**
+ * Función que hace una petición a la API, retorna todas las delegaciones registradas en la BD
+ * @returns {Promise<Array<Object> | Error>} Array con objetos tipo delegación
+ */
 export async function obtenerDelegaciones() {
     const ENDPOINT = '/obtenerDelegaciones';
     

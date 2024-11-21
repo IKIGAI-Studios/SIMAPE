@@ -29,11 +29,17 @@ import { ModalIngresarExpediente, ModalExtraerExpediente, ModalPrestarExpediente
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
+/**
+ * Evento para limpiar al modificar el NSS
+ */
 inputNSS.addEventListener('keydown', (e) => {
     clearInputs();
     resetValues();
 });
 
+/**
+ * Evento de búsqueda de expediente
+ */
 formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -131,6 +137,9 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     snackbar.showMessage('Expediente encontrado');
 });
 
+/**
+ * Evento para ingresar un expediente
+ */
 btnIngresarExpediente.addEventListener('click', async () => {
     const form = new FormData();
     form.append('nss', inputNSS.value);
@@ -153,14 +162,23 @@ btnIngresarExpediente.addEventListener('click', async () => {
     await cargarMovimientos();
 });
 
+/**
+ * Evento de clic botón extraer
+ */
 btnExtraerExpediente.addEventListener('click', async () => {
     ModalExtraerExpediente.enable();
 });
 
+/**
+ * Evento de clic botón prestar
+ */
 btnPrestarExpediente.addEventListener('click', async () => {
     ModalPrestarExpediente.enable();
 });
 
+/**
+ * Evento para extraer un expediente
+ */
 formExtraerExpediente.addEventListener('submit', async(e) => {
     e.preventDefault();
 
@@ -184,6 +202,9 @@ formExtraerExpediente.addEventListener('submit', async(e) => {
     await cargarMovimientos();
 });
 
+/**
+ * Evento para prestar un expediente
+ */
 formPrestarExpediente.addEventListener('submit', async(e) => {
     e.preventDefault();
 
@@ -208,6 +229,9 @@ formPrestarExpediente.addEventListener('submit', async(e) => {
     await cargarMovimientos();
 });
 
+/**
+ * Evento para devolver un expediente
+ */
 btnDevolverExpediente.addEventListener('click', async(e) => {
     const ultimoPrestamo = await obtenerUltimoPrestamo(inputNSS.value);
 
@@ -230,6 +254,9 @@ btnDevolverExpediente.addEventListener('click', async(e) => {
     await cargarMovimientos();
 });
 
+/**
+ * Función para reiniciar valores por defecto
+ */
 function resetValues() {
     btnIngresarExpediente.setAttribute('disabled', '');
     btnExtraerExpediente.setAttribute('disabled', '');
@@ -237,6 +264,9 @@ function resetValues() {
     btnDevolverExpediente.style.display = "none";
 }
 
+/**
+ * Función para rellenar lista de usuarios al prestar
+ */
 async function fillUsers() {
     const usuarios = await obtenerUsuarios();
 
@@ -250,6 +280,9 @@ async function fillUsers() {
 
 fillUsers();
 
+/**
+ * Función para limpiar cuadros de texto
+ */
 function clearInputs() {
     inputNombre.value = '';
     inputTipoPension.value = '';

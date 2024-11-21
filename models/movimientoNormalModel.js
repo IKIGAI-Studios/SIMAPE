@@ -4,6 +4,7 @@ import Movimiento from './movimientoModel.js';
 import Expediente from './expedienteModel.js';
 import { TIPO_MOVIMIENTO } from '../utils/constants.js';
 
+// Modelo
 export const MovimientoNormal = sequelize.define(
     'movimientoNormal',
     {
@@ -25,6 +26,15 @@ export const MovimientoNormal = sequelize.define(
     }
 );
 
+/**
+ * Función para validar un movimiento normal
+ * @param {Object} movimientoNormal Objeto con los datos del movimiento normal 
+ * @param {String} movimientoNormal.folio Folio
+ * @param {String} movimientoNormal.nss nss
+ * @param {Boolean} movimientoNormal.pendiente pendiente
+ * @param {String} movimientoNormal.tipo_movimiento tipo_movimiento
+ * @returns {Object} Objeto con dos propiedades, valido (bool) y un array de errores en caso de haber
+ */
 export async function validarMovimientoNormal({ folio, nss, pendiente, tipo_movimiento }) {
     let valido = true;
     let errores = [];
@@ -67,6 +77,11 @@ export async function validarMovimientoNormal({ folio, nss, pendiente, tipo_movi
     }
 }
 
+/**
+ * Función para comprobar si existe un movimiento normal
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y movimientoNormal con los datos del mismo
+ */
 export async function existe(filtro) {
     const movimientoNormal = await MovimientoNormal.findOne({
         where: filtro

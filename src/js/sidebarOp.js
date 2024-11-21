@@ -24,32 +24,3 @@ const titulos = [
 
 const sidebar = new Sidebar(hint, DropdownCtrlExp);
 sidebar.createFromNodeList(titulos, sidebarItems, contenidos, hint);
-
-
-// sidebarItems.forEach((item, index) => {
-//   item.addEventListener('click', () => {
-//     // Oculta todos los contenidos
-//     contenidos.forEach((contenido) => {
-//       contenido.classList.remove("activo");
-//     });
-
-//     // Muestra el contenido correspondiente
-//     contenidos[index].classList.add("activo");
-//     hint.innerText = titulos[index];
-//     console.log(index)
-
-//     // Quita clase activo a sidebar item
-//     sidebarItems.forEach((item) => {
-//       item.classList.remove("activo");
-//       console.log(index)
-//     });
-
-    // if(item.classList == 'sidebar-item sub'){
-    //   dropdown.classList.toggle('active');
-    //   contenidos[index].classList.add("activo");
-    // }
-//     // Agrega la clase activo solo al elemento que corresponda
-//     item.classList.add("activo");
-
-//   });
-// });

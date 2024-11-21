@@ -1,4 +1,13 @@
+/**
+ * Clase para columnas
+ */
 class Col {
+    /**
+     * Función para realizar una operación sobre una columna
+     * @param {String} col Columna a operar
+     * @param {Function} fn Función para operar 
+     * @returns {String} Columna operada
+     */
     static operate(col, fn) {
         const res = fn(col.toUpperCase().charCodeAt(col.length - 1));
         
@@ -20,6 +29,7 @@ class Col {
  * @param {String} name Nombre de la tabla
  * @param {String} ref Celda de inicio de la tabla
  * @param {HTMLElement} HTMLtable Tabla para insertar
+ * @returns {Object} Objeto con información de la última tabla
  */
 function addHtmlTable(ws, col, row, HTMLtable) {
 
@@ -83,7 +93,11 @@ function addHtmlTable(ws, col, row, HTMLtable) {
     }
 }
 
-
+/**
+ * Función para generar excel a partir del cuerpo de un elemento
+ * @param {HTMLElement} body Cuerpo del elemento para generar excel
+ * @returns {Promise} Se generó el archivo
+ */
 export async function generarExcel(body) {
     return new Promise((resolve) => {
         const wb = new ExcelJS.Workbook();
@@ -157,7 +171,6 @@ export async function generarExcel(body) {
             saveAs(blob, 'Reporte_SIMAPE.xlsx');
             resolve();
         })
-        resolve();
     });
 };
 

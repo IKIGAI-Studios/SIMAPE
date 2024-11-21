@@ -1,15 +1,27 @@
+import Dropdown from "./dropdown.js";
 import SidebarItem from "./sidebarItem.js";
 
-// ! Ta mal pero yanimodo xd
-// * pq¿ 
-// * namas se aser dos tipos de berer coments note rias
+/**
+ * Definición de Sidebar que contiene SidebarItems
+ */
 class Sidebar {
+    /**
+     * 
+     * @param {HTMLElement>} HTMLhint Título de Item
+     * @param {Dropdown} dropdown Dropdown con elementos 
+     */
     constructor(HTMLhint, dropdown) {
         this.sidebarItems = [];
         this.index = 0;
         this.HTMLhint = HTMLhint;
         this.dropdown = dropdown;
 
+        /**
+         * Crear un dropdown a partir de una lista de nodos HTML
+         * @param {Array<String>} HTMLhints Arreglo con los títulos
+         * @param {Array<SidebarItem>} HTMLitems Arreglo con los items de la lista
+         * @param {Array<HTMLElement>} HTMLcontents Arreglo con los contenidos de cada uno de los elementos 
+         */
         this.createFromNodeList = function (HTMLhints, HTMLitems, HTMLcontents) {
             for (let i = 0; i < HTMLhints.length; i++) {
                 const newSidebarItem = new SidebarItem(HTMLhints[i], HTMLitems[i], HTMLcontents[i]);
@@ -24,7 +36,6 @@ class Sidebar {
                     sidebarItem.enable();
                     HTMLhint.innerText = sidebarItem.titleHint;
 
-                    // ! XDD
                     if (sidebarItem.HTMLitem.classList.contains('sub')) {
                         this.dropdown.disable();
                     }
@@ -32,6 +43,10 @@ class Sidebar {
             });
         };
 
+        /**
+         * Retorna la cantidad de elementos en la barra
+         * @returns {Number} Cantidad de elementos en la lista
+         */
         this.lenght = function () {
             return this.sidebarItems.lenght;
         };

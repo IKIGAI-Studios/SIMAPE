@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
 import { TIPO_USUARIO } from '../utils/constants.js';
 
+// Modelo
 export const Usuario = sequelize.define(
     'usuario',
     {
@@ -26,6 +27,21 @@ export const Usuario = sequelize.define(
     }
 );
 
+/**
+ * Función para validar un usuario
+ * @param {Object} usuario Objeto con los datos del usuario
+ * @param {String} usuario.matricula Matricula
+ * @param {String} usuario.nombre nombre
+ * @param {String} usuario.apellidos apellidos
+ * @param {String} usuario.adscripcion adscripcion
+ * @param {String} usuario.tipo_usuario tipo_usuario
+ * @param {String} usuario.usuario usuario
+ * @param {String} usuario.pass pass
+ * @param {Boolean} usuario.estatus estatus
+ * @param {Date} usuario.fecha_registro fecha_registro
+ * @param {String} usuario.foto foto
+ * @returns {Object} Objeto con las propiedades existe (bool) y movimientoTransferencia con los datos del mismo
+ */
 export async function validarUsuario({ matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass, estatus, fecha_registro, foto }) {
     // Variables a retornar
     let valido = true;
@@ -73,8 +89,6 @@ export async function validarUsuario({ matricula, nombre, apellidos, adscripcion
         errores.push(new Error('El usuario ya existe'));
     }
 
-    //TODO: Terminar de validar esto
-
     return {
         valido,
         errores
@@ -82,6 +96,11 @@ export async function validarUsuario({ matricula, nombre, apellidos, adscripcion
 
 }
 
+/**
+ * Función para comprobar si existe un usuario
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y usuario con los datos del mismo
+ */
 export async function existe(filtro) {
     const usuario = await Usuario.findOne({
         where: filtro

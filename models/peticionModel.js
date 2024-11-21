@@ -3,6 +3,7 @@ import sequelize from '../utils/DBconnection.js';
 import Movimiento from './movimientoModel.js';
 import { ESTADO_PETICION, TIPO_PETICION } from '../utils/constants.js';
 
+// Modelo
 export const Peticion = sequelize.define(
     'peticion',
     {
@@ -25,6 +26,15 @@ export const Peticion = sequelize.define(
     }
 );
 
+/**
+ * 
+ * @param {Object} peticion Objeto con los datos de la petición
+ * @param {String} peticion.nss NSS
+ * @param {String} peticion.folio Folio del movimiento
+ * @param {String} peticion.estado Estado de la petición
+ * @param {String} peticion.nss Tipo de petición
+ * @returns {Object} Objeto con dos propiedades, valido (bool) y un array de errores en caso de haber
+ */
 export async function validarPeticion({ nss, folio, estado, tipo }) {
     let valido = true;
     let errores = [];
@@ -62,6 +72,11 @@ export async function validarPeticion({ nss, folio, estado, tipo }) {
     }
 }
 
+/**
+ * Función para comprobar si existe una petición
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y peticion con los datos de la misma
+ */
 export async function existe(filtro) {
     const peticion = await Peticion.findOne({
         where: filtro

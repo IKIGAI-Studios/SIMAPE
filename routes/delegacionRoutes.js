@@ -3,6 +3,7 @@ import { Delegacion } from '../models/delegacionModel.js';
 
 const delegacionRoutes = express.Router();
 
+// * Obtener delegaciones
 delegacionRoutes.get('/obtenerDelegaciones', async (req, res) => {
     try {
         const delegaciones = await Delegacion.findAll();

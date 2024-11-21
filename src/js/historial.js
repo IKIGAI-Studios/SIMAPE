@@ -8,6 +8,9 @@ const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
 const tablaMovimientos = document.querySelector('#tablaMovimientosHistorial');
 
+/**
+ * Función para rellenar la tabla de movimientos del usuario
+ */
 export async function cargarMovimientos() {
     const movimientos = await obtenerMisMovimientos();
     
@@ -62,17 +65,20 @@ export async function cargarMovimientos() {
 cargarMovimientos();
 
 /**
- * 
- * @param {Button} btnReimprimir 
- * @param {Number} folio 
+ * Función que se ejecuta al dar clic en reimprimir un ticket
+ * @param {Button} btnReimprimir Botón de reimpresión
+ * @param {Number} folio Folio del movimiento
  */
-async function handleReimprimir(btnReimprimir, folio) {
-    
+async function handleReimprimir(btnReimprimir, folio) { 
     btnReimprimir.setState('LOADING');
     await imprimirTicket(folio);
     btnReimprimir.setState('NORMAL');
 }
 
+/**
+ * Función para imprimir un ticket
+ * @param {String} folio Folio del movimiento
+ */
 export async function imprimirTicket(folio) {
     // Buscar el movimiento
     const movimiento = await buscarPorFolio(folio);

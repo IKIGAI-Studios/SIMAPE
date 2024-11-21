@@ -2,6 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../utils/DBconnection.js';
 import { CATEGORIA_EXPEDIENTE, ESTADO_EXPEDIENTE } from '../utils/constants.js';
 
+// Modelo
 export const Expediente = sequelize.define(
     'expediente',
     {
@@ -28,6 +29,23 @@ export const Expediente = sequelize.define(
     }
 );
 
+/**
+ * Función para validar un expediente
+ * @param {Object} expediente Objeto con los datos del expediente
+ * @param {String} expediente.nss NSS
+ * @param {String} expediente.nombre NSS
+ * @param {String} expediente.categoria NSS
+ * @param {Date} expediente.fecha_alta fecha_alta
+ * @param {Date} expediente.fecha_baja fecha_baja
+ * @param {String} expediente.delegacion delegacion
+ * @param {String} expediente.ubicacion ubicacion
+ * @param {Boolean} expediente.estatus estatus
+ * @param {String} expediente.año año
+ * @param {String} expediente.matricula matricula
+ * @param {String} expediente.observaciones observaciones
+ * @param {String} expediente.estado estado
+ * @returns {Object} Objeto con dos propiedades, valido (bool) y un array de errores en caso de haber
+ */
 export async function validarExpediente({ nss, nombre, categoria, fecha_alta, fecha_baja, delegacion, ubicacion, estatus, año, matricula, observaciones, estado }) {
     // Variables a retornar
     let valido = true;
@@ -70,6 +88,11 @@ export async function validarExpediente({ nss, nombre, categoria, fecha_alta, fe
     }
 }
 
+/**
+ * Función para comprobar si existe un expediente
+ * @param {Object} filtro Filtro
+ * @returns {Object} Objeto con las propiedades existe (bool) y expediente con los datos del mismo
+ */
 export async function existe(filtro) {
     const expediente = await Expediente.findOne({
         where: filtro

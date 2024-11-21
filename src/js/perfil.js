@@ -19,16 +19,21 @@ const passNuevaConfCambio = document.querySelector('#passNuevaConfCambio');
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
+// Botón de prueba de impresora
 const btnProbarImpresora = new Button(
     document.querySelector('#btnProbarImpresora'), 
     'PROBAR IMPRESORA'
 );
 
+// Botón de impresión de prueba
 const btnImprimirPrueba = new Button(
     document.querySelector('#btnImprimirPrueba'), 
     'IMPRIMIR PRUEBA'
 );
 
+/**
+ * Función para rellenar los datos del usuario en la pestaña perfil
+ */
 async function rellenarDatos() {
     const usuario = await obtenerMisDatos();
 
@@ -54,17 +59,25 @@ async function rellenarDatos() {
     adscripcionPerfil.innerHTML = usuario.adscripcion;
 }
 
+/**
+ * Evento de clic de botón cambiar contraseña
+ */
 btnCambiarPass.addEventListener('click', () => {
     ModalCambiarPass.enable();
 });
 
+/**
+ * Evento para cambiar contraseña
+ */
 formCambioPass.addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // Verificar si las contraseñas son iguales
     if (passNuevaCambio.value !== passNuevaConfCambio.value) {
         return snackbar.showError('Las contraseñas no coinciden');
     }
 
+    // Enviar los datos
     const form = new FormData();
     form.append('passActual', passActualCambio.value);
     form.append('passNuevo', passNuevaCambio.value);
@@ -77,6 +90,9 @@ formCambioPass.addEventListener('submit', async (e) => {
 
 rellenarDatos();
 
+/**
+ * Evento de clic para el botón probar impresora
+ */
 btnProbarImpresora.HTMLelement.addEventListener('click', async () => {
     btnProbarImpresora.setState('LOADING');
 
@@ -86,6 +102,9 @@ btnProbarImpresora.HTMLelement.addEventListener('click', async () => {
     btnProbarImpresora.setState('NORMAL');
 });
 
+/**
+ * Evento de clic para el botón imprimir prueba
+ */
 btnImprimirPrueba.HTMLelement.addEventListener('click', async () => {
     btnImprimirPrueba.setState('LOADING');
 

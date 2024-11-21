@@ -7,8 +7,7 @@ import MovimientoTransferencia, { MovimientoTransferencia as MovimientoTransfere
 import MovimientoSupervision, { MovimientoSupervision as MovimientoSupervisionModel } from '../models/movimientoSupervisionModel.js';
 import MovimientoPrestamo, {MovimientoPrestamo as MovimientoPrestamoModel} from '../models/movimientoPrestamoModel.js';
 import Peticion, {Peticion as PeticionModel } from '../models/peticionModel.js';
-import { imprimirTicket } from '../utils/print.js';
-import { fn, col, where } from 'sequelize';
+import { fn, col } from 'sequelize';
 import { ESTADO_EXPEDIENTE, ESTADO_PETICION, TIPO_MOVIMIENTO, TIPO_PETICION, TIPO_USUARIO } from '../utils/constants.js';
 import sequelize from '../utils/DBconnection.js';
 import { validarUsuario } from './validarUsuario.js';

@@ -17,11 +17,17 @@ const btnBajaUsuarioCancelar = document.querySelector('#btnBajaUsuarioCancelar')
 
 const snackbar = new SnackBar(document.querySelector('#snackbar'));
 
+/**
+ * Evento para limpiar al modificar el NSS
+ */
 inputNSS.addEventListener('keydown', (e) => {
     clearInputs();
     resetValues();
 });
 
+/**
+ * Evento de búsqueda de expedientes
+ */
 formBusquedaExpediente.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -62,6 +68,9 @@ formBusquedaExpediente.addEventListener('submit', async (e) => {
     snackbar.showMessage('Expediente encontrado');
 });
 
+/**
+ * Evento de botón baja usuario
+ */
 btnBajaUsuario.addEventListener('click', async (e) => {
     const form = new FormData();
     form.append('nss', inputNSS.value);
@@ -88,17 +97,26 @@ btnBajaUsuario.addEventListener('click', async (e) => {
     resetValues();
 });
 
+/**
+ * Evento botón cancelar
+ */
 btnBajaUsuarioCancelar.addEventListener('click', (e) => {
     clearInputs();
     resetValues();
 });
 
+/**
+ * Función para reiniciar valores por defecto
+ */
 function resetValues() {
     btnBajaUsuario.setAttribute('disabled', '');
     btnBajaUsuarioCancelar.setAttribute('disabled', '');
     inputMotivo.setAttribute('readonly', '');
 }
 
+/**
+ * Función para borrar todos los inputs
+ */
 function clearInputs() {
     inputNombre.value = '';
     inputTipoPension.value = '';

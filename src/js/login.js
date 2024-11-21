@@ -4,6 +4,9 @@ const snackbar = new SnackBar(document.getElementById('snackbar'));
 
 const formLogin = document.getElementById('formLogin');
 
+/**
+ * Evento que se ejecuta al iniciar sesión
+ */
 formLogin.addEventListener('submit', async (e) => {
     e.preventDefault();
 
