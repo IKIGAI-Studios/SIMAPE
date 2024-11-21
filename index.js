@@ -24,7 +24,7 @@ const __dirname = dirname(__filename);
 dotenv.config();
 
 // Constantes de inicio de servidor
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 6969;
 const app = express();
 const HTTPserver = http.createServer(app);
 const io = new Server(HTTPserver);
