@@ -12,7 +12,7 @@ const sequelize = new Sequelize({
   password: process.env.DB_PASS,
   database: dbName,
   dialect: process.env.DB_LANG,
-  dialectModule: require('mysql2'),
+  dialectModule: import('mysql2'),
   port: process.env.DB_PORT,
   logging: false,
   timezone: 'America/Mexico_City'
