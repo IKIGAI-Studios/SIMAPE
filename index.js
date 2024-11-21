@@ -16,9 +16,6 @@ import { socketsUsuario } from './sockets/socketsUsuario.js';
 import delegacionRoutes from './routes/delegacionRoutes.js';
 import movimientoRoutes from './routes/movimientoRoutes.js';
 import peticionRoutes from './routes/peticionRoutes.js';
-import { Sequelize } from 'sequelize';
-import sequelize from './utils/DBconnection.js';
-import SequelizeStore from 'connect-session-sequelize';
 
 // Declarar constantes para uso de rutas estaticas
 const __filename = fileURLToPath(import.meta.url);
@@ -32,7 +29,6 @@ const PORT = process.env.PORT || 6969;
 const app = express();
 const HTTPserver = http.createServer(app);
 const io = new Server(HTTPserver);
-const SequelizeSessionStore = SequelizeStore(session.Store);
 
 // Sockets
 socketsUsuario(io);
@@ -45,23 +41,16 @@ app.use(nocache());
 app.use(express.json());
 app.use(express.urlencoded({ extended:true }));
 app.use(cookieParser());
-
-const sessionStore = new SequelizeSessionStore({
-  db: sequelize,
-});
-
 app.use(session({
   secret: process.env.SECRET_KEY_SESSION,
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
   cookie: { 
     secure: process.env.NODE_ENV === 'production', // Solo en HTTPS
     httpOnly: true,
     maxAge: 1000 * 60 * 60 * 12 
   }
 }));
-
-sessionStore.sync();
 
 
 // Rutas
