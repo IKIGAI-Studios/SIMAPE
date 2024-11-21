@@ -6,13 +6,13 @@ dotenv.config();
 const dbName = process.env.NODE_ENV === 'test' ? process.env.DB_TEST_NAME : process.env.DB_NAME;
 console.log(dbName);
 
-const sequelize = new Sequelize(dbName, process.env.DB_USER, process.env.DB_PASS, {
+const sequelize = new Sequelize({
   host: process.env.DB_HOST,
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: dbName,
   dialect: process.env.DB_LANG,
-  //dialectModule: import ('mysql2'),
+  dialectModule: import ('mysql2'),
   port: process.env.DB_PORT,
   logging: false,
   //timezone: 'America/Mexico_City'
