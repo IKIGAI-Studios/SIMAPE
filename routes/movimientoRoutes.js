@@ -34,19 +34,19 @@ movimientoRoutes.get('/obtenerMisMovimientos', async (req, res) => {
         const movimientosNormales = await sequelize.query(
             `SELECT movimiento.*, usuario.nombre, usuario.apellidos,
                     CASE
-                        WHEN movimiento.tipo_movimiento = 'SUPERVISION_ENTRADA' OR movimiento.tipo_movimiento = 'SUPERVISION_SALIDA' THEN GROUP_CONCAT(COALESCE(movimientonormal.nss, movimientoprestamo.nss, movimientosupervision.nss, movimientotransferencia.nss) SEPARATOR ', ') 
-                        ELSE COALESCE(movimientonormal.nss, movimientoprestamo.nss, movimientosupervision.nss, movimientotransferencia.nss) 
+                        WHEN movimiento.tipo_movimiento = 'SUPERVISION_ENTRADA' OR movimiento.tipo_movimiento = 'SUPERVISION_SALIDA' THEN GROUP_CONCAT(COALESCE(movimientoNormal.nss, movimientoPrestamo.nss, movimientoSupervision.nss, movimientoTransferencia.nss) SEPARATOR ', ') 
+                        ELSE COALESCE(movimientoNormal.nss, movimientoPrestamo.nss, movimientoSupervision.nss, movimientoTransferencia.nss) 
                     END AS nss
             FROM movimiento
             INNER JOIN usuario ON movimiento.matricula = usuario.matricula
-            LEFT JOIN movimientonormal ON movimiento.folio = movimientonormal.folio
-            LEFT JOIN movimientoprestamo ON movimiento.folio = movimientoprestamo.folio
-            LEFT JOIN movimientosupervision ON movimiento.folio = movimientosupervision.folio
-            LEFT JOIN movimientotransferencia ON movimiento.folio = movimientotransferencia.folio
+            LEFT JOIN movimientoNormal ON movimiento.folio = movimientoNormal.folio
+            LEFT JOIN movimientoPrestamo ON movimiento.folio = movimientoPrestamo.folio
+            LEFT JOIN movimientoSupervision ON movimiento.folio = movimientoSupervision.folio
+            LEFT JOIN movimientoTransferencia ON movimiento.folio = movimientoTransferencia.folio
             WHERE movimiento.matricula = ${matricula} AND (movimiento.tipo_movimiento IN('INGRESO', 'EXTRACCION', 'SUPERVISION_SALIDA', 'PRESTAMO', 'DEVOLUCION'))
-            AND (movimiento.folio IN (SELECT folio FROM movimientonormal) OR
-                    movimiento.folio IN (SELECT folio FROM movimientoprestamo) OR
-                    movimiento.folio IN (SELECT folio FROM movimientosupervision))
+            AND (movimiento.folio IN (SELECT folio FROM movimientoNormal) OR
+                    movimiento.folio IN (SELECT folio FROM movimientoPrestamo) OR
+                    movimiento.folio IN (SELECT folio FROM movimientoSupervision))
             GROUP BY movimiento.folio, movimiento.tipo_movimiento
             ORDER BY movimiento.fecha DESC`,
             { type: sequelize.QueryTypes.SELECT }

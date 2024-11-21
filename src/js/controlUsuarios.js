@@ -136,6 +136,7 @@ formAltaUsuario.addEventListener('submit', async (e) => {
     }
 
     const form = new FormData(formAltaUsuario);
+
     const response = await altaUsuario(form);
 
     if ((typeof response) === Error) {

@@ -19,7 +19,7 @@ peticionRoutes.get('/obtenerPeticiones', async (req, res) => {
             usuario.matricula,
             usuario.nombre,
             usuario.apellidos,
-            movimientotransferencia.del_destino,
+            movimientoTransferencia.del_destino,
             delegacion.n_delegacion,
             delegacion.nom_delegacion,
             delegacion.n_subdelegacion,
@@ -27,10 +27,11 @@ peticionRoutes.get('/obtenerPeticiones', async (req, res) => {
             FROM peticion
             INNER JOIN movimiento ON peticion.folio = movimiento.folio
             INNER JOIN usuario ON movimiento.matricula = usuario.matricula
-            LEFT JOIN movimientotransferencia ON movimiento.folio = movimientotransferencia.folio
-            LEFT JOIN delegacion ON movimientotransferencia.del_destino = delegacion.id_delegacion ORDER BY movimiento.fecha DESC
+            LEFT JOIN movimientoTransferencia ON movimiento.folio = movimientoTransferencia.folio
+            LEFT JOIN delegacion ON movimientoTransferencia.del_destino = delegacion.id_delegacion ORDER BY movimiento.fecha DESC
         `, { type: sequelize.QueryTypes.SELECT }
         );
+        console.log(peticiones);
 
         return res.status(200).json(peticiones);
     } 

@@ -23,7 +23,7 @@ usuarioRoutes.get('/obtenerUsuarios/:filter', async (req, res) => {
     const { matricula } = req.session.user;
 
     const usuarios = await sequelize.query(
-        `SELECT matricula, nombre, apellidos, adscripcion, estatus, fecha_registro FROM Usuario WHERE estatus=${req.params.filter == 'activos' ? 'TRUE' : 'FALSE'} && matricula != '${matricula}'`,
+        `SELECT matricula, nombre, apellidos, adscripcion, estatus, fecha_registro FROM usuario WHERE estatus=${req.params.filter == 'activos' ? 'TRUE' : 'FALSE'} && matricula != '${matricula}'`,
         { type: sequelize.QueryTypes.SELECT }
     );
 
@@ -51,6 +51,63 @@ usuarioRoutes.get('/busquedaUsuario/:matricula', async (req, res) => {
     return res.json(usuarioEncontrado);
 });
 
+usuarioRoutes.post('/altaUsuarioSinFoto', async (req, res) => {
+    try {
+        const { matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass } = req.body;
+
+        console.log(req.body);
+
+        // Validar que el usuario sea único
+        const usuarioRegistrado = await UsuarioModel.findOne({
+            where: {
+                usuario
+            },
+            attributes: ['usuario']
+        });
+
+        if (usuarioRegistrado) {
+            throw new Error('ERROR: Usuario registrado anteriormente');
+        }
+
+        // Validar que la matricula sea único
+        const matriculaRegistrada = await UsuarioModel.findOne({ 
+            where: { 
+                matricula 
+            },
+            attributes: ['matricula']
+        });
+
+        if (matriculaRegistrada) {
+            throw new Error('ERROR: Matricula registrada anteriormente');
+        }
+
+        // Encriptar contraseña
+        const saltRounds = 10;
+        const hashedPass = await bcrypt.hash(pass, saltRounds);
+
+
+        const nuevoUsuario = await UsuarioModel.create({
+            matricula,
+            nombre,
+            apellidos,
+            adscripcion,
+            tipo_usuario,
+            usuario,
+            pass : hashedPass,
+            fecha_registro: new Date(),
+            estatus: true,
+            foto: ''
+        });
+
+        res.statusMessage = 'Usuario registrado correctamente';
+        res.json('Usuario registrado')
+    } 
+    catch (e) {
+        return res.status(400).json(e.message);
+    }
+});
+
+
 // * Registrar usuario
 usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, res) => {
     
@@ -58,7 +115,7 @@ usuarioRoutes.post('/altaUsuario', subirArchivo('usuario', 'foto'), async (req, 
 
     try {
         const { matricula, nombre, apellidos, adscripcion, tipo_usuario, usuario, pass } = req.body;
-        const foto = req.file.filename;
+        const foto = req.file.filename ?? null;
 
         // Validar que el usuario sea único
         const usuarioRegistrado = await UsuarioModel.findOne({ 

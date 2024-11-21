@@ -101,12 +101,12 @@ export async function obtenerUsuarios(estatus = 'activos') {
     @returns {Promise<String | Error>} Respuesta del servidor
 */
 export async function altaUsuario(form) {
-    const ENDPOINT = `/altaUsuario`;
+    const ENDPOINT = `/altaUsuarioSinFoto`;
 
     try {
         const response = await fetch(URL_BASE + ENDPOINT, {
             method: 'POST',
-            body: form
+            body: new URLSearchParams(form)
         });
         
         if (!response.ok) {

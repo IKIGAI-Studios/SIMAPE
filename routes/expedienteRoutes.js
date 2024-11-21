@@ -133,10 +133,10 @@ expedienteRoutes.get('/buscarPorNSS/:nss', async (req, res) => {
         // Buscar los movimientos del expediente
         const movimientos = await sequelize.query(
             `SELECT movimiento.*, usuario.nombre, usuario.apellidos FROM movimiento INNER JOIN usuario ON (movimiento.matricula = usuario.matricula) WHERE 
-            folio IN(SELECT folio FROM movimientonormal WHERE nss = ${nss} AND movimientonormal.pendiente = FALSE) || 
-            folio IN(SELECT folio FROM movimientoprestamo WHERE nss = ${nss}) ||
-            folio IN(SELECT folio FROM movimientosupervision WHERE nss = ${nss}) || 
-            folio IN (SELECT folio FROM movimientotransferencia WHERE nss = ${nss} AND movimientotransferencia.pendiente = FALSE) ORDER BY fecha DESC LIMIT 5`,
+            folio IN(SELECT folio FROM movimientoNormal WHERE nss = ${nss} AND movimientoNormal.pendiente = FALSE) || 
+            folio IN(SELECT folio FROM movimientoPrestamo WHERE nss = ${nss}) ||
+            folio IN(SELECT folio FROM movimientoSupervision WHERE nss = ${nss}) || 
+            folio IN (SELECT folio FROM movimientoTransferencia WHERE nss = ${nss} AND movimientoTransferencia.pendiente = FALSE) ORDER BY fecha DESC LIMIT 5`,
             { type: sequelize.QueryTypes.SELECT }
         );
 
