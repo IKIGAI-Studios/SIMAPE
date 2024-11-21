@@ -10,7 +10,6 @@
   },
   "scripts": {
     "server": "node index.js",
-    "build": "node index.js",
     "start": "node index.js",
     "stop": "pm2 stop SIMAPE",
     "docs": "jsdoc -c jsdoc.json",
