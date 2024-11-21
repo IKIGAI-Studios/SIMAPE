@@ -32,7 +32,6 @@ const io = new Server(HTTPserver);
 // Sockets
 socketsUsuario(io);
 
-
 // Configuraciones de servidor
 process.env.TZ = 'America/Mexico_City';
 app.set('view engine', 'ejs');
@@ -75,4 +74,4 @@ app.use((req, res) => {
   res.status(404).render('404');
 });
 
-export { app, server };
+// export { app, server };
