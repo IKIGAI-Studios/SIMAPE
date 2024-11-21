@@ -11,7 +11,7 @@
   "scripts": {
     "server": "node index.js",
     "build": "node index.js",
-    "start": "pm2 start node index.js --name \"SIMAPE\"",
+    "start": "node index.js",
     "stop": "pm2 stop SIMAPE",
     "docs": "jsdoc -c jsdoc.json",
     "test": "set NODE_OPTIONS=--experimental-vm-modules NODE_ENV=test && jest --detectOpenHandles --verbose --silent"
