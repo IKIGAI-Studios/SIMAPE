@@ -9,7 +9,8 @@
     "url": "git+https://github.com/IKIGAI-Studios/SIMAPE.git"
   },
   "scripts": {
-    "server": "nodemon index --ignore src",
+    "server": "node index.js",
+    "build": "node index.js",
     "start": "pm2 start node index.js --name \"SIMAPE\"",
     "stop": "pm2 stop SIMAPE",
     "docs": "jsdoc -c jsdoc.json",
