@@ -1,5 +1,6 @@
 import { Sequelize } from 'sequelize';
 import dotenv from 'dotenv';
+import mysql2 from 'mysql2';
 
 dotenv.config();
 
@@ -11,10 +12,10 @@ const sequelize = new Sequelize({
   username: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: dbName,
-  dialect: process.env.DB_LANG,
-  dialectModule: import ('mysql2'),
+  dialect: 'mysql',
+  dialectModule: mysql2, // Si descomento esto no funciona en vercel
   port: process.env.DB_PORT,
-  logging: false,
+  logging: console.log,
   //timezone: 'America/Mexico_City'
 });
 
